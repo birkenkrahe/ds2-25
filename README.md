@@ -1,12 +1,12 @@
-![img](./img/cover.jpg)
+![img](./img/cover.png)
 
 
-# Introduction to Programming in C++p
+# Introduction to Advanced Data Science
 
 
 # What's in this repo?
 
--   Repository for CSC 100 - Introduction to Programming in C++
+-   Repository for DSC 205 - Introduction to Advanced Data Science
 -   Emacs Org-mode files( `.org`) are rendered as Markdown (not on
     mobile app but works well in mobile browser).
 -   Reference links in the files lead to a 404 error. You always find
@@ -33,5 +33,5 @@
 
 # History
 
--   First offered @Lyon: Spring 2022.
+-   First offered @Lyon: Spring 2022/2023/2024/2025
 
