@@ -7,7 +7,7 @@
 
 - Meeting Times: Tuesday/Thursday, 11:00-12:15 hrs
 - Meeting place: Lyon Building Computer Lab 104
-- Professor: Marcus Birkenkrahe
+- Professor: Dr. Marcus Birkenkrahe
 - Office: Derby Science Building 210
 - Phone: (870) 307-7254
 - Office Hours: By appointment only [[https://tinyurl.com/sp25-booking][tinyurl.com/sp25-booking]]
@@ -70,11 +70,12 @@ of the term.
 You should be able to see your current grade at any time using the
 Canvas gradebook for the course.
 
-| WHEN   | DESCRIPTION           | IMPACT |
-|--------+-----------------------+--------|
-| Weekly | Assignments           |    50% |
-| Weekly | Multiple choice tests |    25% |
-| TBD    | Final exam (optional) |    25% |
+| WHEN    | DESCRIPTION            | IMPACT |
+|---------+------------------------+--------|
+| Weekly  | Assignments            |    25% |
+| Weekly  | Multiple choice tests  |    25% |
+| Monthly | Project sprint reviews |    25% |
+| TBD     | Final exam (optional)  |    25% |
 
 Notes:
 - *To pass:* 60% of all available points.
