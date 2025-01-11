@@ -1,0 +1,113 @@
+#+TITLE:Introduction to Advanced Data Science (DSC 205) 
+#+AUTHOR:Marcus Birkenkrahe
+#+SUBTITLE:Lyon College Spring 2025
+#+STARTUP: overview hideblocks indent
+#+OPTIONS: toc:nil num:nil ^:nil
+#+PROPERTY: header-args:R :session *R* :results output :exports both :noweb yes
+
+* R Basics Review: 10 Problems
+
+This review covers essential R topics, including arithmetic, vectors,
+matrices, data frames, factors, and lists. Solve each problem by
+writing R code and explain your answers briefly.
+
+** Problem 1: Arithmetic Operations
+
+Write R expressions to perform the following calculations:
+
+1. Add 15 and 27.
+2. Divide 144 by 12.
+3. Calculate 8 squared.
+4. Find the remainder when 25 is divided by 4.
+
+** Problem 2: Vector Operations
+
+Create a numeric vector named *scores* with the values 85, 90, 78, 92,
+and 88. Perform the following operations:
+
+1. Calculate the mean of the *scores* vector.
+2. Add 5 to each element of the vector.
+3. Select the third element from the vector.
+4. Check if any element in the vector is greater than 95.
+
+** Problem 3: Matrix Operations
+
+Create a 3x3 matrix named *m* using the numbers 1 to 9, filled by
+row. Perform the following operations:
+
+1. Extract the element in the second row, third column.
+2. Calculate the sum of each row.
+3. Transpose the matrix.
+
+** Problem 4: Creating Data Frames
+
+Create a data frame named *students* with the following data:
+
+| Name     | Age | Score |
+|----------|-----|-------|
+| Alice    | 20  | 85    |
+| Bob      | 22  | 90    |
+| Charlie  | 19  | 78    |
+
+Perform the following operations:
+
+1. Select the *Score* column.
+2. Add a new column named *Pass* that is TRUE if the score is 80 or above, and FALSE otherwise.
+
+** Problem 5: Factor Levels
+Create a factor named *grades* with the values "A", "B", "A", "C", and "B". Perform the following operations:
+
+1. Display the levels of the factor.
+2. Change the levels to "Excellent", "Good", and "Average" corresponding to "A", "B", and "C", respectively.
+3. Count how many students received each grade.
+
+** Problem 6: Lists
+Create a list named *student1* that contains the following elements:
+
+1. Name: "Alice"
+2. Age: 20
+3. Scores: A numeric vector with values 85, 88, 90
+
+Perform the following operations:
+
+1. Access the *Name* element of the list.
+2. Add a new element to the list named *Graduated* with the value FALSE.
+
+** Problem 7: Subsetting Vectors
+Given the vector *temperatures* = c(72, 75, 78, 80, 77, 73, 68), perform the following operations:
+
+1. Extract the first three values.
+2. Find the temperatures greater than 75.
+3. Replace the last value with 70.
+
+** Problem 8: Matrix Calculations
+Create a 2x3 matrix named *sales* with the following data:
+
+| Q1 | Q2 | Q3 |
+|----|----|----|
+| 150 | 200 | 250 |
+| 180 | 220 | 270 |
+
+Perform the following operations:
+
+1. Calculate the total sales for each quarter.
+2. Find the maximum value in the matrix.
+
+** Problem 9: Data Frame Manipulation
+Using the *students* data frame from Problem 4, perform the following operations:
+
+1. Filter the data frame to show only students who passed.
+2. Sort the data frame by the *Score* column in descending order.
+
+** Problem 10: Working with Factors and Lists Together
+Create a list named *classroom* that contains:
+
+1. A factor named *Subjects* with levels "Math", "Science", and "History".
+2. A numeric vector named *Attendance* with values 25, 28, and 23.
+3. A character vector named *Teachers* with values "Mr. Smith", "Ms. Lee", "Mrs. Johnson".
+
+Perform the following operations:
+
+1. Access the *Subjects* element of the list.
+2. Add a new element named *Location* with the value "Room 101".
+
