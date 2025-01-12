@@ -1,9 +1,17 @@
 #+TITLE:Introduction to Advanced Data Science (DSC 205) 
-#+AUTHOR:Marcus Birkenkrahe
+#+AUTHOR: [yourname] (pledged)
 #+SUBTITLE:Lyon College Spring 2025
 #+STARTUP: overview hideblocks indent
 #+OPTIONS: toc:nil num:nil ^:nil
 #+PROPERTY: header-args:R :session *R* :results output :exports both :noweb yes
+#+PROPERTY: header-args:python :session *Python* :results output :exports both :noweb yes
+#+PROPERTY: header-args:C :main yes :includes <stdio.h> :results output :exports both :noweb yes
+#+PROPERTY: header-args:C++ :main yes :includes <iostream> :results output :exports both :noweb yes
+* README
+
+- Put your name at the top as =yourname=
+- Complete as many problems as you can
+- Submit your final file to Canvas
 
 * R Basics Review: 10 Problems
 

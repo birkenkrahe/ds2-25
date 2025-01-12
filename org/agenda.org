@@ -1,0 +1,50 @@
+#+title: Agenda Notebook
+#+author: Marcus Birkenkrahe
+#+subtitle: DSC 205
+#+SEQ_TODO: TODO NEXT IN_PROGRESS | DONE CANCELLED
+#+startup: overview hideblocks indent entitiespretty
+:PROPERTIES:
+:header-args:C:      :main yes :includes <stdio.h> :results output :exports both
+:header-args:python: :session *Python* :python python3 :results output :exports both
+:header-args:R:      :session *R* :results graphics output file :exports both
+:header-args:C++:    :main yes :includes <iostream> :results output :exports both
+:END:
+
+* Week 1: Orientation & Introduction
+#+attr_html: :width 600px
+[[../img/cover.png]]
+
+- [ ] A word from our non-human sponsor
+- [ ] A brief review of R
+- [ ] On the DataCamp assignments
+
+** A brief review of R - 10 problems
+#+attr_html: :width 400px: 
+[[../img/review.png]]
+
+- *Download* the practice file: tinyurl.com/R-basics-org on the
+  command-line using =wget= or in Emacs using =eww=
+
+- *Complete* the practice file: There are three short problems for each
+  of R's data structures - numbers, vectors, matrices, data frames,
+  factors, and lists.
+
+- *Upload* your completed practice file to Canvas so that I can check
+  your state of mind and mastery.
+
+- *Review* the solutions in class.
+
+- *Review* your own solutions depending on how you did in class.
+
+** TODO On DataCamp assignments
+
+1. Watch the video first with full attention.
+2. Write down immediate questions for later.
+3. Build a notebook for DataCamp courses.
+4. Recreate the individual steps in the video.
+5. Create or import datasets.
+6. Look up function definitions.
+7. Solve the exercises outside of DataCamp.
+8. If you loathe Emacs, use DataLab or Colab instead.
+9. Don't ignore nagging questions that you have.
+10. Start a journal to summarize what you've learnt.
