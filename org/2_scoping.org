@@ -96,7 +96,7 @@ practice file is an independent exercise. Solutions in the pdf repo.
     ls()
     hello()
   #+end_src
-  
+
 * Package environments and namespaces
 
 - Package environments are items made available by each package in R.
@@ -109,31 +109,31 @@ practice file is an independent exercise. Solutions in the pdf repo.
 
   #+RESULTS:
   #+begin_example
-    [1] "ability.cov"           "airmiles"              "AirPassengers"         "airquality"           
-    [5] "anscombe"              "attenu"                "attitude"              "austres"              
-    [9] "beaver1"               "beaver2"               "BJsales"               "BJsales.lead"         
-   [13] "BOD"                   "cars"                  "ChickWeight"           "chickwts"             
-   [17] "co2"                   "CO2"                   "crimtab"               "discoveries"          
-   [21] "DNase"                 "esoph"                 "euro"                  "euro.cross"           
-   [25] "eurodist"              "EuStockMarkets"        "faithful"              "fdeaths"              
-   [29] "Formaldehyde"          "freeny"                "freeny.x"              "freeny.y"             
-   [33] "HairEyeColor"          "Harman23.cor"          "Harman74.cor"          "Indometh"             
-   [37] "infert"                "InsectSprays"          "iris"                  "iris3"                
-   [41] "islands"               "JohnsonJohnson"        "LakeHuron"             "ldeaths"              
-   [45] "lh"                    "LifeCycleSavings"      "Loblolly"              "longley"              
-   [49] "lynx"                  "mdeaths"               "morley"                "mtcars"               
-   [53] "nhtemp"                "Nile"                  "nottem"                "npk"                  
-   [57] "occupationalStatus"    "Orange"                "OrchardSprays"         "PlantGrowth"          
-   [61] "precip"                "presidents"            "pressure"              "Puromycin"            
-   [65] "quakes"                "randu"                 "rivers"                "rock"                 
-   [69] "Seatbelts"             "sleep"                 "stack.loss"            "stack.x"              
-   [73] "stackloss"             "state.abb"             "state.area"            "state.center"         
-   [77] "state.division"        "state.name"            "state.region"          "state.x77"            
-   [81] "sunspot.month"         "sunspot.year"          "sunspots"              "swiss"                
-   [85] "Theoph"                "Titanic"               "ToothGrowth"           "treering"             
-   [89] "trees"                 "UCBAdmissions"         "UKDriverDeaths"        "UKgas"                
-   [93] "USAccDeaths"           "USArrests"             "UScitiesD"             "USJudgeRatings"       
-   [97] "USPersonalExpenditure" "uspop"                 "VADeaths"              "volcano"              
+    [1] "ability.cov"           "airmiles"              "AirPassengers"         "airquality"
+    [5] "anscombe"              "attenu"                "attitude"              "austres"
+    [9] "beaver1"               "beaver2"               "BJsales"               "BJsales.lead"
+   [13] "BOD"                   "cars"                  "ChickWeight"           "chickwts"
+   [17] "co2"                   "CO2"                   "crimtab"               "discoveries"
+   [21] "DNase"                 "esoph"                 "euro"                  "euro.cross"
+   [25] "eurodist"              "EuStockMarkets"        "faithful"              "fdeaths"
+   [29] "Formaldehyde"          "freeny"                "freeny.x"              "freeny.y"
+   [33] "HairEyeColor"          "Harman23.cor"          "Harman74.cor"          "Indometh"
+   [37] "infert"                "InsectSprays"          "iris"                  "iris3"
+   [41] "islands"               "JohnsonJohnson"        "LakeHuron"             "ldeaths"
+   [45] "lh"                    "LifeCycleSavings"      "Loblolly"              "longley"
+   [49] "lynx"                  "mdeaths"               "morley"                "mtcars"
+   [53] "nhtemp"                "Nile"                  "nottem"                "npk"
+   [57] "occupationalStatus"    "Orange"                "OrchardSprays"         "PlantGrowth"
+   [61] "precip"                "presidents"            "pressure"              "Puromycin"
+   [65] "quakes"                "randu"                 "rivers"                "rock"
+   [69] "Seatbelts"             "sleep"                 "stack.loss"            "stack.x"
+   [73] "stackloss"             "state.abb"             "state.area"            "state.center"
+   [77] "state.division"        "state.name"            "state.region"          "state.x77"
+   [81] "sunspot.month"         "sunspot.year"          "sunspots"              "swiss"
+   [85] "Theoph"                "Titanic"               "ToothGrowth"           "treering"
+   [89] "trees"                 "UCBAdmissions"         "UKDriverDeaths"        "UKgas"
+   [93] "USAccDeaths"           "USArrests"             "UScitiesD"             "USJudgeRatings"
+   [97] "USPersonalExpenditure" "uspop"                 "VADeaths"              "volcano"
   [101] "warpbreaks"            "women"                 "WorldPhones"           "WWWusage"
   #+end_example
 
@@ -144,26 +144,26 @@ practice file is an independent exercise. Solutions in the pdf repo.
 
   #+RESULTS:
   #+begin_example
-   [1] "assocplot"       "title"           "axis.Date"       "points"          "strheight"       "pairs.default"  
-   [7] "rect"            "frame"           "identify"        "plot.xy"         "stem"            "par"            
-  [13] "fourfoldplot"    "plot.default"    "yinch"           "layout"          "panel.smooth"    "split.screen"   
-  [19] "screen"          "rug"             "plot.new"        "clip"            "boxplot.matrix"  "image.default"  
-  [25] "pairs"           "strwidth"        "persp"           "lines.default"   "points.default"  "plot.design"    
-  [31] "matpoints"       "dotchart"        "sunflowerplot"   "arrows"          "symbols"         "stripchart"     
-  [37] "hist.default"    "xyinch"          "xinch"           "contour"         "erase.screen"    "Axis"           
-  [43] "grconvertX"      "legend"          "text.default"    "text"            "grconvertY"      "lcm"            
-  [49] "cdplot"          "hist"            "smoothScatter"   "layout.show"     "grid"            "polypath"       
+   [1] "assocplot"       "title"           "axis.Date"       "points"          "strheight"       "pairs.default"
+   [7] "rect"            "frame"           "identify"        "plot.xy"         "stem"            "par"
+  [13] "fourfoldplot"    "plot.default"    "yinch"           "layout"          "panel.smooth"    "split.screen"
+  [19] "screen"          "rug"             "plot.new"        "clip"            "boxplot.matrix"  "image.default"
+  [25] "pairs"           "strwidth"        "persp"           "lines.default"   "points.default"  "plot.design"
+  [31] "matpoints"       "dotchart"        "sunflowerplot"   "arrows"          "symbols"         "stripchart"
+  [37] "hist.default"    "xyinch"          "xinch"           "contour"         "erase.screen"    "Axis"
+  [43] "grconvertX"      "legend"          "text.default"    "text"            "grconvertY"      "lcm"
+  [49] "cdplot"          "hist"            "smoothScatter"   "layout.show"     "grid"            "polypath"
   [55] "close.screen"    "xspline"         "curve"           "filled.contour"  "co.intervals"    "contour.default"
-  [61] "boxplot.default" "plot.function"   "spineplot"       "plot"            "boxplot"         "rasterImage"    
-  [67] "axis.POSIXct"    "bxp"             "box"             "mtext"           "matplot"         "abline"         
-  [73] "pie"             "image"           "matlines"        "segments"        "lines"           "barplot"        
-  [79] "barplot.default" "locator"         "stars"           "mosaicplot"      "coplot"          "polygon"        
+  [61] "boxplot.default" "plot.function"   "spineplot"       "plot"            "boxplot"         "rasterImage"
+  [67] "axis.POSIXct"    "bxp"             "box"             "mtext"           "matplot"         "abline"
+  [73] "pie"             "image"           "matlines"        "segments"        "lines"           "barplot"
+  [79] "barplot.default" "locator"         "stars"           "mosaicplot"      "coplot"          "polygon"
   [85] "axTicks"         "axis"            "plot.window"
   #+end_example
 
 - Though you may have used it often already, check out the =help= page
   for =ls=. If you're on Linux, you'll get a proper man page.
-  
+
 - A package /namespace/ allows the package writer to hide functions and
   data that are only for internal use, and stops functions from
   breaking when a user or another package writer uses a duplicate
@@ -188,7 +188,7 @@ practice file is an independent exercise. Solutions in the pdf repo.
   The following objects are masked from ‘package:base’:
 
       intersect, setdiff, setequal, union
-  function (.data, ..., .by = NULL, .preserve = FALSE) 
+  function (.data, ..., .by = NULL, .preserve = FALSE)
   {
       check_by_typo(...)
       by <- enquo(.by)
@@ -211,7 +211,7 @@ practice file is an independent exercise. Solutions in the pdf repo.
   without the namespace reverts to ~dplyr::filter~. If you want to use
   the function of the same name in ~stats~, you need to call
   ~stats::filter~.
-  
+
 * Local or lexical environments
 
 - Each time a function is called, a new environment called /local/ or
@@ -225,18 +225,18 @@ practice file is an independent exercise. Solutions in the pdf repo.
 
   #+begin_src R
     nerdspeak <- matrix(data = c("IDK", "LOL", "BRB", "AFK"),
-                         nrow=2, ncol=2)
+                        nrow=2, ncol=2)
     nerdspeak
   #+end_src
 
   #+RESULTS:
-  :      [,1]  [,2] 
+  :      [,1]  [,2]
   : [1,] "OMG" "BRB"
   : [2,] "LOL" "AFK"
 
 - Calling ~matrix~ like this creates a local environment containing the
-  ~data~ vector 
-  
+  ~data~ vector
+
 - When you execute the function, it begins by looking for ~data~ in this
   local environment. It is not confused by other objects named ~data~,
   such as ~utils::data~.
@@ -262,193 +262,22 @@ but they do so differently.
 
 - Python has built-in functions to explore namespaces:
   - =globals()= returns the global namespace as a dictionary.
+    #+begin_example python
+    ## define global objects
+    I_AM_A_VARIABLE = 100
+    import pandas as pd
+    ## print global objects
+    print("Global objects:")
+    [print(_) for _ in globals()]
+    #+end_example
+
   - =locals()= returns the local namespace as a dictionary.
   - =dir()= lists the names defined in a namespace.
-
-#+begin_src python :results output :session *Python* :python python3 :exports both
-  ## define global objects
-  I_AM_A_VARIABLE = 100
-  import pandas as pd
-  ## print global objects
-  print("Global objects:")
-  [print(_) for _ in globals()]
-#+end_src
-
-#+RESULTS:
-#+begin_example
-Global objects:
-__name__
-__doc__
-__package__
-__loader__
-__spec__
-__annotations__
-__builtins__
-__org_babel_python_fname
-__org_babel_python_fh
-x
-f
-codecs
-os
-__pyfile
-__code
-__PYTHON_EL_native_completion_setup
-I_AM_A_VARIABLE
-pd
-__warningregistry__
-#+end_example
-
-#+begin_src python :results output :session *Python* :python python3 :exports both
-  ## print names in pandas
-  print("\nNames in `pandas` package:")
-  [print(_) for _ in dir(pd)]
-#+end_src
-
-#+RESULTS:
-#+begin_example
-Names in `pandas`:
-ArrowDtype
-BooleanDtype
-Categorical
-CategoricalDtype
-CategoricalIndex
-DataFrame
-DateOffset
-DatetimeIndex
-DatetimeTZDtype
-ExcelFile
-ExcelWriter
-Flags
-Float32Dtype
-Float64Dtype
-Grouper
-HDFStore
-Index
-IndexSlice
-Int16Dtype
-Int32Dtype
-Int64Dtype
-Int8Dtype
-Interval
-IntervalDtype
-IntervalIndex
-MultiIndex
-NA
-NaT
-NamedAgg
-Period
-PeriodDtype
-PeriodIndex
-RangeIndex
-Series
-SparseDtype
-StringDtype
-Timedelta
-TimedeltaIndex
-Timestamp
-UInt16Dtype
-UInt32Dtype
-UInt64Dtype
-UInt8Dtype
-__all__
-__builtins__
-__cached__
-__doc__
-__docformat__
-__file__
-__git_version__
-__loader__
-__name__
-__package__
-__path__
-__spec__
-__version__
-_built_with_meson
-_config
-_is_numpy_dev
-_libs
-_pandas_datetime_CAPI
-_pandas_parser_CAPI
-_testing
-_typing
-_version_meson
-annotations
-api
-array
-arrays
-bdate_range
-compat
-concat
-core
-crosstab
-cut
-date_range
-describe_option
-errors
-eval
-factorize
-from_dummies
-get_dummies
-get_option
-infer_freq
-interval_range
-io
-isna
-isnull
-json_normalize
-lreshape
-melt
-merge
-merge_asof
-merge_ordered
-notna
-notnull
-offsets
-option_context
-options
-pandas
-period_range
-pivot
-pivot_table
-plotting
-qcut
-read_clipboard
-read_csv
-read_excel
-read_feather
-read_fwf
-read_gbq
-read_hdf
-read_html
-read_json
-read_orc
-read_parquet
-read_pickle
-read_sas
-read_spss
-read_sql
-read_sql_query
-read_sql_table
-read_stata
-read_table
-read_xml
-reset_option
-set_eng_float_format
-set_option
-show_versions
-test
-testing
-timedelta_range
-to_datetime
-to_numeric
-to_pickle
-to_timedelta
-tseries
-unique
-util
-value_counts
-wide_to_long
-#+end_example
+    #+begin_example python
+    ## print names in pandas
+    print("\nNames in `pandas` package:")
+    [print(_) for _ in dir(pd)]
+    #+end_example
 
 ** Comparison of Namespace and Environment Handling
 
@@ -471,8 +300,8 @@ wide_to_long
   #+end_src
 
   #+RESULTS:
-  :  [1] ".GlobalEnv"        "package:dplyr"     "ESSR"              "package:stats"     "package:graphics" 
-  :  [6] "package:grDevices" "package:utils"     "package:datasets"  "package:methods"   "Autoloads"        
+  :  [1] ".GlobalEnv"        "package:dplyr"     "ESSR"              "package:stats"     "package:graphics"
+  :  [6] "package:grDevices" "package:utils"     "package:datasets"  "package:methods"   "Autoloads"
   : [11] "package:base"
 
 - The path always begins at ~.GlobalEnv~ and ends after ~base~. It stops
@@ -480,7 +309,7 @@ wide_to_long
 
 - If it does not find what it wanted, the /empty environment/ is
   reached.
-  
+
 - Example: let's see what happens when we create a vector with ~seq~:
   1) create a vector of 5 elements with ~seq~
   2) the values should lay between the (included) values 0 and 3
@@ -508,18 +337,18 @@ wide_to_long
   : <environment: namespace:base>
   : <environment: namespace:graphics>
   : <environment: namespace:dplyr>
-  
+
 - When a package is loaded with ~library~, it is inserted in the search
   path right after the global environment, along with all its
-  dependencies. Let's load =Rcpp=. 
+  dependencies. Let's load =Rcpp=.
   #+begin_src R
     library('Rcpp')
     search()
   #+end_src
 
   #+RESULTS:
-  :  [1] ".GlobalEnv"        "package:Rcpp"      "package:MASS"      "package:dplyr"     "ESSR"             
-  :  [6] "package:stats"     "package:graphics"  "package:grDevices" "package:utils"     "package:datasets" 
+  :  [1] ".GlobalEnv"        "package:Rcpp"      "package:MASS"      "package:dplyr"     "ESSR"
+  :  [6] "package:stats"     "package:graphics"  "package:grDevices" "package:utils"     "package:datasets"
   : [11] "package:methods"   "Autoloads"         "package:base"
 
 - Do you remember how to list the contents of =Rcpp=?
@@ -528,12 +357,12 @@ wide_to_long
   #+end_src
 
   #+RESULTS:
-  :  [1] "compileAttributes"      "cpp_object_dummy"       "cpp_object_initializer" "cppFunction"           
-  :  [5] "demangle"               "evalCpp"                "exposeClass"            "formals<-"             
-  :  [9] "getRcppVersion"         "initialize"             "LdFlags"                "loadModule"            
-  : [13] "loadRcppClass"          "loadRcppModules"        "Module"                 "populate"              
-  : [17] "prompt"                 "Rcpp.package.skeleton"  "Rcpp.plugin.maker"      "RcppLdFlags"           
-  : [21] "registerPlugin"         "setRcppClass"           "show"                   "sizeof"                
+  :  [1] "compileAttributes"      "cpp_object_dummy"       "cpp_object_initializer" "cppFunction"
+  :  [5] "demangle"               "evalCpp"                "exposeClass"            "formals<-"
+  :  [9] "getRcppVersion"         "initialize"             "LdFlags"                "loadModule"
+  : [13] "loadRcppClass"          "loadRcppModules"        "Module"                 "populate"
+  : [17] "prompt"                 "Rcpp.package.skeleton"  "Rcpp.plugin.maker"      "RcppLdFlags"
+  : [21] "registerPlugin"         "setRcppClass"           "show"                   "sizeof"
   : [25] "sourceCpp"
 
 - An error is thrown if you request a function or object
@@ -558,7 +387,7 @@ wide_to_long
   + ~if~ and ~else~
   + ~for~, ~while~, and ~in~
   + ~repeat~, ~break~, and ~next~
-  + ~TRUE~, and ~FALSE~ 
+  + ~TRUE~, and ~FALSE~
   + ~Inf~ and ~-Inf~
   + ~NA~, ~NaN~, and ~NULL~
 
@@ -606,15 +435,15 @@ wide_to_long
     ls()
     rm(list=ls())  ## remove the list of user-defined R objects
     ls()
-  #+end_src  
+  #+end_src
 
   #+RESULTS:
-  :  [1] "baz"          "classroom"    "datasets"     "F"            "False"        "grades"       "group"       
-  :  [8] "i"            "inf"          "j"            "list"         "m"            "massdata"     "nan"         
-  : [15] "nerdspeak"    "Null"         "sales"        "scores"       "student1"     "students"     "T"           
+  :  [1] "baz"          "classroom"    "datasets"     "F"            "False"        "grades"       "group"
+  :  [8] "i"            "inf"          "j"            "list"         "m"            "massdata"     "nan"
+  : [15] "nerdspeak"    "Null"         "sales"        "scores"       "student1"     "students"     "T"
   : [22] "t_m"          "temperatures" "ToothGrowth"
   : character(0)
-  
+
 * Glossary
 
 | TERM                 | MEANING                                     |
