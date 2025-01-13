@@ -9,16 +9,16 @@
 :header-args:R:      :session *R* :results graphics output file :exports both
 :header-args:C++:    :main yes :includes <iostream> :results output :exports both
 :END:
-
-* Week 1: Orientation & Introduction
-#+attr_html: :width 600px
+* Week 1: Course verview
+#+attr_html: :width 400px
 [[../img/cover.png]]
 
-- [ ] A word from our non-human sponsor
+- [ ] Course overview
 - [ ] A brief review of R
 - [ ] On the DataCamp assignments
+- [ ] Calling functions: Scope and R environments
 
-** A brief review of R - 10 problems
+** TODO A brief review of R - 10 problems
 #+attr_html: :width 400px: 
 [[../img/review.png]]
 
@@ -48,3 +48,4 @@
 8. If you loathe Emacs, use DataLab or Colab instead.
 9. Don't ignore nagging questions that you have.
 10. Start a journal to summarize what you've learnt.
+    

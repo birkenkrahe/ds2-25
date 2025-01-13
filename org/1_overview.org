@@ -1,11 +1,11 @@
-x#+TITLE:COURSE OVERVIEW
+#+TITLE:COURSE OVERVIEW CSC 205
 #+AUTHOR: Marcus Birkenkrahe
-#+SUBTITLE: CSC 205 - ADVANCED INTRODUCTION TO DATA SCIENCE - SPRING 23
+#+SUBTITLE: ADVANCED INTRODUCTION TO DATA SCIENCE - SPRING 23
 #+STARTUP: overview hideblocks indent
 #+OPTIONS: toc:nil num:nil ^:nil
-
+#+attr_html: float:nil
 * What is an "Advanced intro to data science"?
-#+attr_latex: :width 700px
+#+attr_html: :width 700px
 #+caption: Map of the Lonely Mountain (Tolkien, The Hobbit)
 [[../img/cover2.png]]
 
@@ -30,6 +30,7 @@ really know yet where it is going or what you need to undertake it.
 
 ** The Quarry: The Data Science Mountain
 #+attr_html: :width 400px:
+#+caption: Data Science Mountain
 [[../img/data_science_mountain.png]]
 
 The journey to mastering Data Science can be seen as climbing a
@@ -53,6 +54,7 @@ different levels on the mountain.
 
 ** Query: The Data Science Compass
 #+attr_html: :width 400px: 
+#+caption: Data Science Compass
 [[../img/data_science_compass.png]]
 
 A compass can help guide learners through the core areas of Data
@@ -66,7 +68,8 @@ Cardinal Directions:
   NLP)
 
 ** The Quest: The Data Science Map of Realms
-#+attr_html: :width 400px: 
+#+attr_html: :width 400px:
+#+caption: Data Science Map 
 [[../img/data_science_map.png]]
 
 Imagine Data Science as a fantasy world, divided into distinct
@@ -83,13 +86,13 @@ Regions:
 - The Ethics Forest: Data Privacy, Fairness, Bias
 
 * Data science as a Journey to the "Lonely Mountain"
-#+attr_latex: :width 700px
+#+attr_html: :width 700px
 #+caption: Thorin Oakenshield's Company (The Hobbit)
 [[../img/0_dwarves.jpg]]
 
 Thorin Oakenshield and Company:
-
-| THE HOBBIT            | THIS COURSE                 |
+#+Caption: The Hobbit vs. This course
+| "The Hobbit"          | This course                 |
 |-----------------------+-----------------------------|
 | Treasure hunters      | Big Data                    |
 | Skilled experts       | Advanced Data science       |
@@ -107,7 +110,8 @@ Thorin Oakenshield and Company:
 
 * What will we not do in this course?
 
-| TOPIC                        | COURSE     | SEE ALSO    |
+#+Caption: Topics not part of this course
+| Topic                        | Course     | See also    |
 |------------------------------+------------+-------------|
 | Advanced graphics and EDA    | DSC 302    |             |
 | Machine learning (classical) | DSC 305    |             |
@@ -120,8 +124,8 @@ Thorin Oakenshield and Company:
 - I will teach Computer Architecture and Assembly
 
 * How will you be evaluated?
-
-| WHEN    | DESCRIPTION            | IMPACT |
+#+Caption: Course evaluation (see Syllabus)
+| When    | Description            | Impact |
 |---------+------------------------+--------|
 | Weekly  | Assignments            |    25% |
 | Weekly  | Multiple choice tests  |    25% |
@@ -192,7 +196,8 @@ explore and explain. Below are suggested projects with packages or
 applications from different programming languages or
 language-independent tools.
 
-#+name: Summary of Student Project Ideas
+#+name: 
+#+Caption: Summary of Project Ideas
 | Topic                    | Package/Tool                  | Language(s)           |
 |--------------------------+-------------------------------+-----------------------|
 | Sentiment Analysis       | VADER, Syuzhet                | Python, R             |
@@ -308,6 +313,7 @@ language-independent tools.
 
 * How to handle AI for coding and data science
 #+attr_html: :width 650px: 
+#+caption: AI and the Garden of Eden
 [[../img/ai_garden_of_eden.png]]
 
 - 2024, I wrote "A note on using AI to write code for you"
@@ -333,8 +339,8 @@ language-independent tools.
   last-resort debugging; project identification; literature search.
 
 * What am I looking forward to?
-#+attr_html: :width 400px
-#+attr_latex: :width 250px
+#+attr_html: :width 250px
+#+attr_html: What are you looking forward to? (Unsplash)
 [[../img/0_package.jpg]]
 
 - Reconnecting with a language you know (R, C++, SQL) is fun.
@@ -363,6 +369,5 @@ language-independent tools.
 * Next topics
 
 - A Review of R: 10 Basic Problems
-- Calling functions: Scoping
-- Calling functions: Argument matching
+- Calling functions: Scoping (code along + practice)
 
