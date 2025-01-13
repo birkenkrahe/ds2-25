@@ -1,6 +1,6 @@
 #+TITLE:COURSE OVERVIEW CSC 205
 #+AUTHOR: Marcus Birkenkrahe
-#+SUBTITLE: ADVANCED INTRODUCTION TO DATA SCIENCE - SPRING 23
+#+SUBTITLE: ADVANCED INTRODUCTION TO DATA SCIENCE - SPRING 25
 #+STARTUP: overview hideblocks indent
 #+OPTIONS: toc:nil num:nil ^:nil
 #+attr_html: float:nil
@@ -151,30 +151,41 @@ Thorin Oakenshield and Company:
 - Daily workload outside of class in minutes: 25
 - Grade expectations: A-B (> 2 hrs/week), C-D (1-2 hr/week)
 
-* Which tools are you going to use?
+* What are "sprint reviews"?
+#+attr_latex: :width 600px
+#+caption: Scrum sprint review and IMRaD publishing framework
+[[../img/0_scrum.png]]
 
-- [[https://app.datacamp.com/learn/skill-tracks/R-programming][DataCamp courses]] (15 weekly home assignments)
+- Scrum is an important software engineering technique.
 
-- [[https://github.com/birkenkrahe/ds2][GitHub repository]] (all course materials except tests)
+- IMRaD is an important framework to publish scientific papers.
 
-- [[https://github.com/birkenkrahe/org/blob/master/FAQ.org][GNU Emacs + ESS + R]] (literate programming environment)
+- DevOps relate to the interface between software development and IT
+  operations as data projects scale and become more complex.
 
-- DataCamp's DataLab and Google Colaboratory notebooks (sometimes).
+- Modern ML workflows are highly layered and infrastructure-heavy
+  (cp. the editorial by Andrew Ng [[https://chat.google.com/room/AAAAo6qpNb8/PkE1K5P34lg/PkE1K5P34lg?cls=10][shared in the Google Chat]]).
+* Scrum Project Structure (Monthly assignments)
 
-- [[https://lyon.instructure.com/][Canvas]] (learning management system)
+*** Sprint 1: Introduction (Project Idea)
 
-* How can you register at DataCamp?
+- Students present the problem they want to solve, dataset
+  description, and potential impact.
 
-- You find the invitation link to the group for Spring 24 [[https://lyon.instructure.com/courses/1041/pages/course-links][in Canvas]].
+*** Sprint 2: Literature Review (Methods)
 
-- With this, you will automatically be subscribed to the DSC 205 team.
+- Research appropriate methods, justify the choice, and plan
+  implementation.
 
-- If you are in more than one course, I will add you later manually.
+*** Sprint 3: Abstract (Results)
 
-- These accounts will be valid until June 23, 2025.
+- Summarize progress, present preliminary results, and discuss
+  challenges.
 
-- There will be additional in-class and home assignments.
+*** Sprint 4: Final Presentation
 
+- Deliver a polished presentation, including project outcomes, lessons
+  learned, and future directions.
 * What should we do as a project? 
 
 - For your term project, *pick a data science application or package*.
@@ -196,7 +207,7 @@ explore and explain. Below are suggested projects with packages or
 applications from different programming languages or
 language-independent tools.
 
-#+name: 
+#+name: project_idea_table
 #+Caption: Summary of Project Ideas
 | Topic                    | Package/Tool                  | Language(s)           |
 |--------------------------+-------------------------------+-----------------------|
@@ -301,6 +312,30 @@ language-independent tools.
   - Create a short "prompt engineering" guide for data science tasks.
   - Include a live demo or code-along session for using one of these
     AI tools effectively.
+
+* Which tools are you going to use?
+
+- [[https://app.datacamp.com/learn/skill-tracks/R-programming][DataCamp courses]] (weekly home assignments)
+
+- [[https://github.com/birkenkrahe/ds2][GitHub repository]] (all course materials except tests)
+
+- [[https://github.com/birkenkrahe/org/blob/master/FAQ.org][GNU Emacs + ESS + R]] (literate programming environment)
+
+- DataCamp's DataLab and Google Colaboratory notebooks (sometimes).
+
+- [[https://lyon.instructure.com/][Canvas]] (learning management system)
+
+* How can you register at DataCamp?
+
+- You find the invitation link to the group for Spring 25 [[https://lyon.instructure.com/courses/1041/pages/course-links][in Canvas]].
+
+- With this, you will automatically be subscribed to the DSC 205 team.
+
+- If you are in more than one course, I will add you later manually.
+
+- These accounts will be valid until June 23, 2025.
+
+- There will be additional in-class and home assignments.
 
 * AI 2023 to 2025: Don't be fooled
 #+attr_html: :width 500px
