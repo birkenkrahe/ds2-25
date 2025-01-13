@@ -15,11 +15,9 @@ You will learn:
 - [ ] How R searches for arguments and variables
 - [ ] How you can specify arguments when calling a function
 
-[[https://github.com/birkenkrahe/ds2/tree/main/org][Download the practice files from GitHub]], save them as
-~1_scoping_practice_1.org~ and ~1_scoping_practice_2.org~.
-
-The first practice file is code along while I lecture, the second
-practice file is an independent exercise. Solutions in the pdf repo.
+There is a code along file and a practice file:
+1) Code along: [[https://tinyurl.com/scoping-codealong-org][tinyurl.com/scoping-codealong-org]]
+2) Practice: [[https://tinyurl.com/scoping-practice-org][tinyurl.com/scoping-practice-org]]
 
 * Scoping
 
