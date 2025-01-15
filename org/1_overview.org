@@ -422,10 +422,10 @@ language-independent tools.
 
 * When is the first assignment due?
 
-- The first DataCamp home assignment is due on Friday, January 21. For
-  late submissions, you lose 1 point per day (out of 10).
+- The first DataCamp home assignment is due on Tue, Jan 21. For late
+  submissions, you lose 1 point per day (out of 10).
 
-- The first in-class assignment is due on Friday, January 21. For late
+- The first in-class assignment is due on Tue, Jan 21. For late
   submissions, you lose 1 point per day (out of 10 possible points)
 
 - We'll write the first weekly multiple-choice test in class on
