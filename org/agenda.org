@@ -32,7 +32,7 @@
 10. Start a journal to summarize what you've learnt.
     
 
-** TODO Review
+** DONE Review
 
 1. When are data Big Data? 
    #+begin_quote
@@ -44,7 +44,8 @@
 2. What does "DevOps" mean?
    #+begin_quote
    "Development Operations", frameworks that address the interface
-   between IT operations and software developers.
+   between IT operations (for example Lyon IT services) and software
+   developers (for example students accessing a Linux VM).
    #+end_quote
 
 3. What exactly does =sudo apt update -y && sudo apt upgrade -y= mean?
@@ -72,7 +73,9 @@
 5. What is *RStudio*?
    #+begin_quote
    RStudio is a popular integrated development environment (IDE) for R
-   (and Python, with SQL) with notebook and publication capabilities.
+   (and Python, with SQL) with notebook and publication capabilities -
+   just like Google Colab and DataCamp's DataLab but its cloud version
+   is crap.
    #+end_quote
 
 6. What is the "Tidyverse"?

@@ -28,6 +28,10 @@ Write R expressions to perform the following calculations:
 3. Calculate 8 squared.
 4. Find the remainder when 25 is divided by 4.
 
+#+begin_src R
+
+#+end_src
+
 ** Problem 2: Vector Operations
 
 Create a numeric vector named *scores* with the values 85, 90, 78, 92,
