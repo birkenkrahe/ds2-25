@@ -9,14 +9,82 @@
 :header-args:R:      :session *R* :results graphics output file :exports both
 :header-args:C++:    :main yes :includes <iostream> :results output :exports both
 :END:
-* Week 1: Course verview
+* Week 1: Course overview
 #+attr_html: :width 400px
 [[../img/cover.png]]
 
-- [ ] Course overview
-- [ ] A brief review of R
-- [ ] On the DataCamp assignments
+- [X] Course overview
+- [X] On the DataCamp assignments
+- [ ] A brief review of R (followed by test 1 - until Tue 21-Jan)
 - [ ] Calling functions: Scope and R environments
+
+** DONE On DataCamp assignments
+
+1. Watch the video first with full attention.
+2. Write down immediate questions for later.
+3. Build a notebook for DataCamp courses.
+4. Recreate the individual steps in the video.
+5. Create or import datasets.
+6. Look up function definitions.
+7. Solve the exercises outside of DataCamp.
+8. If you loathe Emacs, use DataLab or Colab instead.
+9. Don't ignore nagging questions that you have.
+10. Start a journal to summarize what you've learnt.
+    
+
+** TODO Review
+
+1. When are data Big Data? 
+   #+begin_quote
+   3V: When they're either very large (volume > 1 PetaByte), coming in
+   fast (velocity), or consist of multiple modes or media types
+   (variety).
+   #+end_quote
+
+2. What does "DevOps" mean?
+   #+begin_quote
+   "Development Operations", frameworks that address the interface
+   between IT operations and software developers.
+   #+end_quote
+
+3. What exactly does =sudo apt update -y && sudo apt upgrade -y= mean?
+   #+begin_quote
+   "As super-user, use the package manager program =apt= to =update= the
+   list of installed software (don't ask me any questions, and then
+   (provided the =update= process is complete), install the available
+   =upgrade= software (again without asking me any questions).
+   #+end_quote
+
+4. Name at least one element of a "data science workflow"!
+   #+begin_quote
+   1) *Search* for data, e.g. with a search engine
+   2) *Download* data, e.g. with =wget= on the command-line
+   3) *Edit* code & documentation in a notebook, e.g. =.org= in Emacs
+   4) *Run* scripts on the command-line using the =bash= shell program
+   5) *Debug* scripts, e.g. using the GNU debugger =gdb=
+   6) *Visualize* results, e.g. using R's =plot= function
+   7) *Predict* trends, e.g. using R's =lm= regression model
+   8) *Transform* data, e.g. using =log10= for base-10 logarithms
+   9) *Delete* data, e.g. by redirecting errors to =/dev/null=
+   10) *Model* data, e.g. by converting CSV data to a =data.frame=
+   #+end_quote
+
+5. What is *RStudio*?
+   #+begin_quote
+   RStudio is a popular integrated development environment (IDE) for R
+   (and Python, with SQL) with notebook and publication capabilities.
+   #+end_quote
+
+6. What is the "Tidyverse"?
+   #+begin_quote
+   The "Tidyverse" is a collection of R packages including the popular
+   =ggplot2= visualization package, and =dplyr= for =data.frame=
+   manipulation. I don't like it but don't let me stop you from liking
+   and using the "Tidyverse" packages: You can turn it into an
+   interesting project, too! Hadley Wickham is a central figure for
+   the "Tidyverse". He is also the author of the free "R in Action"
+   textbook, of the original =ggplot2=, and of RStudio.
+   #+end_quote
 
 ** TODO A brief review of R - 10 problems
 #+attr_html: :width 400px: 
@@ -36,19 +104,6 @@
 
 - *Review* your own solutions depending on how you did in class.
 
-** TODO On DataCamp assignments
-
-1. Watch the video first with full attention.
-2. Write down immediate questions for later.
-3. Build a notebook for DataCamp courses.
-4. Recreate the individual steps in the video.
-5. Create or import datasets.
-6. Look up function definitions.
-7. Solve the exercises outside of DataCamp.
-8. If you loathe Emacs, use DataLab or Colab instead.
-9. Don't ignore nagging questions that you have.
-10. Start a journal to summarize what you've learnt.
-    
 ** TODO Scope and R environments 
 
 - [ ] Lecture: See GitHub
