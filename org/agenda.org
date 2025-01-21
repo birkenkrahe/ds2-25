@@ -108,9 +108,9 @@
 #+caption: Nikolay Bogdanov-Belsky, Mental Arithmetic (1893)
 [[../img/bogdanovbelskymentalarithmetic.jpg]]
 
-- [ ] R Basics practice: You need to train! What can I do? [fn:1].
-- [ ] *Test 1* (R Basics) is live - deadline: Friday 24-Jan (11:59 pm).
-- [ ] Calling functions: *Scope* and R *environments*
+- [X] R Basics practice: You need to train! What can I do? [fn:1].
+- [X] *Test 1* (R Basics) is live - deadline: Friday 24-Jan (11:59 pm).
+- [X] Calling functions: *Scope* and R *environments*
 - [ ] *Control flow*: DataCamp review (by Thursday 23-Jan, 9 am)
 
 ** TODO Scope and environments
@@ -163,6 +163,7 @@ you don't do this on your own time, we'll do it in class.
 10. Write an if-else statement to check if a given vector of numbers
     contains any value greater than 100. If it does, print "Outlier
     detected"; otherwise, print "All values within range."
+
 
 * Footnotes
 
