@@ -1,6 +1,6 @@
 #+title: Agenda Notebook
 #+author: Marcus Birkenkrahe
-#+subtitle: DSC 205
+#+subtitle: DSC 205 - Intro to Advanced Data Science - SP25
 #+SEQ_TODO: TODO NEXT IN_PROGRESS | DONE CANCELLED
 #+startup: overview hideblocks indent entitiespretty
 :PROPERTIES:
@@ -9,13 +9,13 @@
 :header-args:R:      :session *R* :results graphics output file :exports both
 :header-args:C++:    :main yes :includes <iostream> :results output :exports both
 :END:
-* Week 1: Course overview
+* Week 1: Course overview & R Basics Test
 #+attr_html: :width 400px
 [[../img/cover.png]]
 
 - [X] Course overview
 - [X] On the DataCamp assignments
-- [ ] A brief review of R (followed by test 1 - until Tue 21-Jan)
+- [X] A brief review of R (followed by test 1 - until Thu 23-Jan)
 - [ ] Calling functions: Scope and R environments
 
 ** DONE On DataCamp assignments
@@ -31,7 +31,6 @@
 9. Don't ignore nagging questions that you have.
 10. Start a journal to summarize what you've learnt.
     
-
 ** DONE Review
 
 1. When are data Big Data? 
@@ -44,8 +43,7 @@
 2. What does "DevOps" mean?
    #+begin_quote
    "Development Operations", frameworks that address the interface
-   between IT operations (for example Lyon IT services) and software
-   developers (for example students accessing a Linux VM).
+   between IT operations and software developers.
    #+end_quote
 
 3. What exactly does =sudo apt update -y && sudo apt upgrade -y= mean?
@@ -73,9 +71,7 @@
 5. What is *RStudio*?
    #+begin_quote
    RStudio is a popular integrated development environment (IDE) for R
-   (and Python, with SQL) with notebook and publication capabilities -
-   just like Google Colab and DataCamp's DataLab but its cloud version
-   is crap.
+   (and Python, with SQL) with notebook and publication capabilities.
    #+end_quote
 
 6. What is the "Tidyverse"?
@@ -89,7 +85,7 @@
    textbook, of the original =ggplot2=, and of RStudio.
    #+end_quote
 
-** TODO A brief review of R - 10 problems
+** DONE A brief review of R - 10 problems
 #+attr_html: :width 400px: 
 [[../img/review.png]]
 
@@ -107,8 +103,67 @@
 
 - *Review* your own solutions depending on how you did in class.
 
-** TODO Scope and R environments 
+* Week 2: Scope and environment
+#+attr_html: :width 400px: 
+#+caption: Nikolay Bogdanov-Belsky, Mental Arithmetic (1893)
+[[../img/bogdanovbelskymentalarithmetic.jpg]]
 
-- [ ] Lecture: See GitHub
+- [ ] R Basics practice: You need to train! I'll help you (reviews).
+- [ ] *Test 1* (R Basics) is live - deadline: Friday 24-Jan (11:59 pm).
+- [ ] Calling functions: *Scope* and R *environments*
+- [ ] *Control flow*: DataCamp review
+
+** TODO Scope and environments
+
+- [ ] Lecture: [[https://github.com/birkenkrahe/ds2-25/blob/main/org/2_scoping.org][See GitHub]]
 - [ ] Codealong: [[https://tinyurl.com/scoping-codealong-org][tinyurl.com/scoping-codealong-org]]
 - [ ] Practice: [[https://tinyurl.com/scoping-practice-org][tinyurl.com/scoping-practice-org]]
+
+** TODO DataCamp review: Control flow (10 problems)
+
+I now longer trust that *showing* you solutions has any effect on your
+learning skills. You need to *solve problems*, no matter how small. If
+you don't do this on your own time, we'll do it in class.
+
+*** Relational Operators
+
+1. Create a vector =ages= with values =18, 25, 30, 17, 40=. Write code
+   to find which ages are greater than or equal to 21.
+
+2. Compare two strings, ="Data"= and ="Science"=, and determine which
+   comes first alphabetically.
+
+3. Write a script to check if the value of =x= (assigned 50) is equal
+   to the value of =y= (assigned 25).
+
+*** Logical Operators
+
+4. Create a vector =scores <- c(55, 70, 45, 80)=. Use logical
+   operators to check which scores are greater than 50 and less
+   than 75.
+
+5. Write a script to check if a number =num <- 15= is divisible by
+   both 3 and 5.
+
+6. Create two vectors, =a <- c(TRUE, FALSE, TRUE)= and =b <- c(FALSE,
+   TRUE, TRUE)=. Use logical operators to find the results of =a | b= and
+   =a & b=.
+*** Conditional Statements
+
+7. Write a script that checks if a given number =x= is negative, zero,
+   or positive, and prints the appropriate message.
+
+8. Create a variable =temperature <- 25=. Write an if-else statement
+   to print "Cold" if =temperature= is less than 20, and "Warm"
+   otherwise.
+
+9. Write a script that checks if a number =n= is divisible by 2, 3, or
+   neither, and prints a corresponding message.
+
+10. Write an if-else statement to check if a given vector of numbers
+    contains any value greater than 100. If it does, print "Outlier
+    detected"; otherwise, print "All values within range."
+
+
+
+
