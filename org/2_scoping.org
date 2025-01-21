@@ -7,6 +7,7 @@
 #+property: header-args:python :session *Python* :python python3 :results output :exports both: 
 * README
 #+attr_html: :width 500px
+#caption: Matryoshka dolls
 [[../img/matryoshka.jpg]]
 
 You will learn:
@@ -31,17 +32,29 @@ There is a code along file and a practice file:
   2) list all built-in datasets
 
   #+begin_src R
-    ## create row-wise 2x2 matrics of 1...9
-
+    ## create row-wise 3x3 matrix of 1...9
+    matrix(data=1:9,nrow=3)
     ## list all datasets in the MASS package (if installed)
-
+    data() -> datasets
   #+end_src
+
+  #+RESULTS:
+  :      [,1] [,2] [,3]
+  : [1,]    1    4    7
+  : [2,]    2    5    8
+  : [3,]    3    6    9
 
 - The R object =datasets= hold the =data()= information now. You can save
   this object externally in =.RData= format:
   #+begin_src R
-
+    save(datasets,file="datasets.RData")
+    system("file datasets.RData")  # Linux & MacOS (Unix)
+    shell("DIR datasets.RData") # on Windows
   #+end_src
+
+  #+RESULTS:
+  : datasets.RData: gzip compressed data, from Unix, original size modulo 2^32 11316
+  : Error in shell("DIR datasets.RData") : could not find function "shell"
 
 * Environments
 
@@ -69,8 +82,16 @@ There is a code along file and a practice file:
 - A call to ~ls()~ lists all objects, variables, and user-defined
   functions in the global environment
 
-- *Example:* create three new objects and confirm their existence in the
-  global environment:
+  #+begin_src R
+    ls()
+  #+end_src
+
+  #+RESULTS:
+  : [1] "classroom"    "datasets"     "grades"       "m"            "sales"        "scores"       "student1"    
+  : [8] "students"     "temperatures"
+
+- *Example:* create three new objects and confirm their existence
+  in the global environment:
   1) a ~numeric~ variable ~foo~
   2) a ~character~ variable ~bar~
   3) An anonymous (non-argument) function ~hello~
@@ -78,8 +99,18 @@ There is a code along file and a practice file:
   5) run ~hello~
 
   #+begin_src R
-
+    foo <- 4 + 5 # same as +(4,5)
+    foo
+    bar <- "stringtastic"
+    bar
+    hello <- function() "hello"
+    hello()  # hello is an anonymous function (void of args)
   #+end_src
+
+  #+RESULTS:
+  : [1] 9
+  : [1] "stringtastic"
+  : [1] "hello"
 
 * Package environments and namespaces
 
@@ -88,13 +119,22 @@ There is a code along file and a practice file:
 - You can use ~ls~ to list the items in a package environment: for
   example, to list the content of built-in  ~datasets~ (no functions)
   #+begin_src R
-
+    ls(datasets) # lists the content of the `datasets` list
+    head(ls("package:datasets"),5) # lists `datasets` package contents
   #+end_src
+
+  #+RESULTS:
+  : [1] "footer"  "header"  "results" "title"
+  : [1] "ability.cov"   "airmiles"      "AirPassengers" "airquality"    "anscombe"
 
   Or to list the visible objects of the (built-in) ~graphics~ package:
   #+begin_src R
-
+    ls("package:graphics") |> head(10)
   #+end_src
+
+  #+RESULTS:
+  :  [1] "abline"          "arrows"          "assocplot"       "axis"            "Axis"            "axis.Date"      
+  :  [7] "axis.POSIXct"    "axTicks"         "barplot"         "barplot.default"
 
 - Though you may have used it often already, check out the =help= page
   for =ls=. If you're on Linux, you'll get a proper man page.
@@ -107,9 +147,25 @@ There is a code along file and a practice file:
 - As an example, load (after *installation*) the ~dplyr~ package (don't
   print the content - it has 300 functions!) and run ~dplyr::filter~.
   #+begin_src R
-
+    library(dplyr)
+    dplyr::filter  # look for `filter` in the dplyr namespace
   #+end_src
 
+  #+RESULTS:
+  #+begin_example
+  function (.data, ..., .by = NULL, .preserve = FALSE) 
+  {
+      check_by_typo(...)
+      by <- enquo(.by)
+      if (!quo_is_null(by) && !is_false(.preserve)) {
+          abort("Can't supply both `.by` and `.preserve`.")
+      }
+      UseMethod("filter")
+  }
+  <bytecode: 0x55662e3315c0>
+  <environment: namespace:dplyr>
+  #+end_example
+  
 - If you look at the output (the definition of ~filter~ in this package,
   you notice an internal (~base~) function, ~UseMethod~, which is not
   listed in the visible content of ~dplyr~, and the name of the
