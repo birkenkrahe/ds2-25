@@ -110,13 +110,13 @@
 
 - [X] R Basics practice: You need to train! What can I do? [fn:1].
 - [X] *Test 1* (R Basics) is live - deadline: Friday 24-Jan (11:59 pm).
-- [X] Calling functions: *Scope* and R *environments*
-- [ ] *Control flow*: DataCamp review (by Thursday 23-Jan, 9 am)
+- [ ] Calling functions: *Scope* and R *environments*
+- [ ] *Control flow*: DataCamp review (by Thursday 23-Jan, 11 am)
 
 ** TODO Scope and environments
 
-- [ ] Lecture: [[https://github.com/birkenkrahe/ds2-25/blob/main/org/2_scoping.org][See GitHub]]
-- [ ] Codealong: [[https://tinyurl.com/scoping-codealong-org][tinyurl.com/scoping-codealong-org]]
+- [X] Lecture: [[https://github.com/birkenkrahe/ds2-25/blob/main/org/2_scoping.org][See GitHub]]
+- [X] Codealong: [[https://tinyurl.com/scoping-codealong-org][tinyurl.com/scoping-codealong-org]]
 - [ ] Practice: [[https://tinyurl.com/scoping-practice-org][tinyurl.com/scoping-practice-org]]
 
 ** TODO DataCamp review: Control flow (10 problems)

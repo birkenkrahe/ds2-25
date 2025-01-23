@@ -1,0 +1,122 @@
+#+TITLE:Introduction to Advanced Data Science (DSC 205)
+#+AUTHOR: [yourname] (pledged)
+#+SUBTITLE:Lyon College Spring 2025
+#+STARTUP: overview hideblocks indent
+#+OPTIONS: toc:nil num:nil ^:nil
+#+PROPERTY: header-args:R :session *R* :results output :exports both :noweb yes
+#+PROPERTY: header-args:python :session *Python* :results output :exports both :noweb yes
+#+PROPERTY: header-args:C :main yes :includes <stdio.h> :results output :exports both :noweb yes
+#+PROPERTY: header-args:C++ :main yes :includes <iostream> :results output :exports both :noweb yes
+* README
+
+- Put your name at the top as =yourname.=
+- Complete as many problems as you can.
+- If you cannot complete a problem, move on.
+
+These simple exercises are based on the DataCamp chapter "Conditionals
+and Control Flow" in the "Intermediate R" course.
+
+You have 30 minutes at the end of which you will upload your solution
+to canvas so that we can review it in class. if you missed class, you
+can do this on your own and upload it until a week later, no more.
+
+* Relational operators
+
+1. Create a vector =ages= with values =18, 25, 30, 17, 40=. write code to
+   find which ages are greater than or equal to 21, and print these
+   =ages=.
+
+   Output:
+   #+begin_example
+   : [1] false  true  true false  true
+   : [1] 25 30 40
+   #+end_example
+
+   Solution:
+   #+begin_src r
+
+   #+end_src
+
+2. Write a short script to check if the value of =x= (assigned 50) is
+   equal to the value of =y= (assigned 25). the answer should be a
+   Boolean value.
+
+   Solution:
+   #+begin_src r
+
+   #+end_src
+
+3. Compare two strings, ="data"= and ="science"=, and determine which
+   comes first alphabetically. get the following output using the =cat=
+   function. Take a look at the help for =cat= to reproduce the output:
+   #+begin_example
+   "data" comes before "science": true
+   #+end_example
+
+   Solution:
+   #+begin_src r
+
+   #+end_src
+
+* Logical operators
+
+1. Create a vector =scores <- c(55, 70, 75, 45, 80)=. use logical
+   operators to check which scores are in the open interval
+   (50,75). Store the result in a logical index vector =idx= and use it
+   to print the values of =scores= that are in (50,75).
+
+   Solution:
+   #+begin_src r
+
+   #+end_src
+
+2. Write a script to check if a number =num <- 15= is divisible by both
+   3 and 5. Print the result as a Boolean value.
+
+   Solution:
+   #+begin_src r
+
+   #+end_src
+
+3. Create two vectors, =a <- c(true, false, true)= and =b <- c(false,
+   true, true)=. Use logical operators to find the results of the
+   operations: =a and b= and =a or b=. 
+
+   Output:
+   #+begin_example
+   : [1] false false  true
+   : [1] true true true
+   #+end_example
+
+   Solution:
+   #+begin_src r
+
+   #+end_src
+
+* Conditional statements
+
+1. Create a variable =temperature= with the value =25=. write a
+   conditional statement to print ="cold"= if =temperature= is below =20=,
+   and ="warm"= otherwise.
+
+   #+begin_src r
+
+   #+end_src
+
+2. Write a script that checks if a given number =x= is negative, zero,
+   or positive, and prints the appropriate message, e.g. "0 is
+   zero". Test for: =5, -10, 0=.
+
+   Solution:
+   #+begin_src r
+
+   #+end_src
+
+3. Write a conditional statement to check if a given vector of numbers
+   =foo= contains =any= value greater than =100=. if it does, print =outlier
+   detected.=, otherwise, print =all values within range.=
+
+   #+begin_src r
+
+   #+end_src
+
