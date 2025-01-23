@@ -125,6 +125,9 @@ I now longer trust that *showing* you solutions has any effect on your
 learning skills. You need to *solve problems*, no matter how small. If
 you don't do this on your own time, we'll do it in class.
 
+Download and complete the practice file:
+[[https://tinyurl.com/ds2-practice-2-org][tinyurl.com/ds2-practice-2-org]]
+
 * Footnotes
 
 [fn:1] Do I have to review my didactic approach? My assumption has
