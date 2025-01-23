@@ -110,8 +110,8 @@
 
 - [X] R Basics practice: You need to train! What can I do? [fn:1].
 - [X] *Test 1* (R Basics) is live - deadline: Friday 24-Jan (11:59 pm).
-- [ ] Calling functions: *Scope* and R *environments*
 - [ ] *Control flow*: DataCamp review (by Thursday 23-Jan, 11 am)
+- [ ] Calling functions: *Scope* and R *environments*
 
 ** TODO Scope and environments
 

@@ -28,95 +28,89 @@ can do this on your own and upload it until a week later, no more.
 
    Output:
    #+begin_example
-   : [1] false  true  true false  true
+   : [1] FALSE  TRUE  TRUE FALSE  TRUE
    : [1] 25 30 40
    #+end_example
 
    Solution:
-   #+begin_src r
+   #+begin_src R
 
    #+end_src
 
 2. Write a short script to check if the value of =x= (assigned 50) is
-   equal to the value of =y= (assigned 25). the answer should be a
+   equal to the value of =y= (assigned 25). The answer should be a
    Boolean value.
 
    Solution:
-   #+begin_src r
+   #+begin_src R
 
    #+end_src
 
 3. Compare two strings, ="data"= and ="science"=, and determine which
-   comes first alphabetically. get the following output using the =cat=
-   function. Take a look at the help for =cat= to reproduce the output:
+   comes first alphabetically. Get the following output using
+   =cat=.Take a look at the help for =cat= to reproduce the output
+   exactly:
    #+begin_example
    "data" comes before "science": true
    #+end_example
 
    Solution:
-   #+begin_src r
+   #+begin_src R
 
    #+end_src
 
-* Logical operators
+** Logical operators
 
-1. Create a vector =scores <- c(55, 70, 75, 45, 80)=. use logical
+1. Create a vector =scores <- c(55, 70, 75, 45, 80)=. Use logical
    operators to check which scores are in the open interval
    (50,75). Store the result in a logical index vector =idx= and use it
    to print the values of =scores= that are in (50,75).
 
    Solution:
-   #+begin_src r
+   #+begin_src R
 
    #+end_src
 
 2. Write a script to check if a number =num <- 15= is divisible by both
-   3 and 5. Print the result as a Boolean value.
+   3 and 5. print the result as a Boolean value.
 
    Solution:
-   #+begin_src r
+   #+begin_src R
 
    #+end_src
 
-3. Create two vectors, =a <- c(true, false, true)= and =b <- c(false,
-   true, true)=. Use logical operators to find the results of the
-   operations: =a and b= and =a or b=. 
-
-   Output:
-   #+begin_example
-   : [1] false false  true
-   : [1] true true true
-   #+end_example
+3. Create two vectors, =a <- c(TRUE, FALSE, TRUE)= and =b <- c(FALSE,
+   TRUE, TRUE)=. Use logical operators to find the results of the
+   operations: =a AND b= and =a OR b=.
 
    Solution:
-   #+begin_src r
+   #+begin_src R
 
    #+end_src
 
-* Conditional statements
+** Conditional statements
 
-1. Create a variable =temperature= with the value =25=. write a
+1. Create a variable =temperature= with the value =25=. Write a
    conditional statement to print ="cold"= if =temperature= is below =20=,
-   and ="warm"= otherwise.
+   and ="Warm"= otherwise.
 
-   #+begin_src r
+   #+begin_src R
 
    #+end_src
 
 2. Write a script that checks if a given number =x= is negative, zero,
-   or positive, and prints the appropriate message, e.g. "0 is
-   zero". Test for: =5, -10, 0=.
+   or positive, and prints the appropriate message.Test for 5,-10, 0.
 
    Solution:
-   #+begin_src r
-
+   #+begin_src R
+     
    #+end_src
 
 3. Write a conditional statement to check if a given vector of numbers
-   =foo= contains =any= value greater than =100=. if it does, print =outlier
+   =foo= contains any value greater than =100=. If it does, print =outlier
    detected.=, otherwise, print =all values within range.=
 
-   #+begin_src r
+   #+begin_src R
 
    #+end_src
 
