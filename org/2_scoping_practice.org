@@ -9,6 +9,7 @@
 - This file contains exercises for the lecture "Calling Functions -
   Scoping" in the Advanced Introduction to Data Science course
   (DSC205).
+
 - Most of this material can be found in Davies, Book of
   R, Chapter 9. Solutions can be found in GitHub (PDF).
 
@@ -110,10 +111,3 @@ least one of the values is true. E.g.
 #+begin_src R
 
 #+end_src
-
-* TODO Upload completed Org-file to Canvas
-
-Well done! You've reached the end of this in-class practice file.
-
-If you've completed all steps, you upload the Org-mode file to Canvas
-(see ~Assignments > Classroom Assignments~).
