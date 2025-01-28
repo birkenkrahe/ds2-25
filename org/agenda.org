@@ -3,12 +3,10 @@
 #+subtitle: DSC 205 - Intro to Advanced Data Science - SP25
 #+SEQ_TODO: TODO NEXT IN_PROGRESS | DONE CANCELLED
 #+startup: overview hideblocks indent entitiespretty
-:PROPERTIES:
-:header-args:C:      :main yes :includes <stdio.h> :results output :exports both
-:header-args:python: :session *Python* :python python3 :results output :exports both
-:header-args:R:      :session *R* :results graphics output file :exports both
-:header-args:C++:    :main yes :includes <iostream> :results output :exports both
-:END:
+#+property: :header-args:C:      :main yes :includes <stdio.h> :results output :exports both
+#+property: :header-args:python: :session *Python* :python python3 :results output :exports both
+#+property: :header-args:R  :session *R* :results output :exports both
+#+property: :header-args:C++:    :main yes :includes <iostream> :results output :exports both
 * Week 1: Course overview & R Basics Test
 #+attr_html: :width 400px
 [[../img/cover.png]]
@@ -30,10 +28,10 @@
 8. If you loathe Emacs, use DataLab or Colab instead.
 9. Don't ignore nagging questions that you have.
 10. Start a journal to summarize what you've learnt.
-    
+
 ** DONE Review
 
-1. When are data Big Data? 
+1. When are data Big Data?
    #+begin_quote
    3V: When they're either very large (volume > 1 PetaByte), coming in
    fast (velocity), or consist of multiple modes or media types
@@ -86,7 +84,7 @@
    #+end_quote
 
 ** DONE A brief review of R - 10 problems
-#+attr_html: :width 400px: 
+#+attr_html: :width 400px:
 [[../img/review.png]]
 
 - *Download* the practice file: [[https://tinyurl.com/R-basics-org][tinyurl.com/R-basics-org]] on the
@@ -104,22 +102,22 @@
 - *Review* your own solutions depending on how you did in class.
 
 * Week 2: Scope and environment
-#+attr_html: :width 400px: 
+#+attr_html: :width 400px:
 #+caption: Nikolay Bogdanov-Belsky, Mental Arithmetic (1893)
 [[../img/bogdanovbelskymentalarithmetic.jpg]]
 
 - [X] R Basics practice: You need to train! What can I do? [fn:1].
 - [X] *Test 1* (R Basics) is live - deadline: Friday 24-Jan (11:59 pm).
-- [ ] *Control flow*: DataCamp review (by Thursday 23-Jan, 11 am)
 - [ ] Calling functions: *Scope* and R *environments*
+- [ ] *Control flow*: DataCamp review (by Thursday 23-Jan, 11 am)
 
-** TODO Scope and environments
+** DONE Scope and environments
 
 - [X] Lecture: [[https://github.com/birkenkrahe/ds2-25/blob/main/org/2_scoping.org][See GitHub]]
 - [X] Codealong: [[https://tinyurl.com/scoping-codealong-org][tinyurl.com/scoping-codealong-org]]
 - [ ] Practice: [[https://tinyurl.com/scoping-practice-org][tinyurl.com/scoping-practice-org]]
 
-** TODO DataCamp review: Control flow (9 problems)
+** DONE DataCamp review: Control flow (9 problems)
 
 I now longer trust that *showing* you solutions has any effect on your
 learning skills. You need to *solve problems*, no matter how small. If
@@ -128,6 +126,46 @@ you don't do this on your own time, we'll do it in class.
 Download and complete the practice file:
 [[https://tinyurl.com/ds2-practice-2-org][tinyurl.com/ds2-practice-2-org]]
 
+* Week 3: Arguments & Conditionals & Loops
+#+attr_html: :width 600px:
+#+caption: St. Thomas Aquinas (1225-1274)
+[[../img/aquinas.jpg]]
+
+/What are humanity's most discussed questions throughout the ages?/
+#+begin_quote
+- Why are we here?
+- What is the purpose of life?
+- Is there a higher power or ultimate truth?
+- What is the nature of good and evil?
+#+end_quote
+
+- [ ] On the power of arguments (a philosophical distraction)
+- [ ] *Projects:* Enter your ideas now - sprint review: Fri 7-Feb
+- [ ] *Test 2* due Fri 31-Jan (100%) - available until Fri 7-Feb (50%)
+- [ ] *Caveat:* test includes all of the lecture content on "scoping"
+- [ ] *Review:* Plot test1 grades [[https://tinyurl.com/scoping-review-org][tinyurl.com/scoping-review-org]]
+- [ ] *Lecture*: Scoping, environments, namespaces (continued)
+- [ ] *Practice:* [[https://tinyurl.com/scoping-practice-org][tinyurl.com/scoping-practice-org]]
+- [ ] *Lecture*: Arguments (GitHub) with code along (GitHub)
+
+** TODO Projects - sprint review coming soon
+#+attr_html: :width 600px: 
+[[../img/projects.png]]
+
+** TODO Plot your test grades (future assignment)
+#+attr_html: :width 400px:
+[[../img/test_1_report.png]]
+
+Don't let your plotting skills go to waste! When I see a plot like
+this, I always want to recreate (and improve) it (if I can).
+
+Let's do this together! Code along: [[https://tinyurl.com/scoping-review-org][tinyurl.com/scoping-review-org]]
+
+** TODO Scoping practice (lab)
+
+- *Practice* file: [[https://tinyurl.com/scoping-practice-org][tinyurl.com/scoping-practice-org]]
+
+** TODO Function arguments (lecture & code along)
 
 * Footnotes
 
