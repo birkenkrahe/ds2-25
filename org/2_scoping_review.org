@@ -4,7 +4,6 @@
 #+SEQ_TODO: TODO IN_PROGRESS | DONE
 #+startup: overview hideblocks indent entitiespretty:
 #+property: header-args:R :session *R* :results output :exports both:
-* In-class: Make a histogram of test grades (scoping review)
 
 Inspiration: [[https://github.com/birkenkrahe/ds2-25/blob/main/img/test_1_report.png][This Canvas-generated report diagram for test 1]]
 
