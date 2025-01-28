@@ -10,7 +10,9 @@ Inspiration: [[https://github.com/birkenkrahe/ds2-25/blob/main/img/test_1_report
 Preliminaries: I have already uploaded test results to
 [[https://tinyurl.com/ds2-test1-data][tinyurl.com/ds2-test1-data]] using this code:
 #+begin_example R :results output
-  grades <- c(17.75, 19.08, 19, 20.83, 21.33, 21.67, 22, NA, 22.08, 22.67, 22.83, 23.33, 23.33, 23.33, 24, NA)
+  grades <- c(17.75, 19.08, 19, 20.83, 21.33, 21.67, 
+              22, NA, 22.08, 22.67, 22.83, 
+              23.33, 23.33, 23.33, 24, NA)
   write(grades, file="test1",ncolumns=1)
   system("cat test1")
 #+end_example
