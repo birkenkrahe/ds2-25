@@ -229,7 +229,7 @@ There is a code along file and a practice file:
 
   #+RESULTS:
   :      [,1]  [,2] 
-  : [1,] "OMG" "BRB"
+  : [1,] "IDK" "BRB"
   : [2,] "LOL" "AFK"
 
 - Calling ~matrix~ like this creates a local environment containing the
@@ -282,18 +282,12 @@ __loader__
 __spec__
 __annotations__
 __builtins__
-__org_babel_python_fname
-__org_babel_python_fh
-x
-f
-codecs
-os
-__pyfile
-__code
+__PYTHON_EL_eval
+__PYTHON_EL_eval_file
 __PYTHON_EL_native_completion_setup
+__org_babel_python_tmpfile
 I_AM_A_VARIABLE
 pd
-__warningregistry__
 #+end_example
 
 #+begin_src python :results output :session *Python* :python python3 :exports both
@@ -304,7 +298,8 @@ __warningregistry__
 
 #+RESULTS:
 #+begin_example
-Names in `pandas`:
+
+Names in `pandas` package:
 ArrowDtype
 BooleanDtype
 Categorical
@@ -483,7 +478,7 @@ Demo for R's environment creation functions:
   #+end_src
 
   #+RESULTS:
-  :  [1] ".GlobalEnv"        "package:dplyr"     "ESSR"              "package:stats"     "package:graphics" 
+  :  [1] ".GlobalEnv"        "package:MASS"      "ESSR"              "package:stats"     "package:graphics" 
   :  [6] "package:grDevices" "package:utils"     "package:datasets"  "package:methods"   "Autoloads"        
   : [11] "package:base"
 
@@ -514,39 +509,37 @@ Demo for R's environment creation functions:
     environment(seq)
     environment(abline)
     environment(filter)
+    library(dplyr)      # once I load this, `filter` will be masked
+    environment(filter)    
   #+end_src
 
   #+RESULTS:
   : <environment: namespace:base>
   : <environment: namespace:graphics>
-  : <environment: namespace:stats>
+  : <environment: namespace:dplyr>
+  : <environment: namespace:dplyr>
   
 - When a package is loaded with ~library~, it is inserted in the search
   path right after the global environment, along with all its
   dependencies. Let's load =Rcpp=. 
   #+begin_src R
-    library('Rcpp')
+    library('Rcpp')  # must install.packages("Rcpp")
     search()
   #+end_src
 
   #+RESULTS:
-  :  [1] ".GlobalEnv"        "package:Rcpp"      "ESSR"              "package:stats"     "package:graphics" 
-  :  [6] "package:grDevices" "package:utils"     "package:datasets"  "package:methods"   "Autoloads"        
-  : [11] "package:base"
+  : Error in library("Rcpp") : there is no package called ‘Rcpp’
+  :  [1] ".GlobalEnv"        "package:dplyr"     "package:MASS"      "ESSR"              "package:stats"    
+  :  [6] "package:graphics"  "package:grDevices" "package:utils"     "package:datasets"  "package:methods"  
+  : [11] "Autoloads"         "package:base"
 
-- Do you remember how to list the contents of =Rcpp=?
+- Do you remember how to list the contents of =Rcpp= or =MASS=?
   #+begin_src R
-    ls('package:Rcpp')
+    ls('package:base') |> length()
   #+end_src
 
   #+RESULTS:
-  :  [1] "compileAttributes"      "cpp_object_dummy"       "cpp_object_initializer" "cppFunction"           
-  :  [5] "demangle"               "evalCpp"                "exposeClass"            "formals<-"             
-  :  [9] "getRcppVersion"         "initialize"             "LdFlags"                "loadModule"            
-  : [13] "loadRcppClass"          "loadRcppModules"        "Module"                 "populate"              
-  : [17] "prompt"                 "Rcpp.package.skeleton"  "Rcpp.plugin.maker"      "RcppLdFlags"           
-  : [21] "registerPlugin"         "setRcppClass"           "show"                   "sizeof"                
-  : [25] "sourceCpp"
+  : [1] 1253
 
 - An error is thrown if you request a function or object
   + that you haven't *defined*,
@@ -574,7 +567,7 @@ Demo for R's environment creation functions:
   + ~Inf~ and ~-Inf~
   + ~NA~, ~NaN~, and ~NULL~
 
-- The first four line items are the core tools for programming in R,
+- The first three line items are the core tools for programming in R,
   followed by Boolean values and special values.
 
 - What happens when you assign a value to an ~NaN~?
@@ -588,10 +581,10 @@ Demo for R's environment creation functions:
 - Since R is case-sensitive, you can assign values to case variants of
   these keywords, causing much confusion:
   #+begin_src R
-    False <- "confusing"
-    nan <- "this"
-    inf <- "is"
-    Null <- "very"
+    False <- "confusing"  # this is not FALSE
+    nan <- "this" # this is not NaN
+    inf <- "is" # this is not Inf
+    Null <- "very"  # this is not NULL
     paste(nan,inf,Null,False)
   #+end_src
 
@@ -621,10 +614,8 @@ Demo for R's environment creation functions:
   #+end_src  
 
   #+RESULTS:
-  :  [1] "baz"          "classroom"    "datasets"     "F"            "False"        "grades"       "group"       
-  :  [8] "i"            "inf"          "j"            "list"         "m"            "massdata"     "nan"         
-  : [15] "nerdspeak"    "Null"         "sales"        "scores"       "student1"     "students"     "T"           
-  : [22] "t_m"          "temperatures" "ToothGrowth"
+  :  [1] "baz"       "F"         "False"     "inf"       "my_env"    "nan"       "nerdspeak" "Null"      "p"        
+  : [10] "T"         "x"
   : character(0)
   
 * Glossary

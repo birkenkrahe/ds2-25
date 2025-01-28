@@ -1,0 +1,170 @@
+#+title: In-class Review: Scoping Rules
+#+author: [yourName] (pledged)
+#+subtitle: DSC 205
+#+SEQ_TODO: TODO IN_PROGRESS | DONE
+#+startup: overview hideblocks indent entitiespretty:
+#+property: header-args:R :session *R* :results output :exports both:
+
+Inspiration: [[https://github.com/birkenkrahe/ds2-25/blob/main/img/test_1_report.png][This Canvas-generated report diagram for test 1]]
+
+Preliminaries: I have already uploaded test results to
+[[https://tinyurl.com/ds2-test1-data][tinyurl.com/ds2-test1-data]] using this code:
+#+begin_example R :results output
+  grades <- c(17.75, 19.08, 19, 20.83, 21.33, 21.67,
+              22, NA, 22.08, 22.67, 22.83,
+              23.33, 23.33, 23.33, 24, NA)
+  write(grades, file="test1",ncolumns=1)
+  system("cat test1")
+#+end_example
+
+Output:
+#+begin_example
+17.75
+19.08
+19
+20.83
+21.33
+21.67
+22
+NA
+22.08
+22.67
+22.83
+23.33
+23.33
+23.33
+24
+NA
+#+end_example
+
+1) Download the results directly from my URL into R using =readLines=.
+   #+begin_src R :session *R* :results output :exports both
+     x <- readLines("https://tinyurl.com/ds2-test1-data") |> as.numeric()
+     x
+   #+end_src
+
+   #+RESULTS:
+   : Warning message:
+   : NAs introduced by coercion
+   :  [1] 17.75 19.08 19.00 20.83 21.33 21.67 22.00    NA 22.08 22.67 22.83 23.33 23.33 23.33 24.00    NA
+
+2) Verify that the result is a numeric vector.
+   #+begin_src R :session *R* :results output :exports both
+     is.vector(x) & is.numeric(x)
+   #+end_src
+
+   #+RESULTS:
+   : [1] TRUE
+
+3) Which namespace does =readLines= belong to?
+
+   #+begin_src R :session *R* :results output :exports both
+     environment(readLines)
+   #+end_src
+
+   #+RESULTS:
+   : <environment: namespace:base>
+
+4) Show the source code of =readLines= and specify the namespace:
+
+   #+begin_src R :results output
+     base::readLines()
+   #+end_src
+
+   #+RESULTS:
+   #+begin_example
+   function (con = stdin(), n = -1L, ok = TRUE, warn = TRUE, encoding = "unknown",
+       skipNul = FALSE)
+   {
+       if (is.character(con)) {
+           con <- file(con, "r")
+           on.exit(close(con))
+       }
+       .Internal(readLines(con, n, ok, warn, encoding, skipNul))
+   }
+   <bytecode: 0x55fddbb1cac8>
+   <environment: namespace:base>
+   #+end_example
+
+5) Remove the =NA= values and convert the points to percentages (the
+   maximum point value was 25).
+   #+begin_src R :session *R* :results output :exports both
+     is.na(x) # go through x and check for NAs
+     x[!is.na(x)] -> x
+     x
+     (x/25)*100 -> p
+     p
+   #+end_src
+
+   #+RESULTS:
+   :  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+   :  [1] 17.75 19.08 19.00 20.83 21.33 21.67 22.00 22.08 22.67 22.83 23.33 23.33 23.33 24.00
+   :  [1] 71.00 76.32 76.00 83.32 85.32 86.68 88.00 88.32 90.68 91.32 93.32 93.32 93.32 96.00
+
+6) Plot the values as a histogram with =hist=.
+   #+begin_src R :file grades.png :session *R* :results file graphics output :exports both
+     hist(p)
+   #+end_src
+
+   #+RESULTS:
+   [[file:grades.png]]
+
+7) Customization! Complete solution with =legend=:
+   #+begin_src R :file grades2.png :session *R* :results file graphics output :exports both
+     hist(p)
+     legend("topleft",
+            legend=paste("mean:",format(mean(p),digits=2)))
+   #+end_src
+
+   #+RESULTS:
+   [[file:grades2.png]]
+
+   The full score:
+   #+begin_src R :file grades3.png :results output graphics file :exports both :comments both :tangle yes :noweb yes
+     hist(p,
+          main="DSC 205 - Test 1",
+          xlab="Percentage",
+          ylab="Number of students")
+     legend("topleft",
+            legend=paste(" mean:",format(mean(p),digits=2),"%\n",
+                         "median:",format(median(p),digits=2),"%\n",
+                         "low:",format(min(p),digits=2),"%\n",
+                         "high:",format(max(p),digits=2),"%\n"),
+            bty="n")
+   #+end_src
+
+   #+RESULTS:
+   [[file:grades3.png]]
+
+8) How about putting the code into a script?
+
+   #+begin_src R :tangle grades.R :results none
+     x <- readLines("https://tinyurl.com/ds2-test1-data") |> as.numeric()
+     x <- x[!is.na(x)]
+     p <- (x/25)*100
+     hist(p)
+     dev.off()
+   #+end_src
+
+9) What are the steps to run this script?
+
+   #+begin_example
+    1. Emacs: tangle with `M-x org-babel-tangle`  -> ./grades.R
+    2. Shell: Rscript grades.R   -> ./Rplots.pdf
+    3. Shell: evince Rplots.pdf  -> display diagram
+   #+end_example
+
+10) How many tools did we just use?
+
+    #+begin_quote
+    1. Data uploading and sharing (=write=)
+    2. Check system data (=system=)
+    3. Fetch data directly from URL (=readLines=)
+    4. Check object characteristics (=is.vector=, =is.numeric=)
+    5. Check function environment (=environment=)
+    6. Access function definition in namespace (=::=)
+    7. Remove =NA= values from a vector (=!is.na=)
+    8. Plot a histogram with legend (=hist=, =legend=, =paste=, =format=)
+    9. Write and tangle an R script (=dev.off=)
+    10. Run R script on the shell (=Rscript=)
+    #+end_quote
