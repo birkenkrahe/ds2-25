@@ -126,7 +126,7 @@ you don't do this on your own time, we'll do it in class.
 Download and complete the practice file:
 [[https://tinyurl.com/ds2-practice-2-org][tinyurl.com/ds2-practice-2-org]]
 
-* Week 3: Arguments & Conditionals & Loops
+* Week 3: Arguments
 #+attr_html: :width 600px:
 #+caption: St. Thomas Aquinas (1225-1274)
 [[../img/aquinas.jpg]]
@@ -139,20 +139,20 @@ Download and complete the practice file:
 - What is the nature of good and evil?
 #+end_quote
 
-- [ ] On the power of arguments (a philosophical distraction)
-- [ ] *Projects:* Enter your ideas now - sprint review: Fri 7-Feb
-- [ ] *Test 2* due Fri 31-Jan (100%) - available until Fri 7-Feb (50%)
-- [ ] *Caveat:* test includes all of the lecture content on "scoping"
-- [ ] *Review:* Plot test1 grades [[https://tinyurl.com/scoping-review-org][tinyurl.com/scoping-review-org]]
-- [ ] *Lecture*: Scoping, environments, namespaces (continued)
+- [X] On the power of arguments (a philosophical distraction)
+- [X] *Projects:* Enter your ideas now - sprint review: Fri 7-Feb
+- [X] *Test 2* due Fri 31-Jan (100%) - available until Fri 7-Feb (50%)
+- [X] *Caveat:* test includes all of the lecture content on "scoping"
+- [X] *Review:* Plot test 1 grades [[https://tinyurl.com/scoping-review-org][tinyurl.com/scoping-review-org]]
+- [X] *Lecture*: Scoping, environments, namespaces (continued)
 - [ ] *Practice:* [[https://tinyurl.com/scoping-practice-org][tinyurl.com/scoping-practice-org]]
-- [ ] *Lecture*: Arguments (GitHub) with code along (GitHub)
+- [ ] *Lecture*: Arguments (GitHub) with practice (GitHub)
 
-** TODO Projects - sprint review coming soon
+** DONE Projects - sprint review coming soon
 #+attr_html: :width 600px: 
 [[../img/projects.png]]
 
-** TODO Plot your test grades (future assignment)
+** DONE Plot your test grades (future assignment)
 #+attr_html: :width 400px:
 [[../img/test_1_report.png]]
 
@@ -161,14 +161,19 @@ this, I always want to recreate (and improve) it (if I can).
 
 Let's do this together! Code along: [[https://tinyurl.com/scoping-review-org][tinyurl.com/scoping-review-org]]
 
-** TODO Review: Scoping practice (lab)
+** TODO Current assignments
 
-- *Practice* file: [[https://tinyurl.com/scoping-practice-org][tinyurl.com/scoping-practice-org]].
-- *Complete* the file (10 problems) - Time = 30 minutes.
-- *Upload* the complete file to Canvas.
+- New scoping review assignment (deadline Feb 7).
+- Pushed DataCamp assignment to Friday 11:59 pm.
+- Remember: 50% for a week after the deadline, 0% thereafter.
+- Project proposal deadline coming up (Feb 7).
+- You can do it on your own or in a team (we'll make it work).
 
-** TODO Function arguments (lecture & code along)
+** TODO Scoping practice (lab)
 
+- *Practice* file: [[https://tinyurl.com/scoping-practice-org][tinyurl.com/scoping-practice-org]]
+
+** TODO Function arguments (lecture & practice)
 
 * Footnotes
 
