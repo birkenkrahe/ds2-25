@@ -1,5 +1,5 @@
 #+title: Home Assignment
-#+author: Marcus Birkenkrahe
+#+author: [your name] (pledged)
 #+subtitle: DSC 205
 #+startup: overview hideblocks indent 
 #+property: header-args:R :session *R* :results output :exports both:
