@@ -161,11 +161,14 @@ this, I always want to recreate (and improve) it (if I can).
 
 Let's do this together! Code along: [[https://tinyurl.com/scoping-review-org][tinyurl.com/scoping-review-org]]
 
-** TODO Scoping practice (lab)
+** TODO Review: Scoping practice (lab)
 
-- *Practice* file: [[https://tinyurl.com/scoping-practice-org][tinyurl.com/scoping-practice-org]]
+- *Practice* file: [[https://tinyurl.com/scoping-practice-org][tinyurl.com/scoping-practice-org]].
+- *Complete* the file (10 problems) - Time = 30 minutes.
+- *Upload* the complete file to Canvas.
 
 ** TODO Function arguments (lecture & code along)
+
 
 * Footnotes
 
