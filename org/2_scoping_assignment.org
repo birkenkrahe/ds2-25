@@ -1,0 +1,79 @@
+#+title: Home Assignment
+#+author: Marcus Birkenkrahe
+#+subtitle: DSC 205
+#+startup: overview hideblocks indent 
+#+property: header-args:R :session *R* :results output :exports both:
+Complete the following steps in Org-mode and submit the completed
+file. Check out the classroom review file and the R documentation for
+help (PDF): [[https://tinyurl.com/scoping-review-solution][tinyurl.com/scoping-review-solution]]
+
+1. Uploading and sharing (=write=)
+
+   Create a vector for the following grades - use =rep= to write
+   repeated grades.
+   #+begin_example
+   15 17 18 24 25 26 27 27 27 29 18 28 28 28 28 29 29 29 29 30 30 30 30 30 30 30 NA NA NA NA
+   #+end_example
+
+   Write the vector to a text file (single column) on your PC.
+
+   #+begin_src R
+   
+   #+end_src
+
+2. Check system data (=system=)
+
+   Check that the file was created (=ls=), is non-empty (=ls -l=) and
+   is indeed a text file (=file=) without leaving R.
+
+   #+begin_src bash :results output :exports both
+   
+   #+end_src
+
+3. Fetch data directly from file (=readLines=)
+
+   #+begin_src R
+   
+   #+end_src
+
+4. Check object characteristics (=is.vector=, =is.numeric=)
+
+   #+begin_src R
+   
+   #+end_src
+
+5. Check function environment (=environment=)
+
+   #+begin_src R
+   
+   #+end_src
+
+6. Access function definition in namespace (=::=)
+
+   #+begin_src R
+   
+   #+end_src
+
+7. Remove =NA= values from a vector (=!is.na=)
+
+   #+begin_src R
+   
+   #+end_src
+
+8. Plot a histogram with legend (=hist=, =legend=, =paste=, =format=)
+
+   #+begin_src R :file hist.png :session *R* :results file graphics output :exports both
+   
+   #+end_src
+
+9. Write and tangle an R script (=dev.off=)
+
+   #+begin_src R :tangle assignment.R
+   
+   #+end_src
+
+10. Run R script on the shell (=Rscript=)
+    
+    #+begin_src bash :results output :exports both
+
+    #+end_src
