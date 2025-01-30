@@ -81,10 +81,15 @@
    #+end_src
 
 5) What does ~png~ do? To find this out, run the ~help~ function on the
-   command on the R console, and then use the function.
+   command on the R console, and then use the function. 
 
-   /Tip: (1) =hist(Nile)= creates a simple histogram. (2) Always check
-   the end of =help= files for examples./
+   Tips: (1) =hist(Nile)= creates a simple histogram. (2) Always check
+   the end of =help= files for examples. (3) Use =system= to check outside
+   of R.
+
+   #+begin_src R 
+
+   #+end_src
 
 6) Show that ~base::matrix~ is called *after* ~utils::read.table~ by
    comparing the indices in the ~character~ vector ~search()~.
