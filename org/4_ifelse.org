@@ -57,9 +57,6 @@ Download the *raw* file from [[https://tinyurl.com/R-ifelse][tinyurl.com/R-ifels
     a
   #+end_src
 
-  #+RESULTS:
-  : [1] 9
-
 - Can you turn this into a function ~square~ with two arguments?
   1) define ~square~ as a =function=
   2) call ~square~ on the arguments ~3,4~
@@ -79,7 +76,7 @@ Download the *raw* file from [[https://tinyurl.com/R-ifelse][tinyurl.com/R-ifels
   #+RESULTS:
   : [1] 9
 
-- A more minimal version:
+- Can you write the code above in 2 lines only?
   #+begin_src R
     square1 <- function(a,b) if (a <= b) return (a^2)
     square(3,4)
@@ -125,17 +122,17 @@ Solution:
 
 - Use ~myvec~ and ~mymat~ in this statement and run it:
   #+begin_src R
-    if(any((myvec-1) > 9) || matrix(myvec,2,5)[2,1] <= 6) {
-      cat("Condition satisfied -- \n")
-      new.myvec <- myvec
-      new.myvec[seq(1,9,2)] <- NA
-      mylist <- list(aa = new.myvec, bb = mymat + 0.5)
+    if(any((myvec-1) > 9) || matrix(myvec,2,5)[2,1] <= 6) { # compound logical
+      cat("Condition satisfied -- \n")  # feedback
+      new.myvec <- myvec  # make vector copy
+      new.myvec[seq(1,9,2)] <- NA  # replace elements 1,3,5,7,9 by NA
+      mylist <- list(aa = new.myvec, bb = mymat + 0.5) # create list
       paste("-- a list with", length(mylist), "members now exists.")
     }
   #+end_src
 
   #+RESULTS:
-  : Condition satisfied --
+  : Condition satisfied -- 
   : [1] "-- a list with 2 members now exists."
 
 - You should have got this output:
@@ -211,6 +208,9 @@ Solution:
        cat("Condition satisfied -- \n")
      #+end_src
 
+     #+RESULTS:
+     : Condition satisfied --
+
   5) Copy ~myvec~ to ~new.myvec~ and replaces the odd-numbered indices of
      ~new.myvec~ and overwrites them with ~NA~:
      #+begin_src R
@@ -284,24 +284,35 @@ Solution:
     #+end_src
 
     #+RESULTS:
-    : Condition was TRUE> [1] 9
+    : Condition was
+    : [1] 4
 
 - After a few re-runs, the value of ~a~ will be smaller than ~mynumber~
   again, and the first part of the ~if~ statement will be accessed.
 
 - *Exercise:* turn the last code into a function and 1) print 2) plot
-  the resulting series of values for 10 iterations.
+  the resulting series of values for 10 iterations. 
+
+- The =function= template:
+  #+begin_example R
+  ## function definition
+  f <- function(a,b) {
+         ## body of function
+       }
+  ## function call
+  f(a=1,b=2)
+  #+end_example
 
 - *Solution*:
   1) function definition and test call
      #+begin_src R
        f <- function(a,b) {
          if (a <= b) {
-           #cat("Condition was", a <= b,"\n")
+           ## cat("Condition was", a <= b,"\n")
            a <- a^2
            return (a)
          } else {
-           #cat("Condition was", a <= b,"\n")
+           ## cat("Condition was", a <= b,"\n")
            a <- a - 3.5
            return (a)
          }
