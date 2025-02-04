@@ -6,7 +6,7 @@
 #+PROPERTY: header-args:R :session *R* :results output :exports both :noweb yes
 * README
 
-This practice file accompanies the [[https://github.com/birkenkrahe/ds2/blob/main/org/3_conditions.org][lecture]] on conditional
+This practice file accompanies the [[https://github.com/birkenkrahe/ds2-25/blob/main/org/4_ifelse.org][lecture]] on conditional
 statements. You will learn:
 
 - [ ] Standalone ~if~ statements
