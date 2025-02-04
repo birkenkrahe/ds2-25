@@ -33,57 +33,57 @@ Download the *raw* file from [[https://tinyurl.com/R-ifelse][tinyurl.com/R-ifels
 
 * Stand-alone ~if~ statements
 
-- The /condition/ must yield a single ~logical~ value, ~TRUE~ or ~FALSE~:
-  #+begin_example R
-  if (condition) {
-     do anything here
-  }
-  #+end_example
-
-- Simple example:
-  1) store two values
-  2) compare the values (condition)
-  3) do something inside the conditional statement
-  #+begin_src R :results silent
-    a <- 3
-    mynumber <- 4
-    if (a <= mynumber) {
-      a <- a^2
+  - The /condition/ must yield a single ~logical~ value, ~TRUE~ or ~FALSE~:
+    #+begin_example R
+    if (condition) {
+       do anything here
     }
-  #+end_src
+    #+end_example
 
-- What value will ~a~ have afterwards?
-  #+begin_src R
-    a
-  #+end_src
-
-- Can you turn this into a function ~square~ with two arguments?
-  1) define ~square~ as a =function=
-  2) call ~square~ on the arguments ~3,4~
-  #+begin_src R
-    ## define function
-    square <- function(a,b) {
-      if (a <= b) {
+  - Simple example:
+    1) store two values
+    2) compare the values (condition)
+    3) do something inside the conditional statement
+    #+begin_src R :results silent
+      a <- 3
+      mynumber <- 4
+      if (a <= mynumber) {
         a <- a^2
       }
-      return (a)
-    }
+    #+end_src
 
-    ## function call
-    square(3,4)
-  #+end_src
+  - What value will ~a~ have afterwards?
+    #+begin_src R
+      a
+    #+end_src
 
-  #+RESULTS:
-  : [1] 9
+  - Can you turn this into a function ~square~ with two arguments?
+    1) define ~square~ as a =function=
+    2) call ~square~ on the arguments ~3,4~
+    #+begin_src R
+      ## define function
+      square <- function(a,b) {
+        if (a <= b) {
+          a <- a^2
+        }
+        return (a)
+      }
 
-- Can you write the code above in 2 lines only?
-  #+begin_src R
-    square1 <- function(a,b) if (a <= b) return (a^2)
-    square(3,4)
-  #+end_src
+      ## function call
+      square(3,4)
+    #+end_src
 
-  #+RESULTS:
-  : [1] 9
+    #+RESULTS:
+    : [1] 9
+
+  - Can you write the code above in 2 lines only?
+    #+begin_src R
+      square1 <- function(a,b) if (a <= b) return (a^2)
+      square(3,4)
+    #+end_src
+
+    #+RESULTS:
+    : [1] 9
 
 * ~if~ statement in the R console
 Solution:
@@ -290,7 +290,7 @@ Solution:
 - After a few re-runs, the value of ~a~ will be smaller than ~mynumber~
   again, and the first part of the ~if~ statement will be accessed.
 
-- *Exercise:* turn the last code into a function and 1) print 2) plot
+- *Challenge:* Let's turn the last code into a function and 1) print 2) plot
   the resulting series of values for 10 iterations. 
 
 - The =function= template:
@@ -337,7 +337,8 @@ Solution:
 
 * ~ifelse~ for element-wise checks
 
-- An ~if~ statement can only check the condition of a single value
+- An ~if~ statement can only check the condition of a single value - it
+  does not vectorize.
 
 - If you pass a ~logical~ vector for the condition, only the first
   element will be checked and operated on (and you'll be warned):
@@ -348,7 +349,8 @@ Solution:
   #+RESULTS:
   : Warning message:
   : In if (c(FALSE, TRUE, FALSE, TRUE, TRUE)) { :
-  :   the condition has length > 1 and only the first element will be used
+  :   the condition has
+  : 1 and only the first element will be used
 
 - The function ~ifelse~ can perform vectorized checks.
 
@@ -385,15 +387,48 @@ Solution:
   :  [1] -1.000000 -1.250000 -1.666667 -2.500000 -5.000000        NA  5.000000  2.500000  1.666667
   : [10]  1.250000  1.000000
 
-- *Exercise:* how are vectorized conditions implemented in Python? How
-  are if-else statements implemented in Python?
+
+* Conditional statements in Python
+
+- Conditional statement in Python:
+  #+begin_src python :results output :session *Python* :python python3 :exports both
+    a = 3
+    if a<=3:
+      a = a**2
+      print(a)
+  #+end_src
+
+  #+RESULTS:
+  : 9
+
+- Vectorized condition in Python:
+  #+begin_src python :results output :session *Python* :python python3 :exports both
+    import numpy as np
+
+    ## sample vectors
+    x = 5
+    y = np.arange(-5,6)
+    print(y)
+
+    ## if y==0, return NaN, else compute x/y
+    result = np.where(y==0,
+                      np.nan,
+                      x/y)
+    ## display result
+    print(result)
+  #+end_src
+
+  #+RESULTS:
+  : [-5 -4 -3 -2 -1  0  1  2  3  4  5]
+  : [-1.         -1.25       -1.66666667 -2.5        -5.                 nan
+  :   5.          2.5         1.66666667  1.25        1.        ]
 
 * Exercises
 #+attr_latex: :width 300px
 [[../img/exercise.jpg]]
 
-Download the raw exercise file from tinyurl.com/6-ifelse-exercise-org
-and save it as ~3_ifelse_exercise.org~
+1. Download the raw exercise file from [[https://tinyurl.com/R-ifelse-exercise][tinyurl.com/R-ifelse-exercise]]
+2. Save and complete it, and upload your solution to Canvas.
 
 * Glossary
 

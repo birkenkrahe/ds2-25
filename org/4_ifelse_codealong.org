@@ -1,84 +1,99 @@
-#+TITLE: CONDITIONS AND LOOPS - CONDITIONAL STATEMENTS - IF ELSE - CODEALONG
-#+AUTHOR: [yourname] (pledged)
+#+TITLE: CONDITIONAL STATEMENTS - IF ELSE IFELSE - CODEALONG
+#+AUTHOR: Marcus Birkenkrahe
 #+SUBTITLE: DSC 205 - Advanced introduction to data science
-#+STARTUP: overview hideblocks indent
+#+STARTUP: overview hideblocks indent inlineimages
 #+OPTIONS: toc:nil num:nil ^:nil
 #+PROPERTY: header-args:R :session *R* :results output :exports both :noweb yes
+#+attr_html: :width 300px
 * README
 
-This practice file accompanies the [[https://github.com/birkenkrahe/ds2-25/blob/main/org/4_ifelse.org][lecture]] on conditional
-statements. You will learn:
+You will learn:
 
-- [ ] Standalone ~if~ statements
-- [ ] Using the R console on multiple lines
-- [ ] ~else~ statements and the ~ifelse~ function
+- How to control the flow and execution order in R code
+- How to use ~if~, ~else~ and ~ifelse~ statements in R
 
-To test your Emacs mettle, open it on the CMD line with the command
-~emacs -nw~ (graphics are not needed for this exercise).
+Download the *raw* file from [[https://tinyurl.com/R-ifelse][tinyurl.com/R-ifelse]], save it as
+=ifelse.org= & code along during the lecture.
 
-* TODO Identify and pledge yourself
+* ~if~ statements
 
-1) In Emacs, replace the placeholder ~[yourname]~ at the top of this
-   file by your own name and write ~(pledged)~ next to it
-2) Go with the cursor on the headline and hange the ~TODO~ label to ~DONE~
-   by entering ~S-<right>~ ("Shift + right-arrow").
+- An ~if~ statement runs a block of code only if its condition is ~TRUE~.
 
-* TODO Stand-alone ~if~ statements
+- In R, condition and loop statements are bundled in "Control Flow" -
+  see =help(Control)= or =?if=
 
-- Simple example: 
-  1) store two values ~a~, ~b~ and assign values 3,4
-  2) compare the values (condition), and if ~a~ is smaller or equal ~b~, then
-  3) square ~a~
-  #+begin_src R :results silent
+- In this lecture, we'll discuss ~if~, ~else~, and ~ifelse~.
 
-  #+end_src
+- Btw, what's an "Algol-like language"?
 
-- What value will ~a~ have afterwards?
-  #+begin_src R
+* Stand-alone ~if~ statements
 
-  #+end_src
-  
-- Turn the code into a function and call it for the same pair of
-  values.
-  #+begin_src R
+  - The /condition/ must yield a single ~logical~ value, ~TRUE~ or ~FALSE~:
+    #+begin_example R
+    if (condition) {
+       do anything here
+    }
+    #+end_example
 
-  #+end_src
-  
-* TODO ~if~ statement in the R console
+  - Simple example:
+    1) store two values
+    2) compare the values (condition)
+    3) do something inside the conditional statement
+    #+begin_src R :results silent
 
-1) Open the R console ~*R*~ (in Emacs: ~C-x b~ if last buffer opened)
-2) Show the object listing
+    #+end_src
+
+  - What value will ~a~ have afterwards?
+    #+begin_src R
+
+    #+end_src
+
+  - Can you turn this into a function ~square~ with two arguments?
+    1) define ~square~ as a =function=
+    2) call ~square~ on the arguments ~3,4~
+    #+begin_src R
+      ## define function
+
+      ## function call
+
+    #+end_src
+
+  - Can you write the code above in 2 lines only?
+    #+begin_src R
+
+
+    #+end_src
+
+* ~if~ statement in the R console
+
+[[https://github.com/birkenkrahe/ds2-25/blob/main/img/3_console.png][Open this image in the browser.]]
+
+1) Open the R console ~*R*~ (in Emacs: ~C-x b~)
+2) Show the listing of all current R objects
 3) Remove ~a~ and ~mynumber~ and check that they're gone
 4) Enter ~a <- 3~ and ~mynumber <- 4~
 5) Enter the ~if~ statement on three different lines
 6) Print ~a~
 7) Check the console continuation character ~continue~ in ~options~
-8) Change the console continuation character to ~">> "~
-9) Check the new character by running ~ls()~ over 2 lines
-10) Change the continuation character back to ~+~
-      
-* TODO Extended ~if~ example
+8) Change the console continuation character to ">> "
+9) Check the new character by running a command over 2 lines
+10) Return the =options()$continue= character to the default =+=
 
-- Print ~myvec~ and ~mymat~
+* Extended ~if~ example
+
+- Create two new R objects to build a more complicated ~if~ statement:
   #+begin_src R
-    myvec <- c(2.73, 5.40, 2.15, 5.29, 1.36, 2.16, 1.41, 6.97, 7.99, 9.52)
-    mymat <- matrix(c(2,0,1,2,3,0,3,0,1,1), 5, 2)
+
   #+end_src
 
-- Run this statement:
+- Use ~myvec~ and ~mymat~ in this statement and run it:
   #+begin_src R
-    if(any((myvec-1) > 9) || matrix(myvec,2,5)[2,1] <= 6) {
-      cat("Condition satisfied -- \n")
-      new.myvec <- myvec
-      new.myvec[seq(1,9,2)] <- NA
-      mylist <- list(aa = new.myvec, bb = mymat + 0.5)
-      paste("-- a list with", length(mylist), "members now exists.")
-    }
-  #+end_src  
+
+  #+end_src
 
 - You should have got this output:
   #+begin_example org
-  : Condition satisfied -- 
+  : Condition satisfied --
   : [1] "-- a list with 2 members now exists."
   #+end_example
 
@@ -87,31 +102,37 @@ To test your Emacs mettle, open it on the CMD line with the command
 
   #+end_src
 
-- Let's take the statement apart:
+- Let's take the statement apart ([[https://github.com/birkenkrahe/ds2-25/blob/main/img/3_example.png][image]]).
+
   1) Subtract ~1~ from each value of ~myvec~ and compare with ~9~, then
      check if ~any~ of the elements are ~TRUE~:
      #+begin_src R
 
      #+end_src
+
   2) Construct a 2 x 5 matrix using ~myvec~, extract row 2, column 1,
      and compare with ~6~:
      #+begin_src R
 
      #+end_src
+
   3) The condition is evaluated as ~FALSE || TRUE~, hence ~TRUE~, and the
      ~if~ statement is entered:
      #+begin_src R
 
      #+end_src
+
   4) ~cat~ is like ~print~ or ~paste~ with fewer coercions
      #+begin_src R
 
      #+end_src
+
   5) Copy ~myvec~ to ~new.myvec~ and replaces the odd-numbered indices of
      ~new.myvec~ and overwrites them with ~NA~:
      #+begin_src R
 
      #+end_src
+
   6) Create a list ~mylist~ and store ~new.myvec~ as element ~aa~. Increase
      all elements of ~mymat~ by ~0.5~ and store them as element ~bb~.
      #+begin_src R
@@ -123,21 +144,68 @@ To test your Emacs mettle, open it on the CMD line with the command
 
      #+end_src
 
-* TODO ~else~ statements
+* ~else~ statements
 
- - Example: initialize values
-   #+begin_src R :results silent
- 
-   #+end_src
+- If you want something to happen if the /condition/ is ~FALSE~, add ~else~:
+  #+begin_example R
+    if (condition) {
+       do something if condition is TRUE
+       } else {
+         do something if condition is FALSE
+       }
+  #+end_example
 
- - Run the extended statement twice:
-   #+begin_src R
- 
-   #+end_src
+  - Example: initialize values
+    #+begin_src R :results silent
 
-* TODO ~ifelse~ for element-wise checks
+    #+end_src
 
-- Example: create objects ~x~ and ~y~  
+  - Run the extended statement twice:
+    #+begin_src R
+
+    #+end_src
+
+- After a few re-runs, the value of ~a~ will be smaller than ~mynumber~
+  again, and the first part of the ~if~ statement will be accessed.
+
+- *Challenge:* Let's turn the last code into a function and 1) print 2) plot
+  the resulting series of values for 10 iterations. 
+
+- The =function= template:
+  #+begin_example R
+  ## function definition
+  f <- function(a,b) {
+         ## body of function
+       }
+  ## function call
+  f(a=1,b=2)
+  #+end_example
+
+- *Solution*:
+  1) function definition and test call
+     #+begin_src R
+
+     #+end_src
+
+  2) plotting 
+     #+begin_src R :file ifelse.png :results output graphics file :exports both :comments both :tangle yes :noweb yes
+
+     #+end_src
+     
+* ~ifelse~ for element-wise checks
+
+- An ~if~ statement can only check the condition of a single value - it
+  does not vectorize.
+
+- If you pass a ~logical~ vector for the condition, only the first
+  element will be checked and operated on (and you'll be warned):
+  #+begin_src R
+
+  #+end_src
+
+- The function ~ifelse~ can perform vectorized checks.
+
+- Example: create objects ~x~ and ~y~
   #+begin_src R
 
   #+end_src
@@ -154,6 +222,20 @@ To test your Emacs mettle, open it on the CMD line with the command
 
   #+end_src
 
-  
+* Conditional statements in Python
 
+- Conditional statement in Python:
+  #+begin_src python :results output :session *Python* :python python3 :exports both
+
+  #+end_src
+
+- Vectorized condition in Python:
+  #+begin_src python :results output :session *Python* :python python3 :exports both
+
+  #+end_src
+
+* Exercises
+
+1. Download the raw exercise file from [[https://tinyurl.com/R-ifelse-exercise][tinyurl.com/R-ifelse-exercise]]
+2. Save and complete it, and upload your solution to Canvas.
 

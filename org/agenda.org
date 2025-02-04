@@ -145,14 +145,14 @@ Download and complete the practice file:
 - [X] *Caveat:* test includes all of the lecture content on "scoping"
 - [X] *Review:* Plot test 1 grades [[https://tinyurl.com/scoping-review-org][tinyurl.com/scoping-review-org]]
 - [X] *Lecture*: Scoping, environments, namespaces (continued)
-- [ ] *Practice:* [[https://tinyurl.com/scoping-practice-org][tinyurl.com/scoping-practice-org]]
-- [ ] *Lecture*: Arguments (GitHub) with practice (GitHub)
+- [X] *Practice:* [[https://tinyurl.com/scoping-practice-org][tinyurl.com/scoping-practice-org]]
+- [X] *Lecture*: Arguments (GitHub) with practice (GitHub)
 
-** DONE Projects - sprint review coming soon
+** Projects - sprint review coming soon
 #+attr_html: :width 600px: 
 [[../img/projects.png]]
 
-** DONE Plot your test grades (future assignment)
+** Plot your test grades (future assignment)
 #+attr_html: :width 400px:
 [[../img/test_1_report.png]]
 
@@ -161,7 +161,7 @@ this, I always want to recreate (and improve) it (if I can).
 
 Let's do this together! Code along: [[https://tinyurl.com/scoping-review-org][tinyurl.com/scoping-review-org]]
 
-** TODO Current assignments
+** Current assignments
 
 - New scoping review assignment (deadline Feb 7).
 - Pushed DataCamp assignment to Friday 11:59 pm.
@@ -169,11 +169,82 @@ Let's do this together! Code along: [[https://tinyurl.com/scoping-review-org][ti
 - Project proposal deadline coming up (Feb 7).
 - You can do it on your own or in a team (we'll make it work).
 
-** TODO Scoping practice (lab)
+** Scoping practice (lab)
 
 - *Practice* file: [[https://tinyurl.com/scoping-practice-org][tinyurl.com/scoping-practice-org]]
+- Upload the result to Canvas
+  
+** Function arguments (lecture & practice)
 
-** TODO Function arguments (lecture & practice)
+- Download the code along file: [[https://tinyurl.com/arguments-code-along][tinyurl.com/arguments-code-along]]
+- Save it as an Org-mode file
+- Code along with me during the lecture.
+
+* Week 4: & Sprint review
+
+- [ ] Test 2 results & extended deadline (50%)
+- [ ] Review: Loops in R & Arguments
+- [ ] Test 3 due by Friday Feb 7 (extended deadline Feb 14)
+- [ ] Lecture & practice: 
+
+** TODO Test 2 results are excellent!
+#+attr_html: :width 400px: 
+[[../img/test2_results.png]]
+
+- A few missed the deadline & the extended deadline for test 1: 0 pts!
+- A few missed the deadline for test 2, too: complete it for 50% by Friday!
+- Use Canvas/Google Calendar to stay on top of your assignments!
+
+** TODO Home assignment: Scoping & Environments
+
+Some students asked for a reminder. See also solution PDF in GitHub.
+
+1. How would you put this code into an R script?
+   #+begin_example R
+   hist(Nile)
+   #+end_example
+   #+begin_src R :tangle histNile.R
+     hist(Nile)  # tangle with C-c C-v t (org-babel-tangle)
+   #+end_src
+   
+2. How would you check that a script exists without leaving R?
+   #+begin_src bash :results output :exports both
+     ls -l *.R
+   #+end_src
+   #+begin_src R :results output
+     system("ls -l *.R*")
+   #+end_src
+
+   #+RESULTS:
+   : -rw-rw-r-- 1 aletheia aletheia 2966 Jan 30 09:38 datasets.RData
+   : -rw-rw-r-- 1 aletheia aletheia   39 Feb  4 08:47 histNile.R
+   : -rw-rw-r-- 1 aletheia aletheia  820 Feb  4 08:56 histNile.Rout
+
+3. How can you run the script on the command-line?
+   #+begin_src bash :results output :exports both
+     Rscript histNile.R
+   #+end_src
+
+4. What is the output of the script?
+   #+begin_src R :results output
+     system("file R*") # Rscript produces R* files
+     system("evince Rplots.pdf")  # evince is a Linux PDF viewer app
+   #+end_src
+
+   #+RESULTS:
+   : Rplots.pdf: PDF document, version 1.4, 1 pages
+
+5. What is the other way to run R scripts on the command-line?
+   #+begin_src R :results output
+     system("R CMD BATCH histNile.R")
+     system("ls -l *.R* R*")
+     system("cat histNile.Rout")
+   #+end_src
+
+
+** TODO Review: Loops in R & Arguments
+
+
 
 * Footnotes
 
