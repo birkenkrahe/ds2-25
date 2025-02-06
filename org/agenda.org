@@ -149,7 +149,7 @@ Download and complete the practice file:
 - [X] *Lecture*: Arguments (GitHub) with practice (GitHub)
 
 ** Projects - sprint review coming soon
-#+attr_html: :width 600px: 
+#+attr_html: :width 600px:
 [[../img/projects.png]]
 
 ** Plot your test grades (future assignment)
@@ -173,29 +173,31 @@ Let's do this together! Code along: [[https://tinyurl.com/scoping-review-org][ti
 
 - *Practice* file: [[https://tinyurl.com/scoping-practice-org][tinyurl.com/scoping-practice-org]]
 - Upload the result to Canvas
-  
+
 ** Function arguments (lecture & practice)
 
 - Download the code along file: [[https://tinyurl.com/arguments-code-along][tinyurl.com/arguments-code-along]]
 - Save it as an Org-mode file
 - Code along with me during the lecture.
 
-* Week 4: & Sprint review
+* Week 4: Conditionals & Sprint review
 
-- [ ] Test 2 results & extended deadline (50%)
-- [ ] Review: Loops in R & Arguments
-- [ ] Test 3 due by Friday Feb 7 (extended deadline Feb 14)
-- [ ] Lecture & practice: 
+- [X] Test 2 results & extended deadline (50%)
+- [X] Review home assignment
+- [ ] *Review:* Loops in R & function arguments
+- [ ] *Test 3* due by Tuesday Feb 11 (extended deadline Friday Feb 14)
+- [ ] Lecture & practice: =if= =else= =ifelse=
 
-** TODO Test 2 results are excellent!
-#+attr_html: :width 400px: 
+** DONE Test 2 results are excellent!
+#+attr_html: :width 400px:
 [[../img/test2_results.png]]
 
 - A few missed the deadline & the extended deadline for test 1: 0 pts!
 - A few missed the deadline for test 2, too: complete it for 50% by Friday!
 - Use Canvas/Google Calendar to stay on top of your assignments!
 
-** TODO Home assignment: Scoping & Environments
+
+** DONE Home assignment: Scoping & Environments
 
 Some students asked for a reminder. See also solution PDF in GitHub.
 
@@ -206,24 +208,32 @@ Some students asked for a reminder. See also solution PDF in GitHub.
    #+begin_src R :tangle histNile.R
      hist(Nile)  # tangle with C-c C-v t (org-babel-tangle)
    #+end_src
-   
+
 2. How would you check that a script exists without leaving R?
    #+begin_src bash :results output :exports both
-     ls -l *.R
+     ls -l *.R  # on the CLI use the `ls` command
    #+end_src
    #+begin_src R :results output
-     system("ls -l *.R*")
+     system("ls -l *.R*")   # shell() on Windoze
    #+end_src
 
    #+RESULTS:
-   : -rw-rw-r-- 1 aletheia aletheia 2966 Jan 30 09:38 datasets.RData
-   : -rw-rw-r-- 1 aletheia aletheia   39 Feb  4 08:47 histNile.R
-   : -rw-rw-r-- 1 aletheia aletheia  820 Feb  4 08:56 histNile.Rout
+   : -rw-rw-r-- 1 marcus marcus 55 Feb  4 11:11 histNile.R
+   : -rw-rw-r-- 1 marcus marcus 11 Feb  4 11:10 hN.R
 
 3. How can you run the script on the command-line?
    #+begin_src bash :results output :exports both
      Rscript histNile.R
    #+end_src
+   #+begin_src R :results output
+     system("Rscript histNile.R")
+     system("ls -l *R*")
+   #+end_src
+
+   #+RESULTS:
+   : -rw-rw-r-- 1 marcus marcus   55 Feb  4 11:11 histNile.R
+   : -rw-rw-r-- 1 marcus marcus   11 Feb  4 11:10 hN.R
+   : -rw-rw-r-- 1 marcus marcus 4609 Feb  4 11:15 Rplots.pdf
 
 4. What is the output of the script?
    #+begin_src R :results output
@@ -234,6 +244,14 @@ Some students asked for a reminder. See also solution PDF in GitHub.
    #+RESULTS:
    : Rplots.pdf: PDF document, version 1.4, 1 pages
 
+   This is what we do when we use notebooks in class:
+   #+begin_src R :file histNile.png :results output graphics file :exports both :comments both :tangle yes :noweb yes
+     hist(Nile)
+   #+end_src
+
+   #+RESULTS:
+   [[file:histNile.png]]
+
 5. What is the other way to run R scripts on the command-line?
    #+begin_src R :results output
      system("R CMD BATCH histNile.R")
@@ -241,9 +259,215 @@ Some students asked for a reminder. See also solution PDF in GitHub.
      system("cat histNile.Rout")
    #+end_src
 
+   #+RESULTS:
+   #+begin_example
+   -rw-rw-r-- 1 marcus marcus   55 Feb  4 11:11 histNile.R
+   -rw-rw-r-- 1 marcus marcus  811 Feb  4 11:19 histNile.Rout
+   -rw-rw-r-- 1 marcus marcus   11 Feb  4 11:10 hN.R
+   -rw-rw-r-- 1 marcus marcus 4609 Feb  4 11:19 Rplots.pdf
 
-** TODO Review: Loops in R & Arguments
+   R version 4.1.2 (2021-11-01) -- "Bird Hippie"
+   Copyright (C) 2021 The R Foundation for Statistical Computing
+   Platform: x86_64-pc-linux-gnu (64-bit)
 
+   R is free software and comes with ABSOLUTELY NO WARRANTY.
+   You are welcome to redistribute it under certain conditions.
+   Type 'license()' or 'licence()' for distribution details.
+
+     Natural language support but running in an English locale
+
+   R is a collaborative project with many contributors.
+   Type 'contributors()' for more information and
+   'citation()' on how to cite R or R packages in publications.
+
+   Type 'demo()' for some demos, 'help()' for on-line help, or
+   'help.start()' for an HTML browser interface to help.
+   Type 'q()' to quit R.
+
+   > hist(Nile)  # tangle with C-c C-v t (org-babel-tangle)
+   >
+   > proc.time()
+      user  system elapsed
+     0.108   0.017   0.116
+   #+end_example
+
+
+** TODO Review: Arguments / Loops
+
+1) Is ~matrix~ elliptic?
+   #+begin_src R :results output
+
+   #+end_src
+
+   #+RESULTS:
+
+2) Use positional matching with ~seq~ to create a sequence of values
+   between -4 and 4 that progresses in steps of 0.2.
+   #+begin_src R :results output
+
+   #+end_src
+
+3) Identify, which style of argument matching is being used:
+   exact, partial, positional, or mixed. If mixed, which arguments are
+   specified?
+
+   1. ~array~
+      #+begin_src R :results output
+        array(8:1,dim=c(2,2,2))
+      #+end_src
+
+   2. ~rep~
+      #+begin_src R :results output
+        rep(1:2,3)
+      #+end_src
+
+   3. ~seq~
+      #+begin_src R :results output
+        seq(from=10,to=8,length=5)
+      #+end_src
+
+   4. ~sort~
+      #+begin_src R :results output
+        sort(decreasing=T,x=c(2,1,1,2,0.3,3,1.3))
+      #+end_src
+
+   5. ~which~ (1)
+      #+begin_src R :results output
+        matrix(c(T,F,T,T),2,2)
+        which(matrix(c(T,F,T,T),2,2))
+      #+end_src
+
+   6. ~which~ (2)
+      #+begin_src R :results output
+        which(matrix(c(T,F,T,T),2,2),a=T)
+        args(which)
+      #+end_src
+
+4) What is the key difference between a =for= loop and a =while= loop?
+   #+begin_quote
+   A =for= loop iterates over a predefined sequence, such as a vector
+   or list, and executes the loop body once for each element.
+
+   A =while= loop, on the other hand, continues executing as long as a
+   specified condition remains =TRUE=, making it useful for situations
+   where the number of iterations is not known in advance.
+   #+end_quote
+
+5) What are the advantages and disadvantages of using a =for= loop
+   instead of a =while= loop in R?
+
+   #+begin_quote
+   *Advantages:*
+   - A =for= loop is generally more readable and requires fewer lines of
+     code when iterating over a known sequence.
+   - It reduces the risk of infinite loops since the iteration count
+     is predetermined.
+   - It is easier to debug because the loop boundaries are explicitly
+     defined.
+
+   *Disadvantages:*
+   - A =for= loop is less flexible when the number of iterations is not
+     known in advance.
+   - If the sequence length changes dynamically within the loop, a =for=
+     loop may not behave as expected.
+   - It can be less efficient when iterating over large datasets
+     compared to vectorized solutions.
+   #+end_quote
+
+6) Write a =for= and a =while= loop that prints the numbers 1 to 5.
+   #+begin_src R :session *R* :results output :exports both
+     for (i in 1:5)
+       print(i)
+
+     i <- 1
+     while(i<=5) {
+       print(i)
+       i <- i + 1
+     }
+   #+end_src
+
+7) Modify the loops to print the numbers as part of a vector like so:
+   #+begin_example
+     [1] 1 2 3 4 5
+   #+end_example
+
+   #+begin_src R :session *R* :results output :exports both
+     foo <- c()
+     for (i in 1:5) {
+       foo[i] <- i
+     }
+     foo
+
+     bar <- c()
+     i <- 1
+     while(i<=5) {
+       bar[i] <- i
+       i <- i + 1
+     }
+     bar
+   #+end_src
+
+8) Write a =for= loop that prints each element of a vector, where the
+   vector’s length is unknown in advance. Example vector:
+   =c("Joe","Jim","Jane","Jack","Jill")=
+
+   #+BEGIN_SRC R :results output
+     values <- c("Joe","Jim","Jane","Jack","Jill")  # could be any length
+
+     for (i in 1:length(values)) {
+       print(values[i])
+     }
+   #+END_SRC
+
+9) Write a =while= loop that processes a Boolean vector, stopping as
+   soon as it encounters the first =FALSE= value, when the length of the
+   vector is not known. Example vector: =c(TRUE, TRUE, TRUE, FALSE,
+   TRUE, TRUE)=
+
+   #+BEGIN_SRC R :results output
+     flags <- c(TRUE, TRUE, TRUE, FALSE, TRUE, TRUE)  # Boolean vector
+     i <- 1  # Initialize index
+
+     while (i <= length(flags) && flags[i]) { # TRUE if both are TRUE
+       print(paste("Processing element", i))
+       i <- i + 1  # Increment index
+     }
+   #+END_SRC
+
+10) Consider the following R code, explain step by step what this loop
+    does, and determine the output.
+    #+BEGIN_SRC R :results output
+      vec <- c(5, 2, 9, 0, 3, 8, 7)
+      i <- 1
+
+      while (i <= length(vec)) {
+        if (vec[i] == 0) {
+          print("Zero encountered! Stopping loop.")
+          break
+        } else if (vec[i] %% 2 == 0) {
+          i <- i + 1
+          next
+        }
+        print(vec[i])
+        i <- i + 1
+      }
+    #+END_SRC
+
+    #+begin_quote
+    *Step-by-step execution:*
+    - The loop starts with =i = 1= and checks if =vec[i] == 0=.
+    - If =vec[i]= is =0=, it prints ="Zero encountered! Stopping loop."= and
+      exits (=break=).
+    - If =vec[i]= is even, the =next= statement skips printing and moves to the next iteration.
+    - Otherwise, it prints =vec[i]= and increments =i=.
+
+    *Tracing the execution:*
+    - =vec[1] = 5= → odd, so =print(5)=, increment =i= to 2.
+    - =vec[2] = 2= → even, so =next= skips printing, increment =i= to 3.
+    - =vec[3] = 9= → odd, so =print(9)=, increment =i= to 4.
+    - =vec[4] = 0= → =break= triggers, prints ="Zero encountered! Stopping
+      loop."= and exits.
+    #+end_quote
 
 
 * Footnotes

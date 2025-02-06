@@ -14,6 +14,8 @@ You will learn:
 
 - How to control the flow and execution order in R code
 - How to use ~if~, ~else~ and ~ifelse~ statements in R
+- What role vectorization plays
+- How to do this with vectorization in Python
 
 Download the *raw* file from [[https://tinyurl.com/R-ifelse][tinyurl.com/R-ifelse]], save it as
 =ifelse.org= & code along during the lecture.
