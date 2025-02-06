@@ -1,0 +1,548 @@
+#+TITLE:Exercise: Testing and Improving a Classification Model
+#+AUTHOR:Marcus Birkenkrahe
+#+SUBTITLE:Machine Learning (DSC 305) Lyon College, Spring 25
+#+STARTUP: overview hideblocks indent
+#+OPTIONS: toc:nil num:nil ^:nil
+#+PROPERTY: header-args:R :session *R* :results output :exports both :noweb yes
+#+startup: overview hideblocks indent entitiespretty:
+#+options: toc:nil num:nil ^:nil:
+* Fitting a model to obtain g
+** Problem Statement
+
+In class, we computed the value of the gravitational constant \( g \)
+using the following table of observations and the well-known kinematic
+formula:
+
+\[
+x = \frac{1}{2} g t^2
+\]
+
+| Distance [m] | Time [s] |
+|--------------+----------|
+|         1.86 |        1 |
+|         7.42 |        2 |
+|        16.70 |        3 |
+|        29.68 |        4 |
+
+** Tasks
+
+1. Create a linear model using R's =lm= function to predict the
+   falling distance at =time = 5= seconds.
+2. Test the prediction against the exact theoretical value for =g= at that time.
+3. Plot the model using a scatterplot with a fitted line.
+   - Provide solutions using both =ggplot2= and Base R plotting.
+
+*Tip:* The coefficients for the linear model (intercept and slope) are
+stored in a vector =coef= (try calling it as a function on your model.
+
+** Expected Output
+
+- A computed prediction for distance at =t = 5s=.
+
+- A comparison between the predicted and theoretical distance values.
+
+- A scatterplot with a regression line visualizing the model fit.
+
+- Submit your results in the form of a notebook, for example an
+  Org-mode file, an RStudio notebook, or a straight Jupyter notebook.
+
+- If you worked in an online notebook (other than Emacs, e.g. DataLab,
+  Google Colab etc.) , submit the URL and make sure that I can access
+  the file (don't make me have to ask you, please).
+
+** Solution
+*** Understanding the problem
+
+- Read the full exercise first. I notice that the formula connects the
+  quantities time (t), distance (x), and gravitational constant (g) in
+  an exact way so that you can always compute one if the other two are
+  known.
+
+- Computing g using the formula for a given (x,t) is called the
+  "theoretical value" (since we don't need to do any experiments).
+
+- To compute g for a certain value of t = 5 (or any other value), I
+  need to predict the distance x, and I can then compute g from these
+  two values.
+
+- If this coincides with reality or not depends on the nature of the
+  underlying problem - the two values x and t have to grow linearly,
+  at a constant rate of change. I notice that this is not given here
+  (there's a quadratic dependency of t in the equation), compared to
+  e.g. F = ma: when the acceleration a doubles, the force F also
+  doubles. The two quantities F and a are directly proportional.
+
+- For non-linear relationships (like x and t in the presence of a
+  gravitational force), the linear relationship might be reasonable to
+  assume for small changes of t. This is a linear approximation -
+  higher order terms are dropped.
+
+- Note that 1/2 * g * t^2 is non-linear in t but linear in t^2.
+
+- But for now, since we're asked to create a linear model, let's do
+  that.
+
+*** Checking the documentation for linear models
+
+- The first task is to create a linear model using R's built-in =lm=
+  function. I'm going to check the help page for that function first,
+  since I haven't used it much lately.
+
+- A quick check shows the arguments that =lm= expects:
+  #+begin_src R
+    args(lm)
+  #+end_src
+
+  #+RESULTS:
+  : function (formula, data, subset, weights, na.action, method = "qr",
+  :     model = TRUE, x = FALSE, y = FALSE, qr = TRUE, singular.ok = TRUE,
+  :     contrasts = NULL, offset, ...)
+  : NULL
+
+- I recognize  first two arguments at least, =formula= is something
+  like =f(x) ~ x=, where f(x) = b + ax, and the model computes a (the
+  intercept at x = 0) and b (the slope).
+
+- The parameter =data= is a data frame. Though in the example in class
+  (with =Nile=) we did not use this parameter, but we used it for the
+  trendline computation of =mtcars=. I'll leave it out for now since
+  there are only two vectors.
+
+- Also, looking for the term =predict=, I notice in "See Also" in the
+  =help(lm)= page that there is a method =predict.lm= for linear model
+  fits. Perhaps I'll check that in detail later.
+
+*** Solving the problem for a different data set
+
+- An example from class is computing a trendline for the built-in
+  dataset =mtcars= (consisting of features for a bunch of cars). We
+  always used two features that are likely to be correlated, gas
+  mileage (=mpg=) and weight (=wt=) to compute f(x) = =mpg(weight)= for
+  unknown points x = =weight=:
+  #+begin_src R
+    lm(mpg ~ wt, data=mtcars) # lm(mtcars$mpg ~ mtcars$wt)
+  #+end_src
+
+  #+RESULTS:
+  :
+  : Call:
+  : lm(formula = mpg ~ wt, data = mtcars)
+  :
+  : Coefficients:
+  : (Intercept)           wt
+  :      37.285       -5.344
+
+- The intercept (at zero weight) is 37.285, and the slope of the
+  straight line is -5.344 (since it's negative, the line goes from the
+  upper left to the lower right - like the distribution of the
+  points):
+  #+begin_src R :file ../img/mtcars0.png :session *R* :results file graphics output :exports both
+    plot(mtcars$wt,mtcars$mpg) # plot miles-per-gallon against weight
+  #+end_src
+
+  #+RESULTS:
+  [[file:../img/mtcars0.png]]
+
+- How can I get access to the coefficients as such? The exercise says
+  that they're stored in a vector =Coef=. Since the model is an R
+  object, I'll save it and check its structure.
+  #+begin_src R
+    mtcars_lm <- lm(mpg ~ wt, data=mtcars)
+    str(mtcars_lm)
+  #+end_src
+
+  #+RESULTS:
+  #+begin_example
+  List of 12
+   $ coefficients : Named num [1:2] 37.29 -5.34
+    ..- attr(*, "names")= chr [1:2] "(Intercept)" "wt"
+   $ residuals    : Named num [1:32] -2.28 -0.92 -2.09 1.3 -0.2 ...
+    ..- attr(*, "names")= chr [1:32] "Mazda RX4" "Mazda RX4 Wag" "Datsun 710" "Hornet 4 Drive" ...
+   $ effects      : Named num [1:32] -113.65 -29.116 -1.661 1.631 0.111 ...
+    ..- attr(*, "names")= chr [1:32] "(Intercept)" "wt" "" "" ...
+   $ rank         : int 2
+   $ fitted.values: Named num [1:32] 23.3 21.9 24.9 20.1 18.9 ...
+    ..- attr(*, "names")= chr [1:32] "Mazda RX4" "Mazda RX4 Wag" "Datsun 710" "Hornet 4 Drive" ...
+   $ assign       : int [1:2] 0 1
+   $ qr           :List of 5
+    ..$ qr   : num [1:32, 1:2] -5.657 0.177 0.177 0.177 0.177 ...
+    .. ..- attr(*, "dimnames")=List of 2
+    .. .. ..$ : chr [1:32] "Mazda RX4" "Mazda RX4 Wag" "Datsun 710" "Hornet 4 Drive" ...
+    .. .. ..$ : chr [1:2] "(Intercept)" "wt"
+    .. ..- attr(*, "assign")= int [1:2] 0 1
+    ..$ qraux: num [1:2] 1.18 1.05
+    ..$ pivot: int [1:2] 1 2
+    ..$ tol  : num 1e-07
+    ..$ rank : int 2
+    ..- attr(*, "class")= chr "qr"
+   $ df.residual  : int 30
+   $ xlevels      : Named list()
+   $ call         : language lm(formula = mpg ~ wt, data = mtcars)
+   $ terms        :Classes 'terms', 'formula'  language mpg ~ wt
+    .. ..- attr(*, "variables")= language list(mpg, wt)
+    .. ..- attr(*, "factors")= int [1:2, 1] 0 1
+    .. .. ..- attr(*, "dimnames")=List of 2
+    .. .. .. ..$ : chr [1:2] "mpg" "wt"
+    .. .. .. ..$ : chr "wt"
+    .. ..- attr(*, "term.labels")= chr "wt"
+    .. ..- attr(*, "order")= int 1
+    .. ..- attr(*, "intercept")= int 1
+    .. ..- attr(*, "response")= int 1
+    .. ..- attr(*, ".Environment")=<environment: R_GlobalEnv>
+    .. ..- attr(*, "predvars")= language list(mpg, wt)
+    .. ..- attr(*, "dataClasses")= Named chr [1:2] "numeric" "numeric"
+    .. .. ..- attr(*, "names")= chr [1:2] "mpg" "wt"
+   $ model        :'data.frame':        32 obs. of  2 variables:
+    ..$ mpg: num [1:32] 21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
+    ..$ wt : num [1:32] 2.62 2.88 2.32 3.21 3.44 ...
+    ..- attr(*, "terms")=Classes 'terms', 'formula'  language mpg ~ wt
+    .. .. ..- attr(*, "variables")= language list(mpg, wt)
+    .. .. ..- attr(*, "factors")= int [1:2, 1] 0 1
+    .. .. .. ..- attr(*, "dimnames")=List of 2
+    .. .. .. .. ..$ : chr [1:2] "mpg" "wt"
+    .. .. .. .. ..$ : chr "wt"
+    .. .. ..- attr(*, "term.labels")= chr "wt"
+    .. .. ..- attr(*, "order")= int 1
+    .. .. ..- attr(*, "intercept")= int 1
+    .. .. ..- attr(*, "response")= int 1
+    .. .. ..- attr(*, ".Environment")=<environment: R_GlobalEnv>
+    .. .. ..- attr(*, "predvars")= language list(mpg, wt)
+    .. .. ..- attr(*, "dataClasses")= Named chr [1:2] "numeric" "numeric"
+    .. .. .. ..- attr(*, "names")= chr [1:2] "mpg" "wt"
+   - attr(*, "class")= chr "lm"
+  #+end_example
+
+- Wow...that's more information than I bargained for! I can see the
+  =coefficients= right at the top. The data structure of the model looks
+  like a list - let's verify that:
+  #+begin_src R
+    class(mtcars_lm)
+    is.list(mtcars_lm)
+  #+end_src
+
+  #+RESULTS:
+  : [1] "lm"
+  : [1] TRUE
+
+- It is not just a list, it's its own data structure (like =data.frame=)
+  but underneath it's a list alright. So I could get the coefficients
+  out using =list= extraction techniques:
+  #+begin_src R
+    a <- mtcars_lm[[1]][1] # Intercept
+    a
+    b <- mtcars_lm[[1]][2] # slope
+    b
+  #+end_src
+
+  #+RESULTS:
+  : (Intercept)
+  :    37.28513
+  :        wt
+  : -5.344472
+
+- And now I can compute the =mpg= for a weight =wt= beyond the maximum,
+  for example:
+  #+begin_src R
+    x <- max(mtcars$wt) + 1
+    x
+    y <- b + a * x
+    y
+  #+end_src
+
+  #+RESULTS:
+  : [1] 6.424
+  : (Intercept)
+  :    2.952241
+
+- There is no "theoretical" value here, since we don't have a car of
+  that weight with a given mileage. Another exercise: predict the
+  mileage for one of the existing cars (with known weight):
+  #+begin_src R :session *R* :results output :exports both
+    mtcars[rownames(mtcars)=="Volvo 142E",c("mpg","wt")] -> volvo
+    volvo
+  #+end_src
+
+  #+RESULTS:
+  :             mpg   wt
+  : Volvo 142E 21.4 2.78
+
+- What is the predicted mileage for the Volvo?
+  #+attr_html: :width 400px:
+  [[../img/volvo.png]]
+
+  #+begin_src R :session *R* :results output :exports both
+    coef(mtcars_lm)[2] -> a # slope
+    coef(mtcars_lm)[1] -> b # intercept
+    b + volvo[2] * a -> volvo_mpg_pred # volvo[2] is the predictor
+    names(volvo_mpg_pred) <- NULL
+    paste("Difference predict vs actual:",
+          as.numeric(format(abs(volvo_mpg_pred-volvo[1]),digits=3)),
+          "[thousand pounds]")
+  #+end_src
+
+  #+RESULTS:
+  : [1] "Difference predict vs actual:  [thousand pounds]"
+
+- We can still make the plot, show the fit and plot the predicted
+  value:
+  1) plot the dataset (=plot= with the two variables)
+  2) add the trendline (=abline= from our model)
+  3) draw the predicted point (=points=)
+  #+begin_src R :file ../img/mtcars.png :session *R* :results file graphics output :exports both
+    plot(mtcars$mpg ~ mtcars$wt)
+    abline(mtcars_lm)
+    par(new=TRUE)
+    points(x,y,col="red",pch=16)
+  #+end_src
+
+  #+RESULTS:
+  [[file:../img/mtcars.png]]
+
+- Alas, the first graph is based on the existing dataset and does not
+  change when we plot the point, so we need to account for that:
+  #+begin_src R :file ../img/mtcars2.png :session *R* :results file graphics output :exports both
+    plot(mtcars$mpg ~ mtcars$wt,
+         ylim=c(0,max(mtcars$mpg)),
+         xlim=c(0,x))
+    abline(mtcars_lm)
+    par(new=TRUE)
+    points(x,y,col="red",pch=16)
+  #+end_src
+
+  #+RESULTS:
+  [[file:../img/mtcars2.png]]
+
+*** Solving the problem for the given data set
+
+- After running through the example, I have fully grasped the
+  mechanics of the exercise. I am now turning to the given data.
+
+- You remember from class that the data are [[https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html][Mars data]] (cp. NASA).
+
+- In class, we dealt with this dataset, and we also fitted a linear
+  model to a similar data set, the time-series =Nile=. I notice that the
+  table of distance x vs. time t is also a time series, and I know how
+  to make one (with the =ts= function). Perhaps then I can reuse that
+  code.
+
+- For now though, I treat the dataset as a table of two vectors d
+  (distance) and t (time):
+  #+begin_src R
+    d <- c(1.86,7.42,16.70,29.68)
+    t <- 1:4
+  #+end_src
+
+- These are just like =mpg= and =wt= in the last example: distance changes
+  as a function of time, d = f(t).
+
+- I build my linear model accordingly to predict =d= from =t=:
+  #+begin_src R
+    d_lm <- lm(d ~ t)  # compute d(t) for ALL values of t
+    d_lm
+  #+end_src
+
+  #+RESULTS:
+  :
+  : Call:
+  : lm(formula = d ~ t)
+  :
+  : Coefficients:
+  : (Intercept)            t
+  :      -9.270        9.274
+
+- I can now compute =d= for =t= = 5 using the coefficients =a= and =b= which I
+  get from the model:
+  #+begin_src R
+    a <- d_lm[[1]][1]
+    a
+    b <- d_lm[[1]][2]
+    b
+  #+end_src
+
+  #+RESULTS:
+  : (Intercept)
+  :       -9.27
+  :     t
+  : 9.274
+
+- There is a function =coef= that extracts the coefficients without
+  having to use =list= extraction:
+  #+begin_src R
+    coef(d_lm)
+    coef(d_lm)[1]
+    coef(d_lm)[2]
+  #+end_src
+
+  #+RESULTS:
+  : (Intercept)           t
+  :      -9.270       9.274
+  : (Intercept)
+  :       -9.27
+  :     t
+  : 9.274
+
+- And the distance =d = a + bt= is:
+  #+begin_src R
+    x <- 5  # better: call this `time`
+    y <- a + b * x  # call this `distance`
+    y
+  #+end_src
+
+  #+RESULTS:
+  : (Intercept)
+  :        37.1
+
+- In this case, because we know the theoretical value of g at t=5, we
+  can compare the prediction and the actual:
+  #+begin_src R
+    d_actual <- 0.5 * 3.73 * 25 # gt^2/2 where g on Mars = 3.73
+    paste("Predicted: ",y, "vs. actual: ",d_actual)
+  #+end_src
+
+  #+RESULTS:
+  : [1] "Predicted:  37.1 vs. actual:  46.625"
+
+- The simpler plot first to show if and how the model fits the
+  existing data points:
+  #+begin_src R :file ../img/mars.png :session *R* :results file graphics output :exports both
+    plot(d ~ t)  # plot observations
+    abline(d_lm)  # add trendline (regression line)
+  #+end_src
+
+  #+RESULTS:
+  [[file:../img/mars.png]]
+
+- Now we do the same thing as before namely extend the range to
+  accommodate the computed value, and add the exact value:
+  #+begin_src R :file ../img/mars2.png :session *R* :results file graphics output :exports both
+    plot(d ~ t,
+         ylim=c(0,50),  # worst practice! don't depend on the data
+         xlim=c(0,x))
+    abline(d_lm)
+    par(new=TRUE)
+    points(x,y,col="red",pch=16)
+    points(5,d_actual,col="blue",pch=16)
+  #+end_src
+
+  #+RESULTS:
+  [[file:../img/mars2.png]]
+
+- As expected after our preliminary thoughts, this is
+  miserable. Let's see what we can do about it.
+
+*** Improvements
+
+- The formula for x(t) is non-linear in t but linear in t^2. This
+means that we could try to improve our model by transformation.
+
+- Working with data frames is actually more convenient because you
+might want to add additional features, like now. Let's start over:
+
+1. Create a =data.frame= =df= with the observations for =x= and t:
+
+   #+begin_src R
+     rm(list=ls())
+     df <- data.frame("x"=c(1.86,7.42,16.70,29.68))
+     df
+   #+end_src
+
+   #+RESULTS:
+   :       x
+   : 1  1.86
+   : 2  7.42
+   : 3 16.70
+   : 4 29.68
+
+2. Add the new independent variable, t^2 = =t2=:
+   #+begin_src R
+     as.numeric(rownames(df)) -> t
+     t * t -> t2  # new column values
+     df <- data.frame(df,t2)
+     df
+   #+end_src
+
+   #+RESULTS:
+   :       x t2
+   : 1  1.86  1
+   : 2  7.42  4
+   : 3 16.70  9
+   : 4 29.68 16
+
+3. Build the linear model for (x,t2):
+   #+begin_src R
+     model <- lm(x ~ t2,data=df)
+     model
+   #+end_src
+
+   #+RESULTS:
+   :
+   : Call:
+   : lm(formula = x ~ t2, data = df)
+   :
+   : Coefficients:
+   : (Intercept)           t2
+   :    0.003953     1.854806
+
+4. Now, for t = 5: predicted =x_pred= (using t squared!)
+   #+begin_src R
+     coef(model)[1] -> b # intercept
+     coef(model)[2] -> a # slope
+     t <- 5
+     x_pred <- b + a * t * t  # linear approximation at t
+     x_pred
+   #+end_src
+
+   #+RESULTS:
+   : (Intercept)
+   :    46.37411
+
+5. Actual for t = 5 with g = 3.73, and difference
+   #+begin_src R
+     g <- 3.73 # constant on Mars
+     x_act <- 0.5 * g * t * t  # actual distance on Mars
+     paste("Difference predicted to actual: ",
+           as.numeric(format(abs(x_act-x_pred),digits=3)),
+           "meters.")
+   #+end_src
+
+   #+RESULTS:
+   : [1] "Difference predicted to actual:  0.251 meters."
+
+6. Plot the data and the model with predicted values:
+   #+begin_src R :file marsNew.png :session *R* :results file graphics output :exports both
+     plot(df$x ~ df$t2,
+          xlab="time squared [s^2]", # x label
+          ylab="falling distance [m]",   # y label
+          ylim=c(0,50),xlim=c(0,30))   # new limits
+     abline(model)  # draw the trendline
+     points(x=t*t,y=x_pred,pch=16,col="red")  # set the point
+   #+end_src
+
+   #+RESULTS:
+   [[file:marsNew.png]]
+
+7. You can do all of this quite a bit faster by using the =predict=
+   function:
+   #+begin_src R :results output
+     ## Given data
+     Time <- 1:4
+     Distance <- c(1.86, 7.42, 16.70, 29.68)
+
+     ## Fit linear model - I() inhibits formula interpretation
+     model <- lm(Distance ~ I(Time^2))
+
+     ## Predict distance at t = 5 seconds
+     predicted_distance <- predict(model, data.frame(Time = 5))
+
+     ## Compute theoretical value
+     exact_distance <- 0.5 * 3.73 * (5^2)
+
+     ## Print results
+     paste("Difference predicted to actual: ",
+           as.numeric(
+             format(abs(exact_distance-predicted_distance),digits=3)),
+           "meters.")
+   #+end_src
+
+   #+RESULTS:
+   : [1] "Difference predicted to actual:  0.251 meters."
