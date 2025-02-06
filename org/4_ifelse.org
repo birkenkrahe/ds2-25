@@ -256,7 +256,7 @@ Solution:
      #+RESULTS:
      : [1] 2
 
-* ~else~ statements
+* NEXT ~else~ statements
 
 - If you want something to happen if the /condition/ is ~FALSE~, add ~else~:
   #+begin_example R
@@ -388,7 +388,6 @@ Solution:
   #+RESULTS:
   :  [1] -1.000000 -1.250000 -1.666667 -2.500000 -5.000000        NA  5.000000  2.500000  1.666667
   : [10]  1.250000  1.000000
-
 
 * Conditional statements in Python
 

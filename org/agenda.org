@@ -187,6 +187,9 @@ Let's do this together! Code along: [[https://tinyurl.com/scoping-review-org][ti
 - [ ] *Review:* Loops in R & function arguments
 - [ ] *Test 3* due by Tuesday Feb 11 (extended deadline Friday Feb 14)
 - [ ] Lecture & practice: =if= =else= =ifelse=
+- [ ] In-class practice: =if= =else= =ifelse=
+- [ ] Home assignment: =if= =else= =ifelse= - until Friday 14 Feb
+- [ ] Project revue: Briefly explain your idea(s)
 
 ** DONE Test 2 results are excellent!
 #+attr_html: :width 400px:
@@ -292,7 +295,7 @@ Some students asked for a reminder. See also solution PDF in GitHub.
    #+end_example
 
 
-** TODO Review: Arguments / Loops
+** TODO Review & Practice: Arguments / Loops
 
 1) Is ~matrix~ elliptic?
    #+begin_src R :results output
@@ -469,6 +472,17 @@ Some students asked for a reminder. See also solution PDF in GitHub.
       loop."= and exits.
     #+end_quote
 
+
+** TODO In-class assignment conditional statements (Canvas upload)
+
+- Download the raw exercise file from [[https://tinyurl.com/R-ifelse-exercise][tinyurl.com/R-ifelse-exercise]]
+
+- Save and complete it, and upload your solution to Canvas.
+
+
+** TODO Home assignment (by Friday 14 Feb) - Canvas
+
+* Week 5: Switch & Loops
 
 * Footnotes
 
