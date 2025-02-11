@@ -46,6 +46,9 @@ matrix of the same dimensions (all diagonal entries are ~1~).
 
 /Tip:/ You can use the functions ~which~, ~diag~ and ~substr~.
 
+/Bonus:/ Extra points for running the tests using a function =g= that
+tests and changes the input matrices.
+
 * TODO Solution
 
 [It is strongly suggested that you develop the solution algorithm step
