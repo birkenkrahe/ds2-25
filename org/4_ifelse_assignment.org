@@ -15,13 +15,17 @@
 - The "literate quality" of the submission will count for your final
   points (i.e. how much you make your solution process transparent).
 
-- If you use AI to help you with this assignment, you need to credit
-  it and say exactly how you used it.
+- If you use generative AI to help you with this assignment in any
+  way, you need to credit it and say exactly how you used it, and how
+  long and what you tried until you gave in.
+
+- If you use AI, be prepared to have to explain your solution in
+  detail in class and answer pertinent questions.
 
 - Remember though that letting AI give you the solution teaches you
   almost nothing. The smart way to deal with this is to ask AI
   afterwards for a similar but sufficiently different problem so that
-  you can test your understanding.
+  you can test your understanding..
 
 * TODO Identify and pledge yourself
 
@@ -44,21 +48,39 @@ matrix of the same dimensions (all diagonal entries are ~1~).
 
 * TODO Solution
 
-#+begin_src R
-
-#+end_src
+[It is strongly suggested that you develop the solution algorithm step
+by step - reformulate the problem as pseudocode, test the suggested
+functions, test the algorithm with a 2 x 2 matrix.]
 
 * TODO Test your solution
 
-Try your code on the following matrices, checking the result each
-time:
-#+begin_example R
-  mymat1 <- matrix(as.character(1:16),4,4)
-  mymat2 <- matrix(c("DANDELION","Hyacinthus","Gerbera","MARIGOLD",
-                     "geranium","ligularia","Pachysandra","SNAPDRAGON",
-                     "GLADIOLUS"),3,3)
-  mymat3 <- matrix(c("GREAT", "exercises", "right", "here"),2,2,byrow=T)
-#+end_example
+  - Try your code on the following matrices, checking the result each
+    time:
+    #+begin_example R
+    mymat1 <- matrix(as.character(1:16),4,4)
+    mymat2 <- matrix(c("DANDELION","Hyacinthus","Gerbera","MARIGOLD",
+                       "geranium","ligularia","Pachysandra","SNAPDRAGON",
+                       "GLADIOLUS"),3,3)
+    mymat3 <- matrix(c("GREAT", "exercises", "right", "here"),2,2,byrow=T)
+    #+end_example
+
+  - Expected output:
+    #+begin_example
+         [,1] [,2] [,3] [,4]
+    [1,]    1    0    0    0
+    [2,]    0    1    0    0
+    [3,]    0    0    1    0
+    [4,]    0    0    0    1
+
+         [,1]         [,2]        [,3]
+    [1,] "DANDELION"  "MARIGOLD"  "Pachysandra"
+    [2,] "Hyacinthus" "HERE"      "SNAPDRAGON"
+    [3,] "Gerbera"    "ligularia" "HERE"
+
+         [,1]    [,2]
+    [1,] "HERE"  "exercises"
+    [2,] "right" "here"
+    #+end_example
 
 * Footnotes
 
