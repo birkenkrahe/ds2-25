@@ -580,13 +580,13 @@ Some students asked for a reminder. See also solution PDF in GitHub.
 #+caption: Francisco de Goya, Still Life with Golden Bream (1808)
 [[../img/goya.jpg]]
 
-- [ ] *Test 3* available only until tonight (max. 100%)
+- [X] *Test 3* available only until tonight (max. 100%)
 - [ ] *Practice* (with upload): =if=-=else=-=ifelse=
 - [ ] *Programming assignment*: Conditional statements
 - [ ] *DataCamp review*: Functions (next test)
 - [ ] *Lecture & Practice*: =switch= function
-
-** TODO Project proposal submissions
+  
+** DONE Project proposal submissions
 
 - Everybody submitted on time (never happened before)
 - You should add your project to the Canvas pages
@@ -594,9 +594,12 @@ Some students asked for a reminder. See also solution PDF in GitHub.
 - You should submit the URL to Canvas (1 per team)
 - I will view/grade the submissions later this week
 - The next sprint review is a *"Literature review"*
-- *What does this mean?*
+- *What does this mean?* (Details in Canvas later)
+  1) *Understand* HOW you could continue your project.
+  2) *Review* other people's stuff (scholarly papers preferred).
+  3) *Deliver* either a =notebooklm= or a literature review
 
-** TODO DataCamp Review - Functions
+** DONE DataCamp Review - Functions
 
 1. What does the =na.rm= argument in =mean(x, na.rm = FALSE)= do?
    #+BEGIN_QUOTE
@@ -606,7 +609,7 @@ Some students asked for a reminder. See also solution PDF in GitHub.
 
 2. Can you construct an example showing this?
    #+begin_src R :results output
-     mean(c(1,2,3,NA))
+     mean(c(1,2,3,NA))   # `na.rm = FALSE` is the default
      mean(c(1,2,3,NA),na.rm=TRUE)
    #+end_src
 
@@ -615,12 +618,21 @@ Some students asked for a reminder. See also solution PDF in GitHub.
    : [1] 2
 
 3. What is wrong with this code, and how would you fix it?
-   #+begin_src R
+   #+begin_src R :results output :exports both
      function(x) {
        3 * x
      }
+     ls()
    #+end_src
-   #+begin_quote
+
+   #+RESULTS:
+   : function (x) 
+   : {
+   :     3 * x
+   : }
+   : character(0)
+
+      #+begin_quote
    There is nothing wrong with the code as such but the function is
    not stored in an object (check with =ls()=) and cannot be used.
    #+end_quote
@@ -631,6 +643,9 @@ Some students asked for a reminder. See also solution PDF in GitHub.
      ls()
    #+end_src
 
+   #+RESULTS:
+   : [1] "triple"
+
 4. Which of these function calls will work on this function?
    #+begin_src R :session *R* :results output :exports both
      triple(3)
@@ -639,10 +654,24 @@ Some students asked for a reminder. See also solution PDF in GitHub.
      triple()
    #+end_src
 
+   #+RESULTS:
+   : [1] 9
+   : Error in triple(y = 3) : unused argument (y = 3)
+   : [1] 9
+   : Error in triple() : argument "x" is missing, with no default
+
    #+begin_src R :session *R* :results output :exports both
      triple
      args(triple)
    #+end_src
+
+   #+RESULTS:
+   : function(x) {
+   :   3 * x
+   : }
+   : <bytecode: 0x564099882540>
+   : function (x) 
+   : NULL
 
 5. What does the "black box principle" mean in the context of functions?
    #+BEGIN_QUOTE
@@ -654,13 +683,57 @@ Some students asked for a reminder. See also solution PDF in GitHub.
 6. What happens when =ls= is called without an argument? What happens
    when =mean= is called without an argument?
    #+begin_src R :session *R* :results output :exports both
-     ls()
-     mean()
+     ls()  # returns objects in the current environment
+     mean()  # computes arithmetic average
+     args(mean)  # shows that `x` (or 1st arg) is needed
    #+end_src
+
+   #+RESULTS:
+   : [1] "triple"
+   : Error in mean.default() : argument "x" is missing, with no default
+   : function (x, ...) 
+   : NULL
 
    #+begin_src R :session *R* :results output :exports both
      ls
    #+end_src
+
+   #+RESULTS:
+   #+begin_example
+   function (name, pos = -1L, envir = as.environment(pos), all.names = FALSE, 
+       pattern, sorted = TRUE) 
+   {
+       if (!missing(name)) {
+           pos <- tryCatch(name, error = function(e) e)
+           if (inherits(pos, "error")) {
+               name <- substitute(name)
+               if (!is.character(name)) 
+                   name <- deparse(name)
+               warning(gettextf("%s converted to character string", 
+                   sQuote(name)), domain = NA)
+               pos <- name
+           }
+       }
+       all.names <- .Internal(ls(envir, all.names, sorted))
+       if (!missing(pattern)) {
+           if ((ll <- length(grep("[", pattern, fixed = TRUE))) && 
+               ll != length(grep("]", pattern, fixed = TRUE))) {
+               if (pattern == "[") {
+                   pattern <- "\\["
+                   warning("replaced regular expression pattern '[' by  '\\\\['")
+               }
+               else if (length(grep("[^\\\\]\\[<-", pattern))) {
+                   pattern <- sub("\\[<-", "\\\\\\[<-", pattern)
+                   warning("replaced '[<-' by '\\\\[<-' in regular expression pattern")
+               }
+           }
+           grep(pattern, all.names, value = TRUE)
+       }
+       else all.names
+   }
+   <bytecode: 0x564097f07818>
+   <environment: namespace:base>
+   #+end_example
 
    #+begin_quote
    - =ls= is a utility function that retrieves object names from an
@@ -668,6 +741,13 @@ Some students asked for a reminder. See also solution PDF in GitHub.
      vector.
    - =mean= is a mathematical function expecting =numeric= input
    #+end_quote
+
+   #+begin_src R :results output
+     environment(ls)
+   #+end_src
+
+   #+RESULTS:
+   : <environment: namespace:base>
 
 7. What is the difference between =return(y)= and simply writing =y= at
    the end of an R function?
@@ -678,7 +758,7 @@ Some students asked for a reminder. See also solution PDF in GitHub.
 
 8. What will happen if you call =math_magic(4)= when
    #+begin_example
-   math_magic <- function(a, b) { a * b + a / b }
+     math_magic <- function(a, b) { a * b + a / b }
    #+end_example
    #+BEGIN_QUOTE
    It will result in an error because argument =b= is missing and has no
@@ -696,20 +776,27 @@ Some students asked for a reminder. See also solution PDF in GitHub.
     while =require("ggvis")= returns =FALSE= instead of an error.
     #+END_QUOTE
 
-
-** TODO In-class assignment conditional statements (Canvas upload)
-
-- Download the raw exercise file from [[https://tinyurl.com/R-ifelse-exercise][tinyurl.com/R-ifelse-exercise]]
-
-- Save and complete it, and upload your solution to Canvas.
-** TODO Home assignment (by Monday 17 Feb) - Canvas
+** DONE Home assignment (by Monday 17 Feb) - Canvas
 
 - The final code is short (<10 lines) but packs a punch
-- You need functions =which=, =diag=, =matrix=, =substr=, and =if=
+- You need functions =which=, =diag=, =matrix=, =substr=, and =if=, =else=
 - You need to plan your approach using pseudocode
 - Your submission should be a *literate program* (like your project)
 - What does that mean?
+  1) The submitted file is created for humans to read it (and not just
+     for machines to run it).
+  2) Some *documentation* that clarifies the approach (list of steps),
+     the logic (like pseudocode).
+  3) *Code* should be in blocks, (minimally) commented, indented (readable).
+  4) *Output:* Not arbitrary but as requested ("test suite" must pass).
+  5) *Meta data*: file header, purpose, author, pledge
 
+** TODO In-class assignment conditional statements (Canvas upload)
+
+- Download the raw exercise file from [[https://tinyurl.com/R-ifelse-practice][tinyurl.com/R-ifelse-practice]]
+
+- Save and complete it, and upload your solution to Canvas:
+  =Classroom Assignments > Conditionals practice.=
 
 * Footnotes
 
