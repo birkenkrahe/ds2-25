@@ -189,7 +189,7 @@ Let's do this together! Code along: [[https://tinyurl.com/scoping-review-org][ti
 - [ ] Lecture & practice: =if= =else= =ifelse=
 - [ ] In-class practice: =if= =else= =ifelse=
 - [ ] Home assignment: =if= =else= =ifelse= - until Friday 14 Feb
-- [ ] Project revue: Briefly explain your idea(s)
+- [X] Project revue: Briefly explain your idea(s)
 
 ** DONE Test 2 results are excellent!
 #+attr_html: :width 400px:
@@ -198,7 +198,6 @@ Let's do this together! Code along: [[https://tinyurl.com/scoping-review-org][ti
 - A few missed the deadline & the extended deadline for test 1: 0 pts!
 - A few missed the deadline for test 2, too: complete it for 50% by Friday!
 - Use Canvas/Google Calendar to stay on top of your assignments!
-
 
 ** DONE Home assignment: Scoping & Environments
 
@@ -294,21 +293,30 @@ Some students asked for a reminder. See also solution PDF in GitHub.
      0.108   0.017   0.116
    #+end_example
 
-
-** TODO Review & Practice: Arguments / Loops
+** DONE Review & Practice: Arguments / Loops
 
 1) Is ~matrix~ elliptic?
    #+begin_src R :results output
-
+     args(matrix) # not elliptic - no ellipsis arguments f(par1, par2,...)
    #+end_src
 
    #+RESULTS:
+   : function (data = NA, nrow = 1, ncol = 1, byrow = FALSE, dimnames = NULL)
+   : NULL
 
 2) Use positional matching with ~seq~ to create a sequence of values
    between -4 and 4 that progresses in steps of 0.2.
    #+begin_src R :results output
-
+     seq(-4,4,0.2)
+     args(seq)
    #+end_src
+
+   #+RESULTS:
+   :  [1] -4.0 -3.8 -3.6 -3.4 -3.2 -3.0 -2.8 -2.6 -2.4 -2.2 -2.0 -1.8 -1.6 -1.4 -1.2
+   : [16] -1.0 -0.8 -0.6 -0.4 -0.2  0.0  0.2  0.4  0.6  0.8  1.0  1.2  1.4  1.6  1.8
+   : [31]  2.0  2.2  2.4  2.6  2.8  3.0  3.2  3.4  3.6  3.8  4.0
+   : function (...)
+   : NULL
 
 3) Identify, which style of argument matching is being used:
    exact, partial, positional, or mixed. If mixed, which arguments are
@@ -316,35 +324,68 @@ Some students asked for a reminder. See also solution PDF in GitHub.
 
    1. ~array~
       #+begin_src R :results output
-        array(8:1,dim=c(2,2,2))
+        array(8:1,dim=c(2,2,2)) # mixed, `data` is positional
       #+end_src
+
+      #+RESULTS:
+      #+begin_example
+      , , 1
+
+           [,1] [,2]
+      [1,]    8    6
+      [2,]    7    5
+
+      , , 2
+
+           [,1] [,2]
+      [1,]    4    2
+      [2,]    3    1
+
+      #+end_example
 
    2. ~rep~
       #+begin_src R :results output
-        rep(1:2,3)
+        rep(1:2,3) # positional
       #+end_src
+
+      #+RESULTS:
+      : [1] 1 2 1 2 1 2
 
    3. ~seq~
       #+begin_src R :results output
-        seq(from=10,to=8,length=5)
+        seq(from=10,to=8,length=5) # exact
       #+end_src
 
    4. ~sort~
       #+begin_src R :results output
-        sort(decreasing=T,x=c(2,1,1,2,0.3,3,1.3))
+        sort(decreasing=T,x=c(2,1,1,2,0.3,3,1.3)) # exact
       #+end_src
 
    5. ~which~ (1)
       #+begin_src R :results output
         matrix(c(T,F,T,T),2,2)
-        which(matrix(c(T,F,T,T),2,2))
+        which(matrix(c(T,F,T,T),2,2)) # positional
       #+end_src
+
+      #+RESULTS:
+      :       [,1] [,2]
+      : [1,]  TRUE TRUE
+      : [2,] FALSE TRUE
+      : [1] 1 3 4
 
    6. ~which~ (2)
       #+begin_src R :results output
-        which(matrix(c(T,F,T,T),2,2),a=T)
+        which(matrix(c(T,F,T,T),2,2),a=T) # mixed
         args(which)
       #+end_src
+
+      #+RESULTS:
+      :      row col
+      : [1,]   1   1
+      : [2,]   1   2
+      : [3,]   2   2
+      : function (x, arr.ind = FALSE, useNames = TRUE)
+      : NULL
 
 4) What is the key difference between a =for= loop and a =while= loop?
    #+begin_quote
@@ -389,10 +430,45 @@ Some students asked for a reminder. See also solution PDF in GitHub.
      }
    #+end_src
 
+   #+RESULTS:
+   #+begin_example
+   [1] 1
+   [1] 2
+   [1] 3
+   [1] 4
+   [1] 5
+   [1] 1
+   [1] 2
+   [1] 3
+   [1] 4
+   [1] 5
+   #+end_example
+
 7) Modify the loops to print the numbers as part of a vector like so:
    #+begin_example
      [1] 1 2 3 4 5
    #+end_example
+
+   #+begin_src R :session *R* :results output :exports both
+     foo <- c() # alternative: vector()
+     foo
+     for (i in 1:5)
+       foo[i] <- i
+     foo
+
+     bar <- c()
+     i <- 1
+     while(i<=5) {
+       bar[i] <- i
+       i <- i + 1
+     }
+     bar
+   #+end_src
+
+   #+RESULTS:
+   : NULL
+   : [1] 1 2 3 4 5
+   : [1] 1 2 3 4 5
 
    #+begin_src R :session *R* :results output :exports both
      foo <- c()
@@ -422,10 +498,32 @@ Some students asked for a reminder. See also solution PDF in GitHub.
      }
    #+END_SRC
 
+   #+RESULTS:
+   : [1] "Joe"
+   : [1] "Jim"
+   : [1] "Jane"
+   : [1] "Jack"
+   : [1] "Jill"
+
 9) Write a =while= loop that processes a Boolean vector, stopping as
    soon as it encounters the first =FALSE= value, when the length of the
-   vector is not known. Example vector: =c(TRUE, TRUE, TRUE, FALSE,
-   TRUE, TRUE)=
+   vector is not known. Example vector: c(TRUE, TRUE, TRUE, FALSE,
+   TRUE, TRUE)
+
+   #+begin_src R :results output
+     flags <- c(TRUE, TRUE, TRUE, FALSE, TRUE, TRUE)
+     i <- 1 # initialize index for loop
+
+     while(i <= length(flags) && flags[i]) { # FALSE when both conditions are FALSE
+       print(flags[i])
+       i <- i + 1
+     }
+   #+end_src
+
+   #+RESULTS:
+   : [1] TRUE
+   : [1] TRUE
+   : [1] TRUE
 
    #+BEGIN_SRC R :results output
      flags <- c(TRUE, TRUE, TRUE, FALSE, TRUE, TRUE)  # Boolean vector
@@ -456,6 +554,11 @@ Some students asked for a reminder. See also solution PDF in GitHub.
       }
     #+END_SRC
 
+    #+RESULTS:
+    : [1] 5
+    : [1] 9
+    : [1] "Zero encountered! Stopping loop."
+
     #+begin_quote
     *Step-by-step execution:*
     - The loop starts with =i = 1= and checks if =vec[i] == 0=.
@@ -472,17 +575,141 @@ Some students asked for a reminder. See also solution PDF in GitHub.
       loop."= and exits.
     #+end_quote
 
+* Week 5: Switch & function review
+#+attr_html: :width 600px: 
+#+caption: Francisco de Goya, Still Life with Golden Bream (1808)
+[[../img/goya.jpg]]
+
+- [ ] *Test 3* available only until tonight (max. 100%)
+- [ ] *Practice* (with upload): =if=-=else=-=ifelse=
+- [ ] *Programming assignment*: Conditional statements
+- [ ] *DataCamp review*: Functions (next test)
+- [ ] *Lecture & Practice*: =switch= function
+
+** TODO Project proposal submissions
+
+- Everybody submitted on time (never happened before)
+- You should add your project to the Canvas pages
+- You should put your submission into GDrive
+- You should submit the URL to Canvas (1 per team)
+- I will view/grade the submissions later this week
+- The next sprint review is a *"Literature review"*
+- *What does this mean?*
+
+** TODO DataCamp Review - Functions
+
+1. What does the =na.rm= argument in =mean(x, na.rm = FALSE)= do?
+   #+BEGIN_QUOTE
+   It determines whether missing (=NA=) values should be removed before
+   computation. When =FALSE=, =NA= values cause the result to be =NA=.
+   #+END_QUOTE
+
+2. Can you construct an example showing this?
+   #+begin_src R :results output
+     mean(c(1,2,3,NA))
+     mean(c(1,2,3,NA),na.rm=TRUE)
+   #+end_src
+
+   #+RESULTS:
+   : [1] NA
+   : [1] 2
+
+3. What is wrong with this code, and how would you fix it?
+   #+begin_src R
+     function(x) {
+       3 * x
+     }
+   #+end_src
+   #+begin_quote
+   There is nothing wrong with the code as such but the function is
+   not stored in an object (check with =ls()=) and cannot be used.
+   #+end_quote
+   #+begin_src R :session *R* :results output :exports both
+     triple <- function(x) {
+       3 * x
+     }
+     ls()
+   #+end_src
+
+4. Which of these function calls will work on this function?
+   #+begin_src R :session *R* :results output :exports both
+     triple(3)
+     triple(y=3)
+     triple(x=3)
+     triple()
+   #+end_src
+
+   #+begin_src R :session *R* :results output :exports both
+     triple
+     args(triple)
+   #+end_src
+
+5. What does the "black box principle" mean in the context of functions?
+   #+BEGIN_QUOTE
+   It means that functions take inputs, process them internally, and
+   return outputs without the user needing to understand the internal
+   workings. However, you can, and should, still try to analyze them!
+   #+END_QUOTE
+
+6. What happens when =ls= is called without an argument? What happens
+   when =mean= is called without an argument?
+   #+begin_src R :session *R* :results output :exports both
+     ls()
+     mean()
+   #+end_src
+
+   #+begin_src R :session *R* :results output :exports both
+     ls
+   #+end_src
+
+   #+begin_quote
+   - =ls= is a utility function that retrieves object names from an
+     environment. If there is no name, it returns an empty =character=
+     vector.
+   - =mean= is a mathematical function expecting =numeric= input
+   #+end_quote
+
+7. What is the difference between =return(y)= and simply writing =y= at
+   the end of an R function?
+   #+BEGIN_QUOTE
+   Both return the value, but using =return(y)= explicitly specifies the
+   return value.
+   #+END_QUOTE
+
+8. What will happen if you call =math_magic(4)= when
+   #+begin_example
+   math_magic <- function(a, b) { a * b + a / b }
+   #+end_example
+   #+BEGIN_QUOTE
+   It will result in an error because argument =b= is missing and has no
+   default.
+   #+END_QUOTE
+
+9. How can you define an optional argument in an R function?
+   #+BEGIN_QUOTE
+   By assigning a default value: =math_magic <- function(a, b = 1)=.
+   #+END_QUOTE
+
+10. What is the difference between =library("ggvis")= and =require("ggvis")=?
+    #+BEGIN_QUOTE
+    =library("ggvis")= throws an error if the package is not installed,
+    while =require("ggvis")= returns =FALSE= instead of an error.
+    #+END_QUOTE
+
 
 ** TODO In-class assignment conditional statements (Canvas upload)
 
 - Download the raw exercise file from [[https://tinyurl.com/R-ifelse-exercise][tinyurl.com/R-ifelse-exercise]]
 
 - Save and complete it, and upload your solution to Canvas.
+** TODO Home assignment (by Monday 17 Feb) - Canvas
 
+- The final code is short (<10 lines) but packs a punch
+- You need functions =which=, =diag=, =matrix=, =substr=, and =if=
+- You need to plan your approach using pseudocode
+- Your submission should be a *literate program* (like your project)
+- What does that mean?
 
-** TODO Home assignment (by Friday 14 Feb) - Canvas
-
-* Week 5: Switch & Loops
 
 * Footnotes
 
