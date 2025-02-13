@@ -1,5 +1,5 @@
 #+TITLE: CONDITIONAL STATEMENTS - SWITCH
-#+AUTHOR: Marcus Birkenkrahe
+#+AUTHOR: [yourname] (pledged)
 #+SUBTITLE: DSC 205 - Advanced introduction to data science
 #+STARTUP: overview hideblocks indent
 #+OPTIONS: toc:nil num:nil ^:nil
