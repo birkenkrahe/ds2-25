@@ -25,6 +25,10 @@ and save it as ~switch.org~.
   statement: by /nesting/ or /stacking/ conditional statements, you can
   design specific decision-making patterns.
 
+- *Good practice:* When the program logic gets more complex (> lines or
+  > 2 nested functions or conditions), resort to pseudocode (prose or
+  process diagram/flowchart).
+
 * Example: nesting
 
 - In pseudocode notation:
@@ -47,7 +51,7 @@ and save it as ~switch.org~.
   that this code block on its own will not run because the variables
   are unknown.)
   #+name: nested
-  #+begin_src R :results silent
+  #+begin_src R :results silent :tangle ../src/nested.R
     if(a <= mynumber) {
       cat("First condition was TRUE\n")
       a <- a^2
@@ -80,12 +84,6 @@ and save it as ~switch.org~.
     <<nested>>
   #+end_src
 
-  #+RESULTS:
-  : First condition was TRUE
-  : Second condition was TRUE
-  : [1] 9
-  : [1] 1.000000 3.666667 6.333333 9.000000
-
 - Reset ~a <- 6~ and ~mynumber <- 4~ and run the nested statements
   again. This time the first condition is not met but the second is,
   and ~b~ is computed with the new value of ~a~:
@@ -95,11 +93,54 @@ and save it as ~switch.org~.
     <<nested>>
   #+end_src
 
-  #+RESULTS:
-  : First condition was FALSE
-  : Second condition was TRUE
-  : [1] 2.5
-  : [1] 0.4
+* Scripts vs notebooks
+
+Remember that you can tangle code blocks as scripts:
+
+1) Tangle the code block named [[nested]] above as a script =nested.R= and
+   try to run it on the command-line with =Rscript=.
+
+2) There are two ways to fix this error: Allowing the script to
+   accept command-line arguments, or entering the arguments as R
+   expressions on the command-line.
+
+3) Edit the file =nested.R=, add the following lines at the top, save
+   the file as =nested2.R=,
+
+   #+begin_example R
+      args <- commandArgs(trailingOnly=TRUE) # extract CLI arguments
+      a <- as.numeric(args[1])               # first argument
+      mynumber <- as.numeric(args[2])        # second argument
+   #+end_example
+
+4) Run the file on the shell with: =Rscript 3 4=. You should get this:
+   #+begin_example
+   $ Rscript nested2.R 3 4
+   *** Loaded .Rprofile ***
+   First condition was TRUE
+   Second condition was TRUE
+   [1] 9
+   [1] 1.000000 3.666667 6.333333 9.000000
+   #+end_example
+
+5) Next, run the original file =nested.R= using the =-e= flag for =Rscript=,
+   adding =a= and =mynumber= as expressions, and sourcing the script:
+   
+   #+begin_example
+   $ Rscript -e "a <- -3; mynumber <- 4; source('nested.R')"
+   *** Loaded .Rprofile ***
+   First condition was TRUE
+   Second condition was TRUE
+   #+end_example
+
+6) Here, =source= is an R command that reads code from a file and passes
+   it to R. There is also a shell command =source= that does the same
+   thing. Run the following code on the shell:
+   
+   #+begin_src bash :results output :exports both
+   echo "echo hello" > .hello   # creates a hidden file `.hello`
+   source .hello                # passed the code to the shell
+   #+end_src
 
 * Example: stacking
 
@@ -121,6 +162,13 @@ and save it as ~switch.org~.
      assign `a-3.5` to a
      assign `rep(a + mynumber, times=3)` to b
   #+end_example
+
+- Clear global variables from your R environment.
+  #+begin_src R
+    ls()
+    rm(list=ls())
+    ls()
+  #+end_src
 
 - In R code:
   #+name: stacked
@@ -189,10 +237,6 @@ and save it as ~switch.org~.
     <<simpsons>>
   #+end_src
 
-  #+RESULTS:
-  : [1] 78
-  : [1] NA
-
 - The ~switch~ function behaves like a set of stacked ~if~
   statements. Take a look at ~help(switch)~ to see its definition.
 
@@ -211,7 +255,7 @@ and save it as ~switch.org~.
   #+end_src
 
 - Example runs:
-    #+begin_src R
+  #+begin_src R
     mystring <- "Lisa"    # matched with foo = 78
     <<switch>>
     mystring <- "Peter"   # not in the list
@@ -225,29 +269,23 @@ and save it as ~switch.org~.
 - The first argument ~EXPR~ can be ~numeric~ or a ~character~ string
 
 - The remaining arguments provide the values or operations based on
-  the value of ~EXPR~. 
+  the value of ~EXPR~.
 
 * ~switch~ for ~integer~ expressions
 
 - If ~EXPR~ is an ~integer~, the outcome is determined purely with
   /positional matching/:
   #+name: iswitch
-  #+begin_src R 
+  #+begin_src R
     foo <- switch(EXPR=mynum,12,34,56,78,NA)
     foo
   #+end_src
-
-  #+RESULTS: iswitch
-  : NULL
 
 - In the code, every other value for ~mynum~ than 1,2,3,4 will set ~foo~
   to ~NULL~, the "null" object (value is undefined).
   #+begin_src R
     class(NULL)  # NULL is in a class of its own
   #+end_src
-
-  #+RESULTS:
-  : [1] "NULL"
 
 - Examples:
   #+begin_src R
@@ -258,11 +296,6 @@ and save it as ~switch.org~.
     mynum <- 100
     <<iswitch>>
   #+end_src
-
-  #+RESULTS:
-  : [1] 56
-  : NULL
-  : NULL
 
 * Exercises
 #+attr_latex: :width 300px

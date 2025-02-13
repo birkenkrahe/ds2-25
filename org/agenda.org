@@ -347,7 +347,7 @@ Some students asked for a reminder. See also solution PDF in GitHub.
       #+begin_src R :results output
         rep(1:2,3) # positional
       #+end_src
-
+      
       #+RESULTS:
       : [1] 1 2 1 2 1 2
 
@@ -576,7 +576,7 @@ Some students asked for a reminder. See also solution PDF in GitHub.
     #+end_quote
 
 * Week 5: Switch & function review
-#+attr_html: :width 600px: 
+#+attr_html: :width 600px:
 #+caption: Francisco de Goya, Still Life with Golden Bream (1808)
 [[../img/goya.jpg]]
 
@@ -585,7 +585,7 @@ Some students asked for a reminder. See also solution PDF in GitHub.
 - [ ] *Programming assignment*: Conditional statements
 - [ ] *DataCamp review*: Functions (next test)
 - [ ] *Lecture & Practice*: =switch= function
-  
+
 ** DONE Project proposal submissions
 
 - Everybody submitted on time (never happened before)
@@ -626,13 +626,13 @@ Some students asked for a reminder. See also solution PDF in GitHub.
    #+end_src
 
    #+RESULTS:
-   : function (x) 
+   : function (x)
    : {
    :     3 * x
    : }
    : character(0)
 
-      #+begin_quote
+   #+begin_quote
    There is nothing wrong with the code as such but the function is
    not stored in an object (check with =ls()=) and cannot be used.
    #+end_quote
@@ -670,7 +670,7 @@ Some students asked for a reminder. See also solution PDF in GitHub.
    :   3 * x
    : }
    : <bytecode: 0x564099882540>
-   : function (x) 
+   : function (x)
    : NULL
 
 5. What does the "black box principle" mean in the context of functions?
@@ -691,7 +691,7 @@ Some students asked for a reminder. See also solution PDF in GitHub.
    #+RESULTS:
    : [1] "triple"
    : Error in mean.default() : argument "x" is missing, with no default
-   : function (x, ...) 
+   : function (x, ...)
    : NULL
 
    #+begin_src R :session *R* :results output :exports both
@@ -700,23 +700,23 @@ Some students asked for a reminder. See also solution PDF in GitHub.
 
    #+RESULTS:
    #+begin_example
-   function (name, pos = -1L, envir = as.environment(pos), all.names = FALSE, 
-       pattern, sorted = TRUE) 
+   function (name, pos = -1L, envir = as.environment(pos), all.names = FALSE,
+       pattern, sorted = TRUE)
    {
        if (!missing(name)) {
            pos <- tryCatch(name, error = function(e) e)
            if (inherits(pos, "error")) {
                name <- substitute(name)
-               if (!is.character(name)) 
+               if (!is.character(name))
                    name <- deparse(name)
-               warning(gettextf("%s converted to character string", 
+               warning(gettextf("%s converted to character string",
                    sQuote(name)), domain = NA)
                pos <- name
            }
        }
        all.names <- .Internal(ls(envir, all.names, sorted))
        if (!missing(pattern)) {
-           if ((ll <- length(grep("[", pattern, fixed = TRUE))) && 
+           if ((ll <- length(grep("[", pattern, fixed = TRUE))) &&
                ll != length(grep("]", pattern, fixed = TRUE))) {
                if (pattern == "[") {
                    pattern <- "\\["
@@ -791,12 +791,109 @@ Some students asked for a reminder. See also solution PDF in GitHub.
   4) *Output:* Not arbitrary but as requested ("test suite" must pass).
   5) *Meta data*: file header, purpose, author, pledge
 
-** TODO In-class assignment conditional statements (Canvas upload)
+** DONE In-class assignment conditional statements (Canvas upload)
 
 - Download the raw exercise file from [[https://tinyurl.com/R-ifelse-practice][tinyurl.com/R-ifelse-practice]]
 
 - Save and complete it, and upload your solution to Canvas:
   =Classroom Assignments > Conditionals practice.=
+
+** TODO Review =ifelse=
+
+1. What is the reason to use =ifelse= and what does it do?
+   #+begin_quote
+   From =help(ifelse)=: =ifelse(test, yes, no)=
+
+   =ifelse= returns a value with the same shape as =test= which is filled
+   with elements selected from either =yes= or =no= depending on whether
+   the element of =test= is ~TRUE~ or ~FALSE~.
+   #+end_quote
+
+2. What does this code produce?
+   #+begin_src R :session *R* :results output :exports both
+     mat <- diag(2)
+     ifelse(mat > 0, "High", "Low")
+   #+end_src
+
+   #+begin_quote
+   - The shape of =mat= is a 2 x 2 matrix. =ifelse= retutns such a matrix.
+   - The ~1~ values (=yes=) are filled with ~"High"~.
+   - The ~0~ values (=no=) are filled with ~"Low"~.
+   #+end_quote
+
+3. Let =foo <- c(192,168,1,1)= and =bar <- c(192,168,1,2)=. I want to
+   compare the two vectors to check if the first two elements are the
+   same. Will the following code do that or not?
+
+   #+begin_src R :session *R* :results output :exports both
+     foo <- c(192,168,1,1)
+     bar <- c(192,168,1,2)
+
+     ifelse(
+       test = (foo[1:2]==bar[1:2]),
+       yes  = cat("Same subnet\n"),
+       no   = cat("Not same subnet\n"))
+   #+end_src
+
+   #+begin_src R :session *R* :results output :exports both
+     foo <- c(192,168,1,1) # IP = 192.168.1.1
+     bar <- c(192,168,1,2) # IP = 192.168.1.2
+
+     if (all(foo[1:2] == bar[1:2])) {
+       cat("Same subnet\n")
+     } else {
+       cat("Not same subnet\n")
+     }
+   #+end_src
+
+4. Make the =ifelse= statement explicit (by converting it to code with
+   =for= and =if= and =else=?
+   #+begin_src R :results output
+     foo <- c(192,168,1,1)
+     bar <- c(192,168,1,2)
+
+     ifelse(foo==bar,
+            yes=TRUE,
+            no=FALSE)
+   #+end_src
+
+   #+RESULTS:
+   : [1]  TRUE  TRUE  TRUE FALSE
+
+   Solution:
+   #+name: comparison
+   #+begin_src R :session *R* :results output :exports both
+     for (i in 1:length(foo)) {
+         if(foo[i]==bar[i]) { 
+           print(TRUE)
+         } else {
+           print(FALSE)
+         }
+       }
+   #+end_src
+
+   #+RESULTS:
+   : [1] TRUE
+   : [1] TRUE
+   : [1] TRUE
+   : [1] FALSE
+   
+5. Turn the last program into a function =ip= that is called on =foo= and
+   =bar= and returns the Boolean values.
+   #+begin_src R :session *R* :results output :exports both :noweb yes
+     ## function definition
+     ip <- function(foo,bar) {
+           <<comparison>>
+     }
+     ## function call
+     ip(foo,bar)
+   #+end_src
+
+   #+RESULTS:
+   : [1] TRUE
+   : [1] TRUE
+   : [1] TRUE
+   : [1] FALSE
 
 * Footnotes
 
