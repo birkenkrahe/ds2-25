@@ -16,7 +16,7 @@ You will learn:
 - How to stack ~if~ statements with ~else if~
 - How to pick statements with ~switch~
 
-Download the *raw codealong file* from [[http://tinyurl.com/R-switch-org][tinyurl.com/R-switch-org]]
+Download the codealong file from [[https://tinyurl.com/R-switch-codealong-org][tinyurl.com/R-switch-codealong-org]]
 and save it as ~switch.org~.
 
 * Nesting and stacking
