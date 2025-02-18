@@ -191,7 +191,7 @@ Let's do this together! Code along: [[https://tinyurl.com/scoping-review-org][ti
 - [ ] Home assignment: =if= =else= =ifelse= - until Friday 14 Feb
 - [X] Project revue: Briefly explain your idea(s)
 
-** DONE Test 2 results are excellent!
+** Test 2 results are excellent!
 #+attr_html: :width 400px:
 [[../img/test2_results.png]]
 
@@ -199,7 +199,7 @@ Let's do this together! Code along: [[https://tinyurl.com/scoping-review-org][ti
 - A few missed the deadline for test 2, too: complete it for 50% by Friday!
 - Use Canvas/Google Calendar to stay on top of your assignments!
 
-** DONE Home assignment: Scoping & Environments
+** Home assignment: Scoping & Environments
 
 Some students asked for a reminder. See also solution PDF in GitHub.
 
@@ -293,7 +293,7 @@ Some students asked for a reminder. See also solution PDF in GitHub.
      0.108   0.017   0.116
    #+end_example
 
-** DONE Review & Practice: Arguments / Loops
+** Review & Practice: Arguments / Loops
 
 1) Is ~matrix~ elliptic?
    #+begin_src R :results output
@@ -575,7 +575,7 @@ Some students asked for a reminder. See also solution PDF in GitHub.
       loop."= and exits.
     #+end_quote
 
-* Week 5: Switch & function review
+* Week 5: Nested If & Switch & function review
 #+attr_html: :width 600px:
 #+caption: Francisco de Goya, Still Life with Golden Bream (1808)
 [[../img/goya.jpg]]
@@ -586,7 +586,7 @@ Some students asked for a reminder. See also solution PDF in GitHub.
 - [ ] *DataCamp review*: Functions (next test)
 - [ ] *Lecture & Practice*: =switch= function
 
-** DONE Project proposal submissions
+** Project proposal submissions
 
 - Everybody submitted on time (never happened before)
 - You should add your project to the Canvas pages
@@ -599,7 +599,7 @@ Some students asked for a reminder. See also solution PDF in GitHub.
   2) *Review* other people's stuff (scholarly papers preferred).
   3) *Deliver* either a =notebooklm= or a literature review
 
-** DONE DataCamp Review - Functions
+** DataCamp Review - Functions
 
 1. What does the =na.rm= argument in =mean(x, na.rm = FALSE)= do?
    #+BEGIN_QUOTE
@@ -776,7 +776,7 @@ Some students asked for a reminder. See also solution PDF in GitHub.
     while =require("ggvis")= returns =FALSE= instead of an error.
     #+END_QUOTE
 
-** DONE Home assignment (by Monday 17 Feb) - Canvas
+** Home assignment (by Monday 17 Feb) - Canvas
 
 - The final code is short (<10 lines) but packs a punch
 - You need functions =which=, =diag=, =matrix=, =substr=, and =if=, =else=
@@ -791,14 +791,14 @@ Some students asked for a reminder. See also solution PDF in GitHub.
   4) *Output:* Not arbitrary but as requested ("test suite" must pass).
   5) *Meta data*: file header, purpose, author, pledge
 
-** DONE In-class assignment conditional statements (Canvas upload)
+** In-class assignment conditional statements (Canvas upload)
 
 - Download the raw exercise file from [[https://tinyurl.com/R-ifelse-practice][tinyurl.com/R-ifelse-practice]]
 
 - Save and complete it, and upload your solution to Canvas:
   =Classroom Assignments > Conditionals practice.=
 
-** TODO Review =ifelse=
+** Review =ifelse=
 
 1. What is the reason to use =ifelse= and what does it do?
    #+begin_quote
@@ -812,11 +812,18 @@ Some students asked for a reminder. See also solution PDF in GitHub.
 2. What does this code produce?
    #+begin_src R :session *R* :results output :exports both
      mat <- diag(2)
-     ifelse(mat > 0, "High", "Low")
+     ifelse(test=mat > 0,
+            yes="High",
+            no="Low")
    #+end_src
 
+   #+RESULTS:
+   :      [,1]   [,2]  
+   : [1,] "High" "Low" 
+   : [2,] "Low"  "High"
+
    #+begin_quote
-   - The shape of =mat= is a 2 x 2 matrix. =ifelse= retutns such a matrix.
+   - The shape of =mat= is a 2 x 2 matrix. =ifelse= returns such a matrix.
    - The ~1~ values (=yes=) are filled with ~"High"~.
    - The ~0~ values (=no=) are filled with ~"Low"~.
    #+end_quote
@@ -835,6 +842,13 @@ Some students asked for a reminder. See also solution PDF in GitHub.
        no   = cat("Not same subnet\n"))
    #+end_src
 
+   #+RESULTS:
+   : Same subnet
+   : Error in ans[ypos] <- rep(yes, length.out = len)[ypos] : 
+   :   replacement has length zero
+   : In addition: Warning message:
+   : In rep(yes, length.out = len) : 'x' is NULL so the result will be NULL
+
    #+begin_src R :session *R* :results output :exports both
      foo <- c(192,168,1,1) # IP = 192.168.1.1
      bar <- c(192,168,1,2) # IP = 192.168.1.2
@@ -846,15 +860,18 @@ Some students asked for a reminder. See also solution PDF in GitHub.
      }
    #+end_src
 
+   #+RESULTS:
+   : Same subnet
+
 4. Make the =ifelse= statement explicit (by converting it to code with
    =for= and =if= and =else=?
    #+begin_src R :results output
      foo <- c(192,168,1,1)
      bar <- c(192,168,1,2)
 
-     ifelse(foo==bar,
-            yes=TRUE,
-            no=FALSE)
+     ifelse(foo==bar,  # check if the two vectors are identical
+            yes=TRUE,  # returns TRUE as a vector element
+            no=FALSE)  # returns FALSE as a vector element
    #+end_src
 
    #+RESULTS:
@@ -872,7 +889,7 @@ Some students asked for a reminder. See also solution PDF in GitHub.
        }
    #+end_src
 
-   #+RESULTS:
+   #+RESULTS: comparison
    : [1] TRUE
    : [1] TRUE
    : [1] TRUE
@@ -880,10 +897,10 @@ Some students asked for a reminder. See also solution PDF in GitHub.
    
 5. Turn the last program into a function =ip= that is called on =foo= and
    =bar= and returns the Boolean values.
-   #+begin_src R :session *R* :results output :exports both :noweb yes
+   #+begin_src R :tangle ip.R :session *R* :results output :exports both :noweb yes
      ## function definition
      ip <- function(foo,bar) {
-           <<comparison>>
+           <<comparison>>      # this is noweb (insert `comparison` block
      }
      ## function call
      ip(foo,bar)
@@ -894,6 +911,13 @@ Some students asked for a reminder. See also solution PDF in GitHub.
    : [1] TRUE
    : [1] TRUE
    : [1] FALSE
+
+* Week 6: Practice nested if, switch & Loops
+
+- [ ] *Test 4* is live - max 100% (50%) until Feb 21 (28).
+- [ ] *Practice:* =switch= and nested =if= review practice
+- [ ] *Lecture*: =while= loops 
+- [ ] *Lecture:* =for= loops
 
 * Footnotes
 
