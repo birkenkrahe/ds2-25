@@ -16,7 +16,7 @@ You will learn:
 - How to stack ~if~ statements with ~else if~
 - How to pick statements with ~switch~
 
-Download the codealong file from [[https://tinyurl.com/R-switch-codealong-org][tinyurl.com/R-switch-codealong-org]]
+Download the codealong file from [[https://tinyurl.com/switch-codealong][tinyurl.com/switch-codealong]]
 and save it as ~switch.org~.
 
 * Nesting and stacking
@@ -25,9 +25,9 @@ and save it as ~switch.org~.
   statement: by /nesting/ or /stacking/ conditional statements, you can
   design specific decision-making patterns.
 
-- *Good practice:* When the program logic gets more complex (> lines or
-  > 2 nested functions or conditions), resort to pseudocode (prose or
-  process diagram/flowchart).
+- *Good practice:* When the program logic gets more complex (> 10 lines
+  or > 2 nested functions or conditions), resort to pseudocode (prose
+  or process diagram/flowchart).
 
 * Example: nesting
 
@@ -51,7 +51,7 @@ and save it as ~switch.org~.
   that this code block on its own will not run because the variables
   are unknown.)
   #+name: nested
-  #+begin_src R :results silent :tangle ../src/nested.R
+  #+begin_src R :results silent :tangle nested.R
     if(a <= mynumber) {
       cat("First condition was TRUE\n")
       a <- a^2
@@ -84,6 +84,12 @@ and save it as ~switch.org~.
     <<nested>>
   #+end_src
 
+  #+RESULTS:
+  : First condition was TRUE
+  : Second condition was TRUE
+  : [1] 9
+  : [1] 1.000000 3.666667 6.333333 9.000000
+
 - Reset ~a <- 6~ and ~mynumber <- 4~ and run the nested statements
   again. This time the first condition is not met but the second is,
   and ~b~ is computed with the new value of ~a~:
@@ -98,7 +104,7 @@ and save it as ~switch.org~.
 Remember that you can tangle code blocks as scripts:
 
 1) Tangle the code block named [[nested]] above as a script =nested.R= and
-   try to run it on the command-line with =Rscript=.
+   try to run it on the command-line with =Rscript= (C-c C-v t)
 
 2) There are two ways to fix this error: Allowing the script to
    accept command-line arguments, or entering the arguments as R
@@ -127,7 +133,7 @@ Remember that you can tangle code blocks as scripts:
    adding =a= and =mynumber= as expressions, and sourcing the script:
    
    #+begin_example
-   $ Rscript -e "a <- -3; mynumber <- 4; source('nested.R')"
+   $ Rscript -e "a <- 3; mynumber <- 4; source('nested.R')"
    *** Loaded .Rprofile ***
    First condition was TRUE
    Second condition was TRUE
@@ -301,8 +307,9 @@ Remember that you can tangle code blocks as scripts:
 #+attr_latex: :width 300px
 [[../img/exercise.jpg]]
 
-Download the raw exercise file from [[http://tinyurl.com/R-switch-org][tinyurl.com/R-switch-org]] and
-save it as: ~switch_practice.org~.
+Download the raw exercise file from
+[[https://tinyurl.com/switch-if-else-practice][tinyurl.com/switch-if-else-practice]] and save it as: ~switch.org~.
+
 * Glossary
 
 | TERM           | MEANING                                   |
