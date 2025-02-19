@@ -169,24 +169,28 @@ Test your solution (just run it):
   <<ifswitch>>
 #+end_src
 
-* TODO HOW TO USE ~switch~ with ~ifelse~ (5 min)
+* TODO HOW TO USE ~switch~ with ~ifelse~ (5 min) - v1
 
-*Goal*: Assume the object ~mynum~ will only ever be a single integer
-between 0 and 9. Use ~ifelse~ and ~switch~ to produce a command that takes
-in ~mynum~ and returns a matching ~character~ string for all possible
-values 0,1,...,9:
+- *Goal*: Assume the object =mynum= will always be a single integer between 0 and 9.
+  1) Use =ifelse= to check whether =mynum= is greater than =0=.
+  2) If =mynum= is =0=, return ="zero"=.
+  3) Otherwise, use =switch= to return the corresponding =character=
+     string for numbers 1-9.
 
-- Supplied with 3, for example, it should return ~"three"~.
-- Supplied with 0, it should return ~"zero"~.
+  Notice that you only have to write the code in the =ifelse= code block
+  below and run the test.
 
-Notice that the "Test" code block includes the named ~ifelse~ code
-block.
+- *Example expected outputs:*
+  #+begin_example
+  mynum <- 3 # Output: "three"
+  mynum <- 0 # Output: "zero"
+  #+end_example
 
-Solution:
-#+name: ifelse
-#+begin_src R
-  ...
-#+end_src
+- *Solution:*
+  #+name: ifelse
+  #+begin_src R :results none
+    ...
+  #+end_src
 
 Test the solution (just run it):
 #+begin_src R
