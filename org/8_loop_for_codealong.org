@@ -18,104 +18,138 @@ This practice file accompanies the [[https://github.com/birkenkrahe/ds2-25/blob/
 
 * TODO ~for~ loops
 
-  - Complete the code:
-    1) Make the loopindex ~myitem~ run over the values ~5 6 7~
-    2) Print the current ~myitem~ between the ~cat~ statements
-    #+begin_src R
-      for (...) {
-        cat("--BRACED AREA BEGINS--\n")
-        ...
-        cat("--BRACED AREA ENDS--\n")
-      }
-    #+end_src
+- Complete the code:
+  1) Make the loopindex ~myitem~ run over the values ~5 6 7~
+  2) Print the current ~myitem~ between the ~cat~ statements
+  #+begin_src R
+    for (...) {
+      cat("--BRACED AREA BEGINS--\n")
+      ...
+      cat("--BRACED AREA ENDS--\n")
+    }
+  #+end_src
 
-  - Inside the ~for~ loop increase ~counter~ by 1 and print both ~counter~
-    and ~myitem~ using ~cat~:
-    #+begin_src R
-      counter <- 0
-      for (myitem in 5:7) {
-        ...        
-      }
-    #+end_src
+- Inside the ~for~ loop increase ~counter~ by 1 and print both ~counter~
+  and ~myitem~ using ~cat~. Fix the code:
+
+  #+begin_src R
+    counter <- ...
+    for (myitem in 5:7) 
+      ## increase counter
+      ...
+      ## print "The item in run `counter` is `myitem`
+      ...
+  #+end_src
 
 * TODO Looping via index or value
 
-- *Loop index:* make the loopindex ~i~ run over ~myvec~:
-#+begin_src R
+- *Loop index:* make the loop index ~i~ run over ~myvec~, then double the loop index.
+  
+  #+begin_src R
   myvec <- c(0.4, 1.1, 0.34, 0.55)
   for (...) {
-    print(2 * i)
+    ...
   }
-#+end_src  
+  #+end_src
 
 - *Vector index:* make the loopindex ~i~ run from 1 to the length of
-  ~myvec~:x
-#+begin_src R
+  ~myvec~:
+
+  #+begin_src R
   for (...) {
-    print(2 * myvec[i])
+    ...
   }
-#+end_src  
+  #+end_src
 
 * TODO Extended example: stepping through a ~list~
 
-  - Sample data: create a ~list~ named ~foo~ with these elements, name the
-    elements aa, bb, cc, dd and ee, and print ~foo~:
-    1) c(3,4,1)
-    2) matrix(1:4,2,2)
-    3) matrix(c(T,T,F,T,F,F),3,2)
-    4) "string here"
-    5) matrix(c("red","green","blue","yellow"))
-    #+begin_src R
-
-    #+end_src
-
-  - Problem:
-    1) Go through every member of the list
-    2) Check whether the member is matrix
-    3) If it is a matrix, retrieve number of rows and columns and the
-       data type of the matrix.
-
-  - Solution: create vectors to store ~list~ member information:
-    1) ~name~ of the ~list~ member name 
-    2) ~is.mat~ ("Yes" or "No") to indicate if it is a ~matrix~
-    3) ~nc~ and ~nr~ for numbers of rows and columns for each matrix
-    4) ~data.type~ to store the data type of each matrix
-    5) Initialize all sought after values with missing values.
-    #+begin_src R
-
-    #+end_src
-
-  - Complete the code as shown in the lecture:
-    #+begin_src R
-      for (i in ...) {
-        ... # pick list element
-        if (...)) {
-               # update matrix indicator
-               # update row counter
-               # update column counter
-               # update data type indicator
-        } else {
-               # update matrix indicator
-        }
-      }
-      bar <- # put all variables in a data frame
-      bar
-    #+end_src
-
-  - Compare with the original list ~foo~ where the structure output
-  indirectly suggests ~matrix~ objects through the indexing:
+- *Sample data:* create a ~list~ named ~foo~ with these elements, name the
+  elements aa, bb, cc, dd and ee, and print ~foo~:
+  1) c(3,4,1)
+  2) matrix(1:4,2,2)
+  3) matrix(c(T,T,F,T,F,F),3,2)
+  4) "string here"
+  5) matrix(c("red","green","blue","yellow"))
   #+begin_src R
-    ...
+
   #+end_src
-  
+
+- Problem:
+  1) Go through every member of the list
+  2) Check whether the member is matrix
+  3) If it is a matrix, retrieve number of rows and columns and the
+     data type of the matrix.
+
+- Solution: create vectors to store ~list~ member information:
+  1) ~name~ of the ~list~ member name
+  2) ~is.mat~ ("Yes" or "No") to indicate if it is a ~matrix~
+  3) ~nc~ and ~nr~ are column and row counters for each matrix
+  4) ~data.type~ to store the data type of each matrix
+  5) *Initialize all sought after values with missing values.*
+
+  #+begin_src R
+
+  #+end_src
+
+  - All sought variables are initialized with "missing" values ~NA~ and
+    updated in the ~for~ loop. The results are put in a data frame ~bar~.
+
+  - *Pseudocode:*
+    #+begin_example
+    ## vector loop over  `foo`
+       ## pick a list `element`
+       ## if `element` is a matrix
+          ## update is.mat with "Yes"
+          ## update row counter with nrow
+          ## update column counter with ncol
+          ## update data.type with class
+       ## else
+          ## update is.mat with "Yes"
+    ## define data.frame `bar` with results
+    ## print results
+    #+end_example
+
+  - Code:
+    #+begin_src R
+      ## vector loop over  `foo`
+
+        ## pick a list `element`
+
+        ## if `element` is a matrix
+
+          ## update is.mat with "Yes"
+
+          ## update row counter with nrow
+
+          ## update column counter with ncol
+
+          ## update data.type with class
+
+        ## else
+
+          ## update is.mat with "No"
+
+      ## define data.frame `bar` with results
+      
+      ## print results
+    #+end_src
+
+- Compare with the original list ~foo~ where the structure output
+  indirectly suggests ~matrix~ objects through the indexing:
+
+  #+begin_src R
+
+  #+end_src
+
 * TODO Nesting ~for~ loops
 
 - Create loopindices and a base matrix:
-  1) Create a ~loopvec1~ as loopindex vector ~5 6 7~
-  2) Create a ~loopvec2~ as loopindex vector ~9 8 7 6~
-  3) Create a ~matrix~ ~foo~ of missing values whose row and column
-     numbers correspond to ~loopvec1~ and ~loopvec2~, respectively
-  4) copy ~foo~ into ~baz~ for later
+  1) Create a =loopvec1= as loopindex vector ~5 6 7~
+  2) Create a =loopvec2= as loopindex vector ~9 8 7 6~
+  3) Create a ~matrix~ =foo= of missing values =NA= whose row and column
+     numbers correspond to =loopvec1= and =loopvec2=, respectively
+  4) copy =foo= into =baz= for later
+
   #+begin_src R
 
   #+end_src
@@ -131,9 +165,8 @@ This practice file accompanies the [[https://github.com/birkenkrahe/ds2-25/blob/
     }
     foo
   #+end_src
-  
-- [ ] With this code, is the matrix traversed by row or by
-  column?
+
+- With this code, is the matrix traversed by row or by column?
 
 - Inner loopvectors can be defined to match the current value of the
   loopindex of the outer loop: let the inner loop ~j~ run from 1 to ~i~:
@@ -147,8 +180,9 @@ This practice file accompanies the [[https://github.com/birkenkrahe/ds2-25/blob/
     baz
   #+end_src
 
-- [ ] The code will fail if ~length(loopvec1) > length(loopvec2)~ -
-  why? Check it out:
+- The code will fail if ~length(loopvec1) > length(loopvec2)~ - why?
+
+- Check it out:
   #+begin_src R
     loopvec1 <- 1:4
     loopvec2 <- 9:7
@@ -159,5 +193,5 @@ This practice file accompanies the [[https://github.com/birkenkrahe/ds2-25/blob/
       }
     }
   #+end_src
-   
+
 * TODO Upload completed file to Canvas
