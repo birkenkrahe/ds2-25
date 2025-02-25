@@ -923,6 +923,9 @@ Some students asked for a reminder. See also solution PDF in GitHub.
 - [ ] *Tests & Assignments*: Removing 1 point per late day. Easier for
   me, kinder to you. All close one week after the deadline though.
 
+- [ ] *Unprecedented:* This course has 100% on time DataCamp completion!
+  Therefore, I'll assign the next course *as a whole* by April 1.
+
 - [ ] *Review* ~for~ loop.
 
 - [ ] *Finish* lecture: nested ~for~ loops.
