@@ -7,7 +7,7 @@
 #+property: :header-args:python: :session *Python* :python python3 :results output :exports both
 #+property: :header-args:R  :session *R* :results output :exports both
 #+property: :header-args:C++:    :main yes :includes <iostream> :results output :exports both
-* Week 1: Course overview & R Basics Test
+* DONE Week 1: Course overview & R Basics Test
 #+attr_html: :width 400px
 [[../img/cover.png]]
 
@@ -101,7 +101,7 @@
 
 - *Review* your own solutions depending on how you did in class.
 
-* Week 2: Scope and environment
+* DONE Week 2: Scope and environment
 #+attr_html: :width 400px:
 #+caption: Nikolay Bogdanov-Belsky, Mental Arithmetic (1893)
 [[../img/bogdanovbelskymentalarithmetic.jpg]]
@@ -126,7 +126,7 @@ you don't do this on your own time, we'll do it in class.
 Download and complete the practice file:
 [[https://tinyurl.com/ds2-practice-2-org][tinyurl.com/ds2-practice-2-org]]
 
-* Week 3: Arguments
+* DONE Week 3: Arguments
 #+attr_html: :width 600px:
 #+caption: St. Thomas Aquinas (1225-1274)
 [[../img/aquinas.jpg]]
@@ -180,7 +180,7 @@ Let's do this together! Code along: [[https://tinyurl.com/scoping-review-org][ti
 - Save it as an Org-mode file
 - Code along with me during the lecture.
 
-* Week 4: Conditionals & Sprint review
+* DONE Week 4: Conditionals & Sprint review
 
 - [X] Test 2 results & extended deadline (50%)
 - [X] Review home assignment
@@ -347,7 +347,7 @@ Some students asked for a reminder. See also solution PDF in GitHub.
       #+begin_src R :results output
         rep(1:2,3) # positional
       #+end_src
-      
+
       #+RESULTS:
       : [1] 1 2 1 2 1 2
 
@@ -575,7 +575,7 @@ Some students asked for a reminder. See also solution PDF in GitHub.
       loop."= and exits.
     #+end_quote
 
-* Week 5: Nested If & Switch & function review
+* DONE Week 5: Nested If & Switch & function review
 #+attr_html: :width 600px:
 #+caption: Francisco de Goya, Still Life with Golden Bream (1808)
 [[../img/goya.jpg]]
@@ -818,8 +818,8 @@ Some students asked for a reminder. See also solution PDF in GitHub.
    #+end_src
 
    #+RESULTS:
-   :      [,1]   [,2]  
-   : [1,] "High" "Low" 
+   :      [,1]   [,2]
+   : [1,] "High" "Low"
    : [2,] "Low"  "High"
 
    #+begin_quote
@@ -844,7 +844,7 @@ Some students asked for a reminder. See also solution PDF in GitHub.
 
    #+RESULTS:
    : Same subnet
-   : Error in ans[ypos] <- rep(yes, length.out = len)[ypos] : 
+   : Error in ans[ypos] <- rep(yes, length.out = len)[ypos] :
    :   replacement has length zero
    : In addition: Warning message:
    : In rep(yes, length.out = len) : 'x' is NULL so the result will be NULL
@@ -881,12 +881,12 @@ Some students asked for a reminder. See also solution PDF in GitHub.
    #+name: comparison
    #+begin_src R :session *R* :results output :exports both
      for (i in 1:length(foo)) {
-         if(foo[i]==bar[i]) { 
-           print(TRUE)
-         } else {
-           print(FALSE)
-         }
+       if(foo[i]==bar[i]) {
+         print(TRUE)
+       } else {
+         print(FALSE)
        }
+     }
    #+end_src
 
    #+RESULTS: comparison
@@ -894,13 +894,13 @@ Some students asked for a reminder. See also solution PDF in GitHub.
    : [1] TRUE
    : [1] TRUE
    : [1] FALSE
-   
+
 5. Turn the last program into a function =ip= that is called on =foo= and
    =bar= and returns the Boolean values.
    #+begin_src R :tangle ip.R :session *R* :results output :exports both :noweb yes
      ## function definition
      ip <- function(foo,bar) {
-           <<comparison>>      # this is noweb (insert `comparison` block
+       <<comparison>>      # this is noweb (insert `comparison` block
      }
      ## function call
      ip(foo,bar)
@@ -912,12 +912,209 @@ Some students asked for a reminder. See also solution PDF in GitHub.
    : [1] TRUE
    : [1] FALSE
 
-* Week 6: Practice nested if, switch & Loops
+* DONE Week 6: Practice nested if, switch & Loops
 
-- [ ] *Test 4* is live - max 100% (50%) until Feb 21 (28).
-- [ ] *Practice:* =switch= and nested =if= review practice
-- [ ] *Lecture*: =while= loops 
-- [ ] *Lecture:* =for= loops
+- [X] *Test 4* is live - max 100% (50%) until Feb 21 (28).
+- [X] *Practice:* ~switch~ and nested ~if~ review practice
+- [X] *Lecture / Codealong / Practice review:* ~for~ loops
+
+** Finish ~for~ loop lecture/codealong
+
+* Week 7: Even more loops
+
+- [ ] *Tests & Assignments*: Removing 1 point per late day. Easier for
+  me, kinder to you. All close one week after the deadline though
+
+- [ ] ~for~ loop review (below).
+
+- [ ] Finish lecture: nested ~for~ loops.
+
+- [ ] Download and solve review exercises & upload solution:
+  tinyurl.com/for-loop-practice
+
+- [ ] Review results in class
+
+** =for= loop review (aka test preview) questions
+
+1. What is the primary difference between a ~for~ loop and a ~while~
+   loop in R?
+
+   #+begin_quote
+   A ~for~ loop iterates over a predefined sequence (e.g., a vector),
+   whereas a ~while~ loop continues executing as long as a specified
+   condition remains =TRUE=.
+   #+end_quote
+
+2. Given the following ~for~ loop, what will be the output?
+
+   #+begin_src R :results output
+   for (i in c(2, 4, 6)) {
+     print(i^2)
+   }
+   #+end_src
+
+3. How does the ~apply~ function differ from traditional loops in R?
+
+   #+begin_quote
+   The ~apply~ function applies a function to elements of an array,
+   matrix, or dataframe without explicitly writing a loop, making code
+   more concise and often improving performance.
+   #+end_quote
+
+4. How would you compute the average of =c(1:10,NA)= using ~apply~?
+
+   #+begin_src R :results output
+     sapply(X=list(c(1:10,NA)),
+            FUN=mean,
+            na.rm=TRUE)
+   #+end_src
+
+   #+RESULTS:
+   : [1] 5.5
+
+   #+begin_src R :results output
+     lapply(X=list(c(1:10,NA)),
+            FUN=mean,
+            na.rm=TRUE) |> unlist()
+   #+end_src
+
+   #+RESULTS:
+   : [1] 5.5
+
+5. What is the difference between looping over a vector’s values
+   versus looping over its indices?
+
+   #+begin_quote
+   Both approaches produce the same output, but looping over indices
+   provides greater flexibility, such as modifying vector elements
+   inside the loop.
+   #+end_quote
+
+6. Loop over a) values, b) indices of =myvec <- c(0.4, 1.1, 0.34, 0.55)=
+
+   #+begin_src R :results output
+   myvec <- c(0.4, 1.1, 0.34, 0.55)
+
+   # Looping over values directly
+   for (i in myvec) {
+     print(2 * i)
+   }
+
+   # Looping over indices
+   for (i in 1:length(myvec)) {
+     print(2 * myvec[i])
+   }
+   #+end_src
+
+7. How can you print the previous results as a vector like this:
+   #+begin_example
+   [1] 0.8 2.2 0.68 1.1
+   #+end_example
+
+   #+begin_src R :results output
+     myvec <- c(0.4, 1.1, 0.34, 0.55)
+     result <- NA
+
+     ## Looping over indices
+     for (i in 1:length(myvec)) {
+       result[i] <- 2 * myvec[i]
+     }
+     result
+   #+end_src
+
+   #+RESULTS:
+   : [1] 0.80 2.20 0.68 1.10
+
+   #+begin_src R :results output
+
+   #+end_src
+
+8. Why does ~class(element)~ not work correctly when determining the
+   data type of matrix elements in a list?
+
+   #+begin_quote
+   The ~class(element)~ function returns the type of the entire object
+   rather than the data type of its contents. To retrieve the data
+   type of matrix elements, use ~class(as.vector(element))~ instead.
+   #+end_quote
+
+9. What will be the output of the following ~for~ loop?
+
+   #+begin_src R
+   for (i in 1:3) {
+     cat("Iteration:", i)
+   }
+   #+end_src
+
+10. What about this ~for~ loop?
+
+   #+begin_src R :results output
+   for (i in 1:3) {
+     print(paste("Iteration:", i))
+   }
+   #+end_src
+
+11. How can you modify the following ~for~ loop to print both the index
+    and value of each element in ~myvec~?
+
+    #+begin_src R :results output
+    myvec <- c("A", "B", "C")
+    ## loop over the values of myvec
+    for (i in myvec) {
+      print(i)
+    }
+    #+end_src
+
+    *Solution:*
+    #+begin_src R :results output
+    myvec <- c("A", "B", "C")
+
+    # Use indexing to print both the index and value
+    for (i in 1:length(myvec)) {
+      cat("Index:", i, "Value:", myvec[i], "\n")
+    }
+    #+end_src
+
+    #+RESULTS:
+    : Index: 1 Value: A 
+    : Index: 2 Value: B 
+    : Index: 3 Value: C 
+
+12. What happens when ~length(myvec)~ is used in a ~for~ loop but ~myvec~ is
+    an empty vector?
+
+    #+begin_src R :results output
+      myvec <- c()
+      for (i in 1:length(myvec)) {
+        print(i)
+      }
+    #+end_src
+
+    #+RESULTS:
+    : [1] 1
+    : [1] 0
+
+    #+begin_quote
+    =1:length(myvec)= is =1:0=, leading to two iterations.
+    #+end_quote
+
+13. How can you avoid looping over an empty vector?
+    #+begin_quote
+    Check if the vector is empty before looping:
+    #+end_quote
+    #+begin_src R :results output
+      myvec <- c()
+      if (length(myvec) > 0) {
+        for (i in 1:length(myvec)) {
+          print(i)
+        }
+      } else {
+        cat("Vector is empty.\n")
+      }
+    #+end_src
+
+
+
 
 * Footnotes
 
