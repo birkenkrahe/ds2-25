@@ -918,12 +918,10 @@ Some students asked for a reminder. See also solution PDF in GitHub.
 - [X] *Practice:* ~switch~ and nested ~if~ review practice
 - [X] *Lecture / Codealong / Practice review:* ~for~ loops
 
-** Finish ~for~ loop lecture/codealong
-
 * Week 7: Even more loops
 
 - [ ] *Tests & Assignments*: Removing 1 point per late day. Easier for
-  me, kinder to you. All close one week after the deadline though
+  me, kinder to you. All close one week after the deadline though.
 
 - [ ] *Review* ~for~ loop.
 
@@ -1147,6 +1145,7 @@ Some students asked for a reminder. See also solution PDF in GitHub.
         cat("Vector is empty.\n")
       }
     #+end_src
+
 
 * Footnotes
 
