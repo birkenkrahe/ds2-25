@@ -925,14 +925,18 @@ Some students asked for a reminder. See also solution PDF in GitHub.
 - [ ] *Tests & Assignments*: Removing 1 point per late day. Easier for
   me, kinder to you. All close one week after the deadline though
 
-- [ ] ~for~ loop review (below).
+- [ ] *Review* ~for~ loop.
 
-- [ ] Finish lecture: nested ~for~ loops.
+- [ ] *Finish* lecture: nested ~for~ loops.
 
-- [ ] Download and solve review exercises & upload solution:
-  tinyurl.com/for-loop-practice
+- [ ] *Download* and *complete* review exercises & upload solution:
+  [[https://tinyurl.com/for-loop-practice][tinyurl.com/for-loop-practice]]
 
-- [ ] Review results in class
+- [ ] *Review* results in class.
+
+- [ ] *Bonus* programming assignment in Canvas.
+
+- [ ] *Test 5* coming up later this week (available only until March 7)
 
 ** =for= loop review (aka test preview) questions
 
@@ -1038,6 +1042,37 @@ Some students asked for a reminder. See also solution PDF in GitHub.
    type of matrix elements, use ~class(as.vector(element))~ instead.
    #+end_quote
 
+    #+begin_src R :results output
+    mylist <- list("hello", matrix(1:4,nrow=2))
+    ## loop over the values of myvec
+    for (i in mylist) {
+      print(class(i))
+      }
+    #+end_src
+
+    #+RESULTS:
+    : [1] "character"
+    : [1] "matrix" "array" 
+
+    Can you show this?
+    #+begin_src R :results output
+    mylist <- list("hello", matrix(1:4,nrow=2))
+    ## loop over the values of mylist
+    for (i in mylist) {
+      print(paste("Object class:",class(i)))
+      }
+    ## loop over the values of mylist again
+    for (i in mylist) {
+      print(paste("Object class:",class(as.vector(i))))
+      }
+    #+end_src
+
+    #+RESULTS:
+    : [1] "Object class: character"
+    : [1] "Object class: matrix" "Object class: array" 
+    : [1] "Object class: character"
+    : [1] "Object class: integer"
+
 9. What will be the output of the following ~for~ loop?
 
    #+begin_src R
@@ -1112,9 +1147,6 @@ Some students asked for a reminder. See also solution PDF in GitHub.
         cat("Vector is empty.\n")
       }
     #+end_src
-
-
-
 
 * Footnotes
 
