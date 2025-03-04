@@ -1,0 +1,218 @@
+#+TITLE: CONDITIONAL STATEMENTS - IF ELSE - ASSIGNMENT
+#+AUTHOR: [yourname]
+#+SUBTITLE: DSC 205 - Advanced introduction to data science
+#+STARTUP: overview hideblocks indent
+#+OPTIONS: toc:nil num:nil ^:nil
+#+PROPERTY: header-args:R :session *R* :results output :exports both :noweb yes
+* README
+
+- [[https://lyon.instructure.com/courses/3112/assignments/42041][Canvas exercise]]
+- Fill in your name and pledge at the top.
+
+* Home Assignment: Factory Machine Quality Check (Solution)
+
+** Goal
+Learn how to modify and replace values in a vector based on factor
+labels.
+
+** Backstory
+You are working in a *manufacturing plant* where five machines produce
+products at different *quality levels*. The quality of each machine's
+output has been recorded, and you need to automate a *quality check
+process*.
+
+** Constraints:
+1) Reproduce the expected output below.
+2) Objects with ordinal categorical values should be =ordered=.
+3) Vector initializations should be general.
+
+** Task
+
+1) Store the quality levels of each machine in an R object called =quality_level=:
+
+   | Machine | Quality Level |
+   |---------+--------------|
+   | Alpha   | Low          |
+   | Beta    | Medium       |
+   | Gamma   | Medium       |
+   | Delta   | Low          |
+   | Epsilon | Medium       |
+
+   #+begin_src R
+     quality_level <- factor(c("Alpha"="Low",
+                               "Beta"="Medium",
+                               "Gamma"="Medium",
+                               "Delta"="Low",
+                               "Epsilon"="Medium"),
+                             levels=c("Low","Medium","High"),
+                             ordered=TRUE)
+     quality_level
+   #+end_src
+
+   #+RESULTS:
+   :   Alpha    Beta   Gamma   Delta Epsilon
+   :     Low  Medium  Medium     Low  Medium
+   : Levels: Low < Medium < High
+
+2) Initialize a =check_score= vector where all values start at =10=, with
+   the same length as =quality_level=.
+
+   #+begin_src R
+     check_score <- rep(10,length(quality_level))
+     check_score
+   #+end_src
+
+   #+RESULTS:
+   : [1] 10 10 10 10 10
+
+3) Update the =check_score= vector: If the quality level is ="Medium"=,
+   replace the corresponding =check_score= value with =50=.
+
+   #+begin_src R :results none
+     check_score[quality_level == "Medium"] <- 50
+   #+end_src
+
+4) Print the updated =check_score= vector.
+
+   #+begin_src R
+     check_score
+   #+end_src
+
+   #+RESULTS:
+   : [1] 10 50 50 10 50
+
+** Expected Output
+#+begin_example
+[1] 10 50 50 10 50
+#+end_example
+
+* Home Assignment: Weather-Based Energy Consumption (Solution
+
+** Goal
+
+Practice writing nested =if= conditions to modify variables based on
+given rules.
+
+** Backstory
+
+You work for a *smart energy management company*. Your task is to *adjust
+heating and cooling settings* based on *recorded weather conditions*.
+
+** Task
+
+1) Define R objects representing the following values:
+   - *Cold threshold* (=cold_temp=) is =5= degrees Celsius.
+   - *Moderate threshold* (=moderate_temp=) is =20= degrees Celsius.
+   - *Hot threshold* (=hot_temp=) is =35= degrees Celsius.
+   - The recorded weather conditions for five days are: Cold, Hot,
+     Moderate, Cold, Hot.
+
+     *Threshold variables:*
+     #+name: thresholds
+     #+begin_src R
+       cold_temp <- 5
+       moderate_temp <- 20
+       hot_temp <- 35
+
+       thresholds <- data.frame(cold_temp, moderate_temp, hot_temp)
+       rownames(thresholds) <- "settings"
+
+       thresholds
+       str(thresholds)
+     #+end_src
+
+     #+RESULTS: thresholds
+     :          cold_temp moderate_temp hot_temp
+     : settings         5            20       35
+     : 'data.frame':    1 obs. of  3 variables:
+     :  $ cold_temp    : num 5
+     :  $ moderate_temp: num 20
+     :  $ hot_temp     : num 35
+
+     #+RESULTS:
+     :          cold_temp moderate_temp hot_temp
+     : settings         5            20       35
+
+     *Weather conditions:*
+     #+name: weather_conditions
+     #+begin_src R
+       weather_conditions <- factor(c("Cold", "Hot","Moderate","Cold","Hot"),
+                                    levels=c("Cold","Moderate","Hot"),
+                                    ordered=TRUE)
+       weather_conditions
+     #+end_src
+
+     #+RESULTS: weather_conditions
+     : [1] Cold     Hot      Moderate Cold     Hot
+     : Levels: Cold < Moderate < Hot
+
+2) Write an R script that checks if any day had *"Hot"* weather.
+   - If *yes*:
+     - If the cold temperature setting is below 10, double it.
+     - If the hold temperature setting is below 40, increase it to 40.
+
+     *Pseudocode:*
+     #+begin_example
+     ## If any day had hot weather
+        ## if cold temperature is below 10
+           ## double cold temperature setting
+        ## if hot temperature is below 40
+           ## increase hot temperature setting to 40
+     #+end_example
+
+     *Code:*
+     #+begin_src R :results none
+       ## If any day had hot weather
+       if ("Hot" %in% weather_conditions) {
+         ## if cold temperature is below 10
+         if (thresholds$cold_temp < 10) {
+           ## double cold temperature setting
+           thresholds$cold_temp <- thresholds$cold_temp * 2
+         }
+         ## if hot temperature is below 40
+         if (thresholds$hot_temp < 40) {
+           ## increase hot temperature setting to 40
+           thresholds$hot_temp <- 40
+         }
+       }
+     #+end_src
+
+3) Print the updated temperature =thresholds= (using the data frame
+   defined earlier):
+   #+begin_src R
+     thresholds
+   #+end_src
+
+   #+RESULTS:
+   :          cold_temp moderate_temp hot_temp
+   : settings        10            20       40
+
+** Constraints
+
+1) After defining the variables, store them in a data frame
+   =thresholds=. Change the default row name of the data frame to
+   =settings=, so that the data frame looks like this:
+   #+begin_example
+            cold_temp moderate_temp hot_temp
+   settings         5            20       35
+   #+end_example
+
+2) Objects with ordinal values should be =ordered=.
+
+3) Determine the logic of the program first using pseudocode.
+
+4) Use the =%in%= operator instead of =any()=. Example:
+   #+begin_src R
+     weather_conditions <- c("Cold", "Hot", "Moderate")
+
+     if ("Hot" %in% weather_conditions) {
+       print("A hot day was recorded!")
+     }
+   #+end_src
+
+** Expected Output
+#+begin_example
+         cold_temp moderate_temp hot_temp
+settings        10            20       40
+#+end_example
+
