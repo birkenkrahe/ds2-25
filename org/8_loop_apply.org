@@ -120,6 +120,17 @@
       }
   #+end_src
 
+  #+RESULTS:
+  :      [,1] [,2] [,3]
+  : [1,]    1    5    9
+  : [2,]    2    6   10
+  : [3,]    3    7   11
+  : [4,]    4    8   12
+  : [1] 15
+  : [1] 18
+  : [1] 21
+  : [1] 24
+
 - A fancier solution if you want to store the row sums:  
   #+begin_src R
     row.totals <- rep(NA, times=nrow(foo)) # initialize counter
@@ -155,6 +166,12 @@
       decreasing = TRUE)
   #+end_src
 
+  #+RESULTS:
+  :      [,1] [,2] [,3] [,4]
+  : [1,]    9   10   11   12
+  : [2,]    5    6    7    8
+  : [3,]    1    2    3    4
+
 - Though, even shorter is =rowSums=:
   #+begin_src R
     rowSums(foo)
@@ -163,20 +180,30 @@
   #+RESULTS:
   : [1] 15 18 21 24
 
-* ~apply~ example: ~array~
+* IN PROGRESS ~apply~ example: ~array~
 
-- Create a 3 x 2 x 2 array ~bar~ with the elements ~1:18~
+- Create a 3 x 3 x 2 array ~bar~ with the elements ~1:18~
   #+begin_src R
-    bar <- array(1:18, dim=c(3,3,2))
+    bar <- array(1:27, dim=c(3,3,2))
     bar
   #+end_src
 
-- Put differently, ~bar~ has 2 layers of 3 x 3 matrices. What does the
-  following call do?[fn:1]
-  #+begin_src R
-    baz <- apply(bar,3,FUN=diag)
-    baz
-  #+end_src
+  #+RESULTS:
+  #+begin_example
+  , , 1
+
+       [,1] [,2] [,3]
+  [1,]    1    4    7
+  [2,]    2    5    8
+  [3,]    3    6    9
+
+  , , 2
+
+       [,1] [,2] [,3]
+  [1,]   10   13   16
+  [2,]   11   14   17
+  [3,]   12   15   18
+  #+end_example
 
 - Check the dimensions and object class of =baz=, and check if it's a
   =matrix= and/or an =array=:
@@ -186,6 +213,58 @@
     is.matrix(baz)
     is.array(baz)
   #+end_src
+
+- Put differently, ~bar~ has 2 layers of 3 x 3 matrices. What does the
+  following call do?
+  #+begin_src R
+    baz <- apply(bar,3,FUN=diag)
+    baz
+  #+end_src
+
+  #+RESULTS:
+  :      [,1] [,2]
+  : [1,]    1   10
+  : [2,]    5   14
+  : [3,]    9   18
+
+- Explanation:
+  #+begin_quote
+  + When called upon on an object of 3 dimensions to process only 2
+    dimensions, ~apply~ processes the specified dimensions and collapses
+    the others.
+  + In the example, ~diag~ is applied to dimension 3 (layers).
+  + ~diag~ extracts the diagonal of each 3 x 3 matrix layer and returns
+    a vector of length 3 per layer.
+  + When ~apply~ processes multiple slices, the results are combined in
+    a matrix where each column represents the output from one slice
+    (layer), and rows correspond to the elements of the output from
+    the function (~diag~ gives 3 values per layer).
+  #+end_quote
+
+- Given a 4 x 4 x 3 array, what is the structure of the =result= after
+  this call?
+  #+begin_src R :session *R* :results output :exports both
+    arr <- array(TRUE, dim=c(4,4,3))
+    result <- apply(X = arr, MARGIN = 3, FUN = sum)
+    result
+    class(result)
+    dim(result)
+    is.vector(result)
+  #+end_src
+
+  #+RESULTS:
+  : [1] 16 16 16
+  : [1] "integer"
+  : NULL
+  : [1] TRUE
+
+- Why?
+  #+begin_quote
+  The result of ~apply~ is a ~sum~, that is a scalar (0-dim
+  array). Because the function was called on each layer, the ~sum~ of
+  the ~TRUE~ values of each layer is computed and returned separately,
+  one number per layer, as a vector.
+  #+end_quote
 
 * ~tapply~ - slicing data by categories
 
@@ -202,7 +281,7 @@
 - The result returns the average length for guinea pigs supplied with
   orange juice (~OJ~) and vitamin C (~VC~).
 
-- Here's another example ([[https://www.kaggle.com/datasets/nancyalaswad90/diamonds-prices][data source: Kaggle]])[fn:2]:
+- Here's another example ([[https://www.kaggle.com/datasets/nancyalaswad90/diamonds-prices][data source: Kaggle]])
   1) read web data on diamond pricing (with strings as factors)
   2) display structure of data table
   3) display first five records
@@ -329,10 +408,3 @@
 - Zach (Dec 7, 2021). How to Use the mapply() Function in R (With
   Examples). URL: [[https://www.statology.org/r-mapply/][statology.org]].
 
-* Footnotes
-[fn:2]Astonishingly, some websites are trying to sell these (freely
-available) data for US$100.00 ([[https://www.dataandsons.com/categories/product-lists/diamonds-dataset][see here]]).
-
-[fn:1]The ~apply~ call extracts the diagonal elements for each of the 2
-layers with ~diag~. Each call to ~diag~ of a matrix returns a vector and
-these vectors are returned as columns of a new matrix.
