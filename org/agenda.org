@@ -1488,7 +1488,7 @@ scientific paper yet. Instead, use the notebook to identify one.
 
 - [ ] Sample solutions
 - [ ] ~while~ loops - lecture & codealong & exercise
-- [ ] Test 5 on loops - deadline March 11
+- [ ] Test 5 on loops - deadline March 11 (live tonight)
 - [ ] DataCamp review: Utilities
 
 ** TODO Sample solutions for programming assignments
