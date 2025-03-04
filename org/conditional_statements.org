@@ -1,0 +1,325 @@
+#+TITLE: CONDITIONAL STATEMENTS - IF ELSE - EXERCISE
+#+AUTHOR: Marcus Birkenkrahe (pledged)
+#+SUBTITLE: DSC 205 - Advanced introduction to data science
+#+STARTUP: overview hideblocks indent
+#+OPTIONS: toc:nil num:nil ^:nil
+#+PROPERTY: header-args:R :session *R* :results output :exports both :noweb yes
+* README
+
+- This assignment accompanies the [[https://github.com/birkenkrahe/ds2/blob/main/org/3_conditions.org][lecture]] on conditional statements.
+
+- Complete and submit the completed Org-mode file in Canvas
+
+- The "literate quality" of the submission will count for your final
+  points (i.e. how much you make your solution process transparent).
+
+* DONE Identify and pledge yourself
+
+1) In Emacs, replace the placeholder ~[yourname]~ at the top of this
+   file by your own name and write ~(pledged)~ next to it
+2) Go with the cursor on the headline and hange the ~TODO~ label to ~DONE~
+   by entering ~S-<right>~ ("Shift + right-arrow").
+
+* Problem
+
+Write R code that takes a square ~character~ matrix and checks if any of
+the character strings on the diagonal (top left to bottom right) begin
+with the letter ~g~, lowercase or uppercase.
+
+If satisfied, overwrite these specific entries with the string ~"HERE"~.
+Otherwise, the entire matrix should be replaced with an identity
+matrix of the same dimensions (all diagonal entries are ~1~).
+
+/Tip:/ You can use the functions ~which~, ~diag~ and ~substr~.
+
+* DONE Solution
+
+Let's go through the solution process.
+1) Reformulate the problem as pseudocode.
+2) Build small 2x2 =matrix= for testing purposes.
+3) Explore =diag= and =substr=.
+4) Test condition with =any= and get index with =which=
+5) Put the code together and test it on sample matrices.
+6) Wrap code in a function =g= for easier testing.
+7) Test the code with the test matrices.
+
+** Problem as pseudocode
+
+- Start by reformulating the problem as pseudocode:
+
+  #+begin_example
+  If ANY diagonal matrix element begins with "g" or "G"
+     => replace diagonal matrix element with "HERE"
+  Otherwise, if NO diagonal matrix element begins with "g" or "G"
+     => replace diagonal matrix elements with 1, all others with 0
+  #+end_example
+
+** Build 2x2 matrix for testing purposes
+
+- If you can't remember the =matrix= function, check it with =args=:
+  #+begin_src R
+    args(matrix)
+  #+end_src
+
+  #+RESULTS:
+  : function (data = NA, nrow = 1, ncol = 1, byrow = FALSE, dimnames = NULL)
+  : NULL
+
+- Creating a matrix (using exact arguments to be sure) that fulfils
+  the condition:
+  #+begin_src R
+    m1 <- matrix(data=c("green","blue","red","yellow"),
+                 nrow=2,
+                 byrow=TRUE) # row-wise matrices are easier to read
+    m1
+  #+end_src
+
+  #+RESULTS:
+  :      [,1]    [,2]
+  : [1,] "green" "blue"
+  : [2,] "red"   "yellow"
+
+- When subjected to the algorithm, this matrix should turn into
+  #+begin_example
+  :      [,1]    [,2]
+  : [1,] "HERE" "blue"
+  : [2,] "red"   "yellow"
+  #+end_example
+
+- And here is one that does not:
+  #+begin_src R
+    m2 <- matrix(data=c("purple","blue","red","yellow"),
+                 nrow=2,
+                 byrow=TRUE) # row-wise matrices are easier to read
+    m2
+  #+end_src
+
+  #+RESULTS:
+  :      [,1]     [,2]
+  : [1,] "purple" "blue"
+  : [2,] "red"    "yellow"
+
+- When subjected to the algorithm, this matrix should turn into an
+  identity matrix:
+  #+begin_example
+  :      [,1]    [,2]
+  : [1,]    1       0
+  : [2,]    0       1
+  #+end_example
+
+** Explore functions: =diag=, =substr=.
+
+- Next, I need to perform a check on the diagonal entries. What does
+  the recommended function =diag= do?
+  #+begin_src R
+    args(diag) # extracts/replaces/constructs diagonal of matrix
+  #+end_src
+
+  #+RESULTS:
+  : function (x = 1, nrow, ncol, names = TRUE)
+  : NULL
+
+- For the matrices =m1= and =m2=, =diag= extracts the diagonal elements:
+  #+begin_src R
+    diag(m1)
+    diag(m2)
+  #+end_src
+
+  #+RESULTS:
+  : [1] "green"  "yellow"
+  : [1] "purple" "yellow"
+
+- But =diag= will also create an identity matrix if given the dimension
+  as an argument - we can use that, too.
+  #+begin_src R
+    diag(2)
+  #+end_src
+
+  #+RESULTS:
+  :      [,1] [,2]
+  : [1,]    1    0
+  : [2,]    0    1
+
+- And =substr= extracts the first element of a string:
+  #+begin_src R
+    args(substr) # look for x from `start` to `stop` character
+  #+end_src
+  
+  #+RESULTS:
+  : function (x, start, stop)
+  : NULL
+
+- For example for our matrices:
+  #+begin_src R
+    substr(diag(m1),start=1,stop=1) # check the first character only
+    substr(diag(m2),start=1,stop=1) # check the first character only
+  #+end_src
+
+  #+RESULTS:
+  : [1] "g" "y"
+  : [1] "p" "y"
+
+- So a composition of =diag= and =substr= can be used to test the
+  condition for every string on the diagonal of a matrix.
+
+** Test the condition with =any=, get index with =which=
+
+- =diag= returns a =character= vector, and so does =substr=. Store these
+  vectors:
+  #+begin_src R
+    char1 <- substr(x=diag(m1), start=1, stop=1)
+    char1
+    char2 <- substr(x=diag(m2), start=1, stop=1)
+    char2
+  #+end_src
+
+  #+RESULTS:
+  : [1] "g" "y"
+  : [1] "p" "y"
+
+- Check if any of the vector elements fulfil the condition:
+  #+begin_src R
+    any(char1=='g'|char1=='G') # element-wise comparison
+    any(char2=='g'|char2=='G')
+  #+end_src
+
+  #+RESULTS:
+  : [1] TRUE
+  : [1] FALSE
+
+- Get index of the winner & extract the corresponding matrix element:
+  #+begin_src R
+    which(any(char1=='g'|char1=='G')) -> index
+    index
+    m1[index]
+  #+end_src
+
+  #+RESULTS:
+  : [1] 1
+  : [1] "green"
+
+** Coding the condition
+
+- We can now code the whole thing, first for =m1=:
+  #+begin_src R
+    ## test matrix
+    m <- m1
+    ## condition
+    char1 <- substr(diag(m),1,1)
+    condition <- char1=='g'|char1=='G'
+    ## test condition
+    if (any(condition)) {
+      diag(m)[which(condition)] <- "HERE"
+    } else {
+      diag(nrow(m1)) -> m
+    }
+    m
+  #+end_src
+
+  #+RESULTS:
+  :      [,1]   [,2]
+  : [1,] "HERE" "blue"
+  : [2,] "red"  "yellow"
+
+- And for =m2=: No diagonal element meets condition -> identity matrix
+  #+begin_src R
+    ## test matrix
+    m <- m2
+    ## condition
+    char1 <- substr(diag(m),1,1)
+    condition <- char1=='g'|char1=='G'
+    ## test condition
+    if (any(condition)) {
+      diag(m)[which(condition)] <- "HERE"
+    } else {
+      diag(nrow(m1)) -> m
+    }
+    m
+  #+end_src
+
+  #+RESULTS:
+  :      [,1] [,2]
+  : [1,]    1    0
+  : [2,]    0    1
+
+** Wrap solution in a function for easier testing
+
+- The function takes a matrix as an argument:
+  #+begin_src R
+    g <- function(m) {
+      char1 <- substr(diag(m),1,1)
+      condition <- char1=='g'|char1=='G'
+      if (any(condition)) {
+        diag(m)[which(condition)] <- "HERE"
+      } else {
+        diag(nrow(m)) -> m
+      }
+      return (m)
+    }
+    g(m1)
+    g(m2)
+  #+end_src
+
+  #+RESULTS:
+  :      [,1]   [,2]
+  : [1,] "HERE" "blue"
+  : [2,] "red"  "yellow"
+  :      [,1] [,2]
+  : [1,]    1    0
+  : [2,]    0    1
+
+* DONE Test your solution
+
+- Try your code on the following matrices:
+  #+begin_example R
+  mymat1 <- matrix(as.character(1:16),4,4)
+  mymat2 <- matrix(c("DANDELION","Hyacinthus","Gerbera","MARIGOLD",
+                     "geranium","ligularia","Pachysandra","SNAPDRAGON",
+                     "GLADIOLUS"),3,3)
+  mymat3 <- matrix(c("GREAT", "exercises", "right", "here"),2,2,byrow=T)
+  #+end_example
+
+- Test:
+  #+begin_src R
+    mymat1 <- matrix(as.character(1:16),4,4)
+    mymat2 <- matrix(c("DANDELION","Hyacinthus","Gerbera","MARIGOLD",
+                       "geranium","ligularia","Pachysandra","SNAPDRAGON",
+                       "GLADIOLUS"),3,3)
+    mymat3 <- matrix(c("GREAT", "exercises", "right", "here"),2,2,byrow=T)
+
+    mymat1
+    g(mymat1)
+    mymat2
+    g(mymat2)
+    mymat3
+    g(mymat3)
+  #+end_src
+
+  #+RESULTS:
+  #+begin_example
+       [,1] [,2] [,3] [,4]
+  [1,] "1"  "5"  "9"  "13"
+  [2,] "2"  "6"  "10" "14"
+  [3,] "3"  "7"  "11" "15"
+  [4,] "4"  "8"  "12" "16"
+       [,1] [,2] [,3] [,4]
+  [1,]    1    0    0    0
+  [2,]    0    1    0    0
+  [3,]    0    0    1    0
+  [4,]    0    0    0    1
+       [,1]         [,2]        [,3]
+  [1,] "DANDELION"  "MARIGOLD"  "Pachysandra"
+  [2,] "Hyacinthus" "geranium"  "SNAPDRAGON"
+  [3,] "Gerbera"    "ligularia" "GLADIOLUS"
+       [,1]         [,2]        [,3]
+  [1,] "DANDELION"  "MARIGOLD"  "Pachysandra"
+  [2,] "Hyacinthus" "HERE"      "SNAPDRAGON"
+  [3,] "Gerbera"    "ligularia" "HERE"
+       [,1]    [,2]
+  [1,] "GREAT" "exercises"
+  [2,] "right" "here"
+       [,1]    [,2]
+  [1,] "HERE"  "exercises"
+  [2,] "right" "here"
+  #+end_example
+
