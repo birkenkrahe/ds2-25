@@ -62,7 +62,7 @@ Let's go through the solution process.
   #+end_src
 
   #+RESULTS:
-  : function (data = NA, nrow = 1, ncol = 1, byrow = FALSE, dimnames = NULL)
+  : function (data = NA, nrow = 1, ncol = 1, byrow = FALSE, dimnames = NULL) 
   : NULL
 
 - Creating a matrix (using exact arguments to be sure) that fulfils
@@ -75,8 +75,8 @@ Let's go through the solution process.
   #+end_src
 
   #+RESULTS:
-  :      [,1]    [,2]
-  : [1,] "green" "blue"
+  :      [,1]    [,2]    
+  : [1,] "green" "blue"  
   : [2,] "red"   "yellow"
 
 - When subjected to the algorithm, this matrix should turn into
@@ -95,8 +95,8 @@ Let's go through the solution process.
   #+end_src
 
   #+RESULTS:
-  :      [,1]     [,2]
-  : [1,] "purple" "blue"
+  :      [,1]     [,2]    
+  : [1,] "purple" "blue"  
   : [2,] "red"    "yellow"
 
 - When subjected to the algorithm, this matrix should turn into an
@@ -116,7 +116,7 @@ Let's go through the solution process.
   #+end_src
 
   #+RESULTS:
-  : function (x = 1, nrow, ncol, names = TRUE)
+  : function (x = 1, nrow, ncol, names = TRUE) 
   : NULL
 
 - For the matrices =m1= and =m2=, =diag= extracts the diagonal elements:
@@ -146,7 +146,7 @@ Let's go through the solution process.
   #+end_src
   
   #+RESULTS:
-  : function (x, start, stop)
+  : function (x, start, stop) 
   : NULL
 
 - For example for our matrices:
@@ -217,8 +217,8 @@ Let's go through the solution process.
   #+end_src
 
   #+RESULTS:
-  :      [,1]   [,2]
-  : [1,] "HERE" "blue"
+  :      [,1]   [,2]    
+  : [1,] "HERE" "blue"  
   : [2,] "red"  "yellow"
 
 - And for =m2=: No diagonal element meets condition -> identity matrix
@@ -261,8 +261,8 @@ Let's go through the solution process.
   #+end_src
 
   #+RESULTS:
-  :      [,1]   [,2]
-  : [1,] "HERE" "blue"
+  :      [,1]   [,2]    
+  : [1,] "HERE" "blue"  
   : [2,] "red"  "yellow"
   :      [,1] [,2]
   : [1,]    1    0
@@ -307,18 +307,18 @@ Let's go through the solution process.
   [2,]    0    1    0    0
   [3,]    0    0    1    0
   [4,]    0    0    0    1
-       [,1]         [,2]        [,3]
+       [,1]         [,2]        [,3]         
   [1,] "DANDELION"  "MARIGOLD"  "Pachysandra"
-  [2,] "Hyacinthus" "geranium"  "SNAPDRAGON"
+  [2,] "Hyacinthus" "geranium"  "SNAPDRAGON" 
   [3,] "Gerbera"    "ligularia" "GLADIOLUS"
-       [,1]         [,2]        [,3]
+       [,1]         [,2]        [,3]         
   [1,] "DANDELION"  "MARIGOLD"  "Pachysandra"
-  [2,] "Hyacinthus" "HERE"      "SNAPDRAGON"
+  [2,] "Hyacinthus" "HERE"      "SNAPDRAGON" 
   [3,] "Gerbera"    "ligularia" "HERE"
-       [,1]    [,2]
+       [,1]    [,2]       
   [1,] "GREAT" "exercises"
   [2,] "right" "here"
-       [,1]    [,2]
+       [,1]    [,2]       
   [1,] "HERE"  "exercises"
   [2,] "right" "here"
   #+end_example
