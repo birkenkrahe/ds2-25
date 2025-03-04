@@ -16,6 +16,24 @@ This practice file accompanies the [[https://github.com/birkenkrahe/ds2/blob/mai
 2) Go with the cursor on the headline and hange the ~TODO~ label to ~DONE~
    by entering ~S-<right>~ ("Shift + right-arrow").
 
+* ~while~ loops
+
+- A ~while~ loop repeats code until a condition evaluates as ~FALSE~:
+  #+begin_example R
+  while (loopcondition) {
+    do any code in here
+  }
+  #+end_example
+
+- This means to avoid /infinite loops/, the operations in the braced
+  area must cause the loop to exit.
+
+- Exiting a loop works if either the /loopcondition/ is ~FALSE~, or if a
+  ~break~ command is met.
+
+- To escape infinite loops in Emacs, enter ~C-g~ - in the ~Rterm~ or ~Rgui~
+  console (outside Emacs) enter ~C-c~ or ~<ESC>~.
+
 * Simple example
 
 1) Set the condition variable ~myval~ to ~5~
@@ -27,64 +45,124 @@ This practice file accompanies the [[https://github.com/birkenkrahe/ds2/blob/mai
 
 #+end_src
 
-* Extended example
+* Extended Example: Robotics Workshop Baseplate Planner
 
-- Create a few initial objects first:
+- In this example, you'll use a ~while~ loop to solve a practical
+  problem: planning baseplate designs for a robotics workshop. It’s
+  often useful to store the loop condition in an object (like
+  ~mycondition~) so you can update it dynamically inside the loop,
+  adapting to changing constraints.
+
+- *Backstory:* You’re volunteering at a kids’ robotics workshop where a
+  3D printer makes square baseplates (e.g., 4x4, 5x5) based on the
+  number of participants per session, stored in a vector
+  ~mynumbers~. The printer caps out at 5x5 due to material limits. Your
+  goal is to process ~mynumbers~, generate *identity matrices*
+  (representing baseplate anchor points) for sizes ≤ 5, and stop at
+  sizes > 5 or the end of the list. This helps organizers plan
+  materials and teach matrix concepts.
+
+- You’ll iterate over an integer vector ~mynumbers~ and use ~diag~ to
+  create identity matrices matching each valid size.
+
+** Understanding ~diag~
+
+- The ~diag~ function builds or modifies diagonal matrices. Check its
+  arguments:
+  #+begin_src R
+
+  #+end_src
+
+- Test it by creating a 3x3 matrix of zeros and turning it into an
+  identity matrix:
+  #+begin_src R
+
+  #+end_src
+
+- Try adding a 2x2 identity matrix to an empty list:
+  #+begin_src R
+
+  #+end_src
+
+** Building the Planner with a Loop
+
+- The loop stops when it hits a number in ~mynumbers~ greater than 5
+  (printer limit) or reaches the vector’s end. We’ll store the
+  condition in ~mycondition~ for flexibility.
+
+- Set up initial objects:
   #+name: initialize
   #+begin_src R :results silent
-    mylist <- list()  # create an empty list to store all matrices
-    counter <- 1      # set loop index counter variable to 1
-    mynumbers <- c(4,5,1,2,6,2,4,6,6,2) # matrix dimensions
-    mycondition <- mynumbers[counter] <= 5 # while loop condition
+    ## Empty list to store baseplate matrices
+    mylist <- list()
+    ## Loop index to track position in mynumbers
+    counter <- 1
+    ## Session sizes from past workshops
+    mynumbers <- c(4, 5, 1, 2, 6, 2, 4, 6, 6, 2)
+    ## Initial condition: is first size ≤ 5?
+    mycondition <- mynumbers[counter] <= 5
   #+end_src
 
-- The ~diag~ function extracts or replaces the diagonal of a matrix, or
-  constructs a diagonal matrix. Check out the arguments of ~diag~:
+- Create the loop:
+  #+name: build_list
   #+begin_src R
+    ## Loop until size > 5 or end of mynumbers
 
-  #+end_src
+      ## Add identity matrix for current size to list
 
-- To test the function, create a 3x2 matrix of ~0~ values ~m~ and then use
-  ~diag~ to turn it into an /identity/ matrix.
-  #+begin_src R
+      ## Move to next session size
 
-  #+end_src
+      ## Update condition based on next size or end
 
-- Create an empty list ~l~ and add a 2x2 identity matrix to it by
-  overwriting the first element of ~l~ with ~diag(2)~
-  #+begin_src R
+    ## Show the resulting baseplate designs
 
   #+end_src
   
-- Create the loop:
-  #+begin_src R
-    <<initialize>>
-    while (...) {
-      ## create identity matrix and store it in mylist
+- *Result:* ~mylist~ contains four identity matrices (4x4, 5x5, 1x1, 2x2)
+  because the loop stops at the first 6 in ~mynumbers~. These matrices
+  represent baseplates for sessions with 4, 5, 1, and 2 kids,
+  respectively—ready for printing and workshop planning!
 
-      ## update loop condition
-      
-    }
-    mylist
-  #+end_src
+* Changing conditions
 
-* Exercise: factorials
+- Based on the extended example of storing identity matrices in a
+  list, determine what the resulting =mylist= would look like for each
+  of the following possible =mynumbers= vectors, without executing
+  anything - then run the code to confirm:
 
-The factorial of a non-negative ~integer~ ~x~, expressed as ~x!~, refers to
-~x~ multiplied by the product of all integers less than ~x~ down to ~1~: $x!
-= x \times (x-1) \times (x-2) \times \dots \times 1$. The 0th
-factorial is always ~1~: $0! = 1$.
+  1) ~mynumbers <- c(2,2,2,2,5,2)~
 
-*Problem*: write a ~while~ loop that computes and stores as a new object
-the factorial of any non-negative ~integer~ ~mynum~ by decrementing ~mynum~
-by ~1~ at each repetition of the braced code block.
+  2) ~mynumbers <- 2:20~
 
-*Test*: using your loop, confirm the following:
-1) The result of ~mynum <- 5~ is ~120~.
-2) Using ~mynum <- 12~ yields ~479001600~
-3) Having ~mynum <- 0~ correctly returns ~1~
+  3) ~mynumbers <- c(10,1,10,1,2)~
 
+- To check, we have to re-initialize the counter and condition
+  variables then run <<build_list>>:
 
+  1) ~mynumbers <- c(2,2,2,2,5,2)~
+     #+begin_src R
+       mylist <- list()  # create an empty list to store all matrices
+       counter <- 1      # set loop index counter variable to 1
+       mynumbers <- c(2,2,2,2,5,2) # matrix dimensions
+       mycondition <- mynumbers[counter] <= 5 # while loop condition
+       <<build_list>>
+     #+end_src
+     
+  2) ~mynumbers <- 2:20~
+     #+begin_src R
+       mylist <- list()  # create an empty list to store all matrices
+       counter <- 1      # set loop index counter variable to 1
+       mynumbers <- 2:20 # matrix dimensions
+       mycondition <- mynumbers[counter] <= 5 # while loop condition
+       <<build_list>>
+     #+end_src
 
-
+  3) ~mynumbers <- c(10,1,10,1,2)~
+     #+begin_src R
+       mylist <- list()  # create an empty list to store all matrices
+       counter <- 1      # set loop index counter variable to 1
+       mynumbers <- c(10,1,10,1,2) # matrix dimensions
+       mycondition <- mynumbers[counter] <= 5 # while loop condition
+       <<build_list>>
+     #+end_src
 
