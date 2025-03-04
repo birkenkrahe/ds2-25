@@ -1,0 +1,133 @@
+#+TITLE: Exploring While Loops - Bonus Assignment
+#+AUTHOR: Marcus Birkenkrahe (pledged)
+#+SUBTITLE: DSC 205 - Advanced Introduction to Data Science - Spring 2025
+#+STARTUP: overview hideblocks indent
+#+OPTIONS: toc:nil num:nil ^:nil
+#+PROPERTY: header-args:R :session *R* :results output :exports both :noweb yes
+* README
+
+- This bonus assignment complements the lecture on ~while~ loops in R.
+- Submit your completed Org-mode file via Canvas.
+- Earn bonus points toward your "home assignments" grade, with credit
+  given for both correctness and literate programming quality (clear
+  explanations, organized code, and comments).
+- Adapted from Davies, *Book of R* (2016), pp. 199-204.
+- Solutions will be shared as a PDF after the submission deadline.
+- Improved version with the help of Grok by xAI.
+
+* TODO Identify Yourself and Pledge
+
+1) Replace ~[yourname]~ at the top with your full name and add ~(pledged)~
+   beside it (e.g., "Jane Doe (pledged)").
+2) Mark this task as ~DONE~ by placing your cursor on the headline and
+   pressing ~S-<right>~ (Shift + right-arrow).
+
+* Exercise - Factorials: Book Fair Booth Planner
+
+- The factorial of a non-negative integer ~x~, written as ~x!~, is the
+  product of all positive integers from 1 up to ~x~: \(x! = x \times
+  (x-1) \times (x-2) \times \dots \times 1\). By definition, the
+  factorial of 0 is 1: \(0! = 1\).
+
+- *Backstory:* You’re volunteering at a school book fair where the
+  number of unique books donated daily (e.g., 5, 12, or 0) determines
+  how many ways you can arrange them on a display table. For \(n\)
+  books, the number of arrangements is \(n!\). Your job is to write a
+  ~while~ loop that computes the factorial of ~mynum~ (the daily book
+  count) by multiplying and decrementing, helping the team plan
+  creative layouts efficiently.
+
+- *Problem:* Write a ~while~ loop that calculates and stores the factorial
+  of any non-negative integer ~mynum~ as a new object, decrementing
+  ~mynum~ by 1 each iteration until it computes the full product.
+
+- *Test:* Confirm your loop works with these cases:
+  1) ~mynum <- 5~ → ~120~ (ways to arrange 5 books).
+  2) ~mynum <- 12~ → ~479001600~ (ways to arrange 12 books).
+  3) ~mynum <- 0~ → ~1~ (one way to "arrange" an empty table).
+
+- *Pseudocode:*
+  #+begin_example
+  ## Set initial factorial result to 1 (base case for 0! or starting point)
+  ## Define the input number `mynum` (number of books to arrange)
+  ## While `mynum` is greater than 1, keep multiplying and decrementing
+    ## Multiply current factorial by `mynum` to build the product
+    ## Decrease `mynum` by 1 to move to the next integer down
+    ## (Optional) Print current `mynum` for tracking progress
+    ## (Optional) Print running factorial to see how it grows
+    ## End the loop when `mynum` reaches 1
+  ## Return the final factorial result
+  #+end_example
+
+- *Solution:*
+  #+name: factorial
+  #+begin_src R :results none
+    ## Set initial factorial result to 1 (base case for 0! or starting point)
+
+    ## Define the input number `mynum` (number of books to arrange)
+    ## (mynum is set outside in test cases below)
+
+    ## While `mynum` is greater than 1, keep multiplying and decrementing
+
+      ## Multiply current factorial by `mynum` to build the product
+
+      ## Decrease `mynum` by 1 to move to the next integer down
+
+      ## (Optional) Print current `mynum` for tracking progress
+
+      ## (Optional) Print running factorial to see how it grows
+
+      ## End the loop when `mynum` reaches 1
+
+    ## Return the final factorial result
+
+  #+end_src
+
+- *Test Your Planner:* Run this block and compare with results below.
+  #+begin_src R :noweb yes
+    mynum <- 5              # 5 books donated today
+    <<factorial>>           # How many arrangements?
+    mynum <- 12             # 12 books donated another day
+    <<factorial>>
+    mynum <- 0              # No books donated (empty table)
+    <<factorial>>           # How many arrangements?
+  #+end_src
+
+- Expected results:
+  #+begin_example
+  Number 4 
+  Factorial 5 
+  Number 3 
+  Factorial 20 
+  Number 2 
+  Factorial 60 
+  Number 1 
+  Factorial 120
+  [1] 120
+  Number 11 
+  Factorial 12 
+  Number 10 
+  Factorial 132 
+  Number 9 
+  Factorial 1320 
+  Number 8 
+  Factorial 11880 
+  Number 7 
+  Factorial 95040 
+  Number 6 
+  Factorial 665280 
+  Number 5 
+  Factorial 3991680 
+  Number 4 
+  Factorial 19958400 
+  Number 3 
+  Factorial 79833600 
+  Number 2 
+  Factorial 239500800 
+  Number 1 
+  Factorial 479001600
+  [1] 479001600
+  [1] 1
+  #+end_example
+
+
