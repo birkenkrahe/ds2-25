@@ -1488,6 +1488,7 @@ scientific paper yet. Instead, use the notebook to identify one.
 
 - [ ] Sample solutions
 - [ ] ~while~ loops - lecture & codealong & exercise
+- [ ] ~apply~ functions - lecture & codealong & exercise
 - [ ] Test 5 on loops - deadline March 11 (live tonight)
 - [ ] DataCamp review: Utilities
 
@@ -1499,10 +1500,15 @@ online sample solutions.
 - [[https://github.com/birkenkrahe/ds2-25/blob/main/org/conditional_statements.org][Conditional statements]] (see Canvas)
 - [[https://github.com/birkenkrahe/ds2-25/blob/main/org/7_switch_exercise_solution.org][Nested conditionals and switch]] (see Canvas)
 
-** =while= loops - lecture & codealong
+** TODO ~while~ loops - lecture & codealong
 
-- Download and complete: [[https://tinyurl.com/while-codealong][tinyurl.com/while-codealong]].
-- Exercise for ~while~ loops: [[https://tinyurl.com/while-assignment][tinyurl.com/while-assignment]]
+- Download and complete: [[https://tinyurl.com/while-code-along][tinyurl.com/while-code-along]].
+- Exercise: [[https://tinyurl.com/while-assignment][tinyurl.com/while-assignment]] (due March 13)
+
+** TODO ~apply~ functions - lecture & codealong
+
+- Download and complete: [[https://tinyurl.com/apply-code-along][tinyurl.com/apply-code-along]].
+- Exercise: [[https://tinyurl.com/apply-assignment][tinyurl.com/apply-assignment]] (due March 18)
 
 ** TODO Review (test preview): DataCamp Intermediate R - Utilities
 

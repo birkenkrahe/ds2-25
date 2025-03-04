@@ -9,7 +9,7 @@
 #+caption: Photo by Brett Jordan on Unsplash
 [[../img/7_goforit.jpg]]
 
-- Download the *raw* file to codealong: [[https://tinyurl.com/apply-codealong][tinyurl.com/apply-codealong]] and
+- Download the *raw* file to codealong: [[https://tinyurl.com/apply-code-along][tinyurl.com/apply-code-along]] and
   code along!
 
 * ~apply~, ~lapply~, ~sapply~, ~tapply~, ~vapply~, ~mapply~
