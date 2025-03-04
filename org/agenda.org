@@ -918,31 +918,33 @@ Some students asked for a reminder. See also solution PDF in GitHub.
 - [X] *Practice:* ~switch~ and nested ~if~ review practice
 - [X] *Lecture / Codealong / Practice review:* ~for~ loops
 
-* Week 7: Even more loops
+* DONE Week 7: Even more loops - ~for~ a[nd] ~while~
+#+attr_html: :width 400px :float nil:
+[[../img/picasso.jpg]]
 
-- [ ] *Tests & Assignments*: Removing 1 point per late day. Easier for
+- [X] *Tests & Assignments*: Removing 1 point per late day. Easier for
   me, kinder to you. All close one week after the deadline though.
 
-- [ ] *Unprecedented:* This course has 100% on time DataCamp completion!
+- [X] *Unprecedented:* This course has 100% on time DataCamp completion!
   Therefore, I'll assign the next course *as a whole* by April 1.
 
-- [ ] *Review* ~for~ loop.
+- [X] *Review* ~for~ loop.
 
-- [ ] *Finish* lecture: nested ~for~ loops.
+- [X] *Bonus* programming assignment in Canvas.
 
-- [ ] *Download* and *complete* review exercises & upload solution:
-  [[https://tinyurl.com/for-loop-practice][tinyurl.com/for-loop-practice]]
+- [X] *Finish* lecture: nested ~for~ loops.
 
-- [ ] *Review* results in class.
+- [X] *Test 5* coming up later this week (available only until March 11)
 
-- [ ] *Bonus* programming assignment in Canvas.
+- [X] *Download* and *complete* review exercises & upload solution:
+  [[https://tinyurl.com/for-loop-practice][tinyurl.com/for-loop-practice]] - we will review results in class.
 
-- [ ] *Test 5* coming up later this week (available only until March 7)
+- [ ] *DataCamp* assignment ("Utilities") *deadline moved* to Monday.
 
 ** =for= loop review (aka test preview) questions
 
 1. What is the primary difference between a ~for~ loop and a ~while~
-   loop in R?
+   loop in R (actually all ALGOL-like languages, C, Java, Python...)?
 
    #+begin_quote
    A ~for~ loop iterates over a predefined sequence (e.g., a vector),
@@ -953,17 +955,22 @@ Some students asked for a reminder. See also solution PDF in GitHub.
 2. Given the following ~for~ loop, what will be the output?
 
    #+begin_src R :results output
-   for (i in c(2, 4, 6)) {
-     print(i^2)
-   }
+     for (i in c(2, 4, 6)) { # looping over vectorx
+       print(i^2)
+     }
    #+end_src
+
+   #+RESULTS:
+   : [1] 4
+   : [1] 16
+   : [1] 36
 
 3. How does the ~apply~ function differ from traditional loops in R?
 
    #+begin_quote
    The ~apply~ function applies a function to elements of an array,
-   matrix, or dataframe without explicitly writing a loop, making code
-   more concise and often improving performance.
+   (matrix, or dataframe) without explicitly writing a loop, making
+   code more concise and often improving performance.
    #+end_quote
 
 4. How would you compute the average of =c(1:10,NA)= using ~apply~?
@@ -996,20 +1003,31 @@ Some students asked for a reminder. See also solution PDF in GitHub.
    #+end_quote
 
 6. Loop over a) values, b) indices of =myvec <- c(0.4, 1.1, 0.34, 0.55)=
+   and print the vector values.
 
    #+begin_src R :results output
-   myvec <- c(0.4, 1.1, 0.34, 0.55)
+     myvec <- c(0.4, 1.1, 0.34, 0.55)
 
-   # Looping over values directly
-   for (i in myvec) {
-     print(2 * i)
-   }
+                                             # Looping over values directly
+     for (i in myvec) {
+       print(i)
+     }
 
-   # Looping over indices
-   for (i in 1:length(myvec)) {
-     print(2 * myvec[i])
-   }
+                                             # Looping over indices
+     for (i in 1:length(myvec)) {
+       print(myvec[i])
+     }
    #+end_src
+
+   #+RESULTS:
+   : [1] 0.4
+   : [1] 1.1
+   : [1] 0.34
+   : [1] 0.55
+   : [1] 0.4
+   : [1] 1.1
+   : [1] 0.34
+   : [1] 0.55
 
 7. How can you print the previous results as a vector like this:
    #+begin_example
@@ -1018,21 +1036,19 @@ Some students asked for a reminder. See also solution PDF in GitHub.
 
    #+begin_src R :results output
      myvec <- c(0.4, 1.1, 0.34, 0.55)
-     result <- NA
+     result <- NA  # initialize a generalized data structure
 
      ## Looping over indices
      for (i in 1:length(myvec)) {
-       result[i] <- 2 * myvec[i]
+       result[i] <- myvec[i]       # cast result as a vector
      }
      result
    #+end_src
 
    #+RESULTS:
-   : [1] 0.80 2.20 0.68 1.10
 
-   #+begin_src R :results output
-
-   #+end_src
+   Pythonistas: This the same issue as printing a list vs. printing a
+   list "comprehension".
 
 8. Why does ~class(element)~ not work correctly when determining the
    data type of matrix elements in a list?
@@ -1043,78 +1059,85 @@ Some students asked for a reminder. See also solution PDF in GitHub.
    type of matrix elements, use ~class(as.vector(element))~ instead.
    #+end_quote
 
-    #+begin_src R :results output
-    mylist <- list("hello", matrix(1:4,nrow=2))
-    ## loop over the values of myvec
-    for (i in mylist) {
-      print(class(i))
-      }
-    #+end_src
+   #+begin_src R :results output
+     mylist <- list("hello",
+                    matrix(1:4,nrow=2))
+     ## loop over the values of myvec
+     for (i in mylist) {
+       print(class(i))   # which objects does mylist contain?
+     }
+   #+end_src
 
-    #+RESULTS:
-    : [1] "character"
-    : [1] "matrix" "array" 
+   #+RESULTS:
+   : [1] "character"
+   : [1] "matrix" "array"
 
-    Can you show this?
-    #+begin_src R :results output
-    mylist <- list("hello", matrix(1:4,nrow=2))
-    ## loop over the values of mylist
-    for (i in mylist) {
-      print(paste("Object class:",class(i)))
-      }
-    ## loop over the values of mylist again
-    for (i in mylist) {
-      print(paste("Object class:",class(as.vector(i))))
-      }
-    #+end_src
+   Can you show this?
+   #+begin_src R :results output
+     mylist <- list("hello", matrix(1:4,nrow=2))
+     ## loop over the values of mylist
+     for (i in mylist) {
+       print(paste("Object class:",class(i)))
+     }
+     ## loop over the values of mylist again
+     for (i in mylist) {
+       print(paste("Object class:",class(as.vector(i))))
+     }
+   #+end_src
 
-    #+RESULTS:
-    : [1] "Object class: character"
-    : [1] "Object class: matrix" "Object class: array" 
-    : [1] "Object class: character"
-    : [1] "Object class: integer"
+   #+RESULTS:
+   : [1] "Object class: character"
+   : [1] "Object class: matrix" "Object class: array"
+   : [1] "Object class: character"
+   : [1] "Object class: integer"
 
 9. What will be the output of the following ~for~ loop?
 
-   #+begin_src R
-   for (i in 1:3) {
-     cat("Iteration:", i)
-   }
+   #+begin_src R :results output
+     for (i in 1:3) {
+       cat("Iteration:", i,"\n")  # cat is different from print!
+     }
    #+end_src
+
+   #+RESULTS:
+   : Iteration: 1
+   : Iteration: 2
+   : Iteration: 3
 
 10. What about this ~for~ loop?
 
-   #+begin_src R :results output
-   for (i in 1:3) {
-     print(paste("Iteration:", i))
-   }
-   #+end_src
+    #+begin_src R :results output
+      for (i in 1:3) {
+        print(paste("Iteration:", i)) # `paste` coerces to `character`
+      }
+    #+end_src
+
+    #+RESULTS:
+    : [1] "Iteration: 1"
+    : [1] "Iteration: 2"
+    : [1] "Iteration: 3"
 
 11. How can you modify the following ~for~ loop to print both the index
     and value of each element in ~myvec~?
 
     #+begin_src R :results output
-    myvec <- c("A", "B", "C")
-    ## loop over the values of myvec
-    for (i in myvec) {
-      print(i)
-    }
+      myvec <- c("A", "B", "C")
+
+      ## loop over the values of myvec
+      for (i in myvec) {
+        print(i)
+      }
     #+end_src
 
     *Solution:*
     #+begin_src R :results output
-    myvec <- c("A", "B", "C")
+      myvec <- c("A", "B", "C")
 
-    # Use indexing to print both the index and value
-    for (i in 1:length(myvec)) {
-      cat("Index:", i, "Value:", myvec[i], "\n")
-    }
+                                              # Use indexing to print both the index and value
+      for (i in 1:length(myvec)) {   # index looping
+        cat("Index:", i, "Value:", myvec[i], "\n")
+      }
     #+end_src
-
-    #+RESULTS:
-    : Index: 1 Value: A 
-    : Index: 2 Value: B 
-    : Index: 3 Value: C 
 
 12. What happens when ~length(myvec)~ is used in a ~for~ loop but ~myvec~ is
     an empty vector?
@@ -1148,6 +1171,619 @@ Some students asked for a reminder. See also solution PDF in GitHub.
         cat("Vector is empty.\n")
       }
     #+end_src
+
+    #+RESULTS:
+    : Vector is empty.
+
+** Project review - Issues and Tips
+
+1) What is the central purpose of a project proposal?
+
+   - Create an outline and think through your project
+   - Describe your project to someone who has no clue
+   - Check if you're on the right track before you bomb
+
+   #+begin_quote
+   To get buy-in from the project sponsor (that's me). Prove to him
+   that this is something worth spending some time on. Sell a product:
+   You + your work, to solve a problem within the framework of the
+   project.
+   #+end_quote
+
+2) What's the purpose of a sprint review?
+
+   - Evaluate results, identify good, bad, ugly
+   - Split the total project time up into sprints
+   - Show off your prototype (what you have so far)
+
+   #+begin_quote
+   To present your progress (or lack thereof) to the project owner or
+   sponsor, and to the other projects, to highlight issues, enter in a
+   conversation with the project owner, and to identify the steps for
+   the next sprint. This last step was not asked (I should have -
+   let's do it now).
+   #+end_quote
+
+3) How much time should you put into the project per week?
+   #+begin_quote
+   The syllabus does not mention the project separately (too hard to
+   do the accounting), but it says: You should spend no less than 25
+   minutes per day on this course (outside of class), or no less than
+   2.5 hours per week. I spend at least 1 hour per day per class (or >
+   4 hours per day). If you have 5-6 classes, you should spend 3-4
+   hours per day studying for them.
+
+   Within that schedule, at least 1 hour (10 min per day) should go
+   towards your project - in practice more like 1/2 day every 2
+   weeks - for a total of no less than 24-32 hours (3-4 days).
+
+   Many proposals look as if you spent too little time on the
+   proposals. Reading and working through references alone takes time.
+   #+end_quote
+
+4) What is the specific purpose of the project in this course?
+   #+begin_quote
+   To study, play with, and explain technology - in particular data
+   science packages of functions and datasets, in the context of
+   applying them to real problems.
+
+   Most of you only talk about the problem but not about the
+   tools. You don't even cite them. You need to combine your
+   tool-based and your topical research (and plan on doing that).
+
+   This is quite a different approach from what you're used to in
+   class, but it is quite close to what you'll be doing in the field.
+   #+end_quote
+
+5) What are inline references and what are they good for?
+   #+begin_quote
+   Inline references are abbreviated references that need to be
+   written out fully in the reference section. They back up claims
+   that made in the text that are non-trivial and not generally known
+   to be true.
+
+   Examples:
+   - "Agents are not typically taught..."
+   - "This approach is common..."
+   - "It is pointless to try to..."
+   - "Datasets are not publicly available..."
+
+   If you don't need inline references, you make no non-trivial
+   claims, which could mean that you're not specific enough or that
+   you have not researched the background of your problem.
+   #+end_quote
+
+6) What is AMA citation and did you use a consistent style?
+   #+begin_quote
+   An AMA citation refers to the citation style outlined in the
+   American Medical Association (AMA) Manual of Style, which is
+   commonly used in medicine, healthcare, and biological sciences. The
+   AMA citation style follows a numbered system where references are
+   listed in the order they appear in the text.
+
+   Examples:
+   - [Journal Paper] Smith J, Doe A. Neural networks and phase
+     transitions. J Comput Neurosci. 2023;45(2):123-135.
+     doi:10.1001/jcn.2023.456
+   - [Book] Bishop CM. Pattern Recognition and Machine
+     Learning. Springer; 2006.
+   - [Website] National Institutes of Health. Artificial intelligence
+     in medicine. NIH. Published January 10, 2024. Accessed February
+     25, 2025. https://www.nih.gov/ai-medicine
+   - [Conf Paper] Johnson K, Lee R. Category theory in neural network
+     phase transitions. In: Proceedings of the AI & Math Conference;
+     2024; New York, NY. Springer; 2024:210-225.
+   - Other things: blog, software, video, etc.
+
+   Who used AMA? I noticed a lot of inconsistencies, and unncecessary
+   URLs etc. Many more references than ever (!) but often in shambles.
+   #+end_quote
+
+7) How informal should a proposal be? How subjective in tone?
+   #+begin_quote
+   You need to balance personal, practical and professional tone in
+   anything you write to anyone for school or business. How much
+   depends totally on the audience and the problem.
+
+   There is only one hard rule for project documentation (and for
+   publication in general): Personal/subjective remarks need to have a
+   place of their own, and they must not bleed into the
+   professional/practical documentation. Otherwise you spoil your
+   professional appearance, and you make it very hard for anyone
+   except whom you were thinking of to understand what's going on.
+
+   A technical document (e.g. for a TV) has NO personal text, while a
+   entertaining novel (e.g. Pride and Prejudice) has NO professional
+   text. A research paper should have a mixture of both types of text.
+   #+end_quote
+
+8) Do you need references? Which ones, and why?
+   #+begin_quote
+   The only situation where you don't need any references is when you
+   are working on something that nobody has ever worked on so that
+   your choice of topic and method are completely original.
+
+   So you do need them. As many scientific ones (peer-reviewed) as
+   possible. You must make an assessment of the validity of your
+   sources, and you need to be able to answer for them.
+   #+end_quote
+
+9) Do you have to improve your proposal based on the feedback?
+   #+begin_quote
+   Yes, you should, and you should touch base with me if anything in
+   the feedback is unclear. The feedback should be more formal than it
+   is - basically I'm only checking if you fulfilled the requirements
+   to the letter (e.g. completeness, consistent references etc.)
+   and/or in spirit, if it's doable, and if you've done everything you
+   could at this point.
+
+   A formal feedback would require a formal list of weighted criteria
+   (a rubric). This is what you'll be facing in business not
+   academia. Academia is terribly weak this way and much less
+   resilient - you can see this in the science funding drama that is
+   currently unfolding around us: scientists often don't bother
+   justifying their ends, especially if they feel justified by their
+   means.
+
+   I don't bother with a formal framework mainly because otherwise I
+   would have to spend a lot more time on the projects (like a manager
+   would whose main job is managing projects, pennies, and people). So
+   this is your show and responsibility much more than it would be in
+   the real world.
+
+   Do you have to share your improved proposal with me, unasked?
+   Absolutely, if you've got any doubts if you did it right, or if you
+   just want to show off a good piece of work (that's never wrong -
+   you may want a letter of reference from me one day). This shows
+   both diligence and resilience.
+   #+end_quote
+
+10) Should you look at the proposals of others?
+    #+begin_quote
+    Absolutely. Cristian's proposals are the most polished ones. In
+    DSC 305, Matthew's proposal has the most meat (data sets and code
+    examples attached). Donna's proposal reflects the greatest range
+    of ambitions. Gavin's and Isaac's proposals are pithy and to the
+    point. Fowler's proposals are fairly personal.
+
+    You should make up your own mind about these. They're all
+    interesting, and they all have slight issues here and there.
+
+    You might even give the authors tips based on your experience or
+    your views.
+    #+end_quote
+
+11) Do you need an AI disclaimer?
+    #+begin_quote
+    It would be good! Matthew designed one that I asked the AI to
+    rewrite and I think it worked quite well (Ariel also had something
+    like this in his proposal):
+
+    "In researching for this project, I may have been exposed to
+    AI-generated content in search results and news feeds. However, I
+    affirm that this work is my own and was completed with academic
+    integrity, without relying on AI to circumvent my responsibilities
+    as a student."
+
+    If you don't have a disclaimer because you used AI directly, you
+    needed to (and still need to) document as much as possible
+    (including perhaps by sharing links to your conversation) why and
+    how you used the AI.
+    #+end_quote
+
+** Summary of my experiences
+
+1) What is NotebookLM? See [[https://notebooklm.google][notebooklm.google]].
+   #+begin_quote
+   - Personalized AI Research Assistant.
+   - Multimodal sources can be fed into it.
+   - Expert in the information that you've given it.
+   - Provides citations based on your sources.
+   - Provides engaging Deep Dive discussions between two hosts.
+   - Does not use your personal data and sources for training.
+   #+end_quote
+
+2) The first experiment: Uploaded a proposal that I wrote quickly,
+   with some broad resources that I had collected over the past weeks.
+
+3) The chat summarized my goals and approaches for me and linked the
+   output back to the text.
+
+4) I uploaded some hefty sources (almost 1000 pages of material),
+   papers, a book.
+
+5) Consequently, the sources were used in the chat when I asked about
+   the state of the art in my areas of interest.
+
+6) At the bottom of the screen, the AI suggests questions, some of
+   which are good.
+
+7) I saved interesting answers as notes for later.
+
+8) The notebook conversation never goes outside of the frame defined
+   by your proposal and the sources (unlike ChatGPT).
+
+9) Wrote a minimal proposal without references admitting my ignorance
+   about the topics, and uploaded it.
+
+10) Asked the AI what to do next: The AI will not go beyond what you
+    told it = a minimal proposal is not sufficient to proceed with the
+    research.
+
+11) Without any additional sources, generated a "Deep Dive
+    conversation" to see if it yields any insights or ideas (5.5 min).
+    - Defines the terms (easier for AI because it's about AI) - What.
+    - Identifies a motivation for the research - What.
+    - Talks about the methods - How.
+    - The goals/deliverables (in the context of the research).
+    - Recap is accurate and uplifting.
+    - Distracting question: Could this teach us something about how
+      our own brains work - what if our creativity is a biological
+      version of hallucinations (that's one theory). Is hallucinating
+      AI on the cusp of becoming conscious? Looking into the mind of a
+      machine to understand our own minds?
+
+12) Went to the other (richer, sourced) notebook, defined a focus that
+    interests me (understanding and modeling hallucinations) and
+    generated a podcast (12.5 min) - a few good insights and
+    questions leading to new papers and connections between ideas.
+
+13) The podcast is useful: It reveals both depth and lack of depth. It
+    inspires but this inspiration is very high level and useless
+    unless you buckle down and do the work that the AI is hinting at.
+
+** Today: Begin (or continue) your Literature Review
+
+You can skip the first two steps if you don't have at least one
+scientific paper yet. Instead, use the notebook to identify one.
+
+1) Open/register/login to litmaps.com.
+
+2) Create a litmap of a relevant scholarly article OR put your project
+   topic in the search field to identify potentially relevant papers.
+
+   #+attr_html: :width 400px
+   [[../img/litmap.png]]
+
+   This might help you find new stuff.
+   #+attr_html: :width 600px
+   [[../img/category.png]]
+
+3) Open NotebookLM by Google and create a new notebook.
+
+4) Upload your proposal in its present form. Before you go on, check
+   in the =Chat= in NotebookLM the summary and the questions.
+
+5) In the =Chat= ask a question that you actuall have related to your
+   project.
+
+6) Upload any other source that you already know.
+
+7) In the =Chat=, questions relevant to the proposal are being
+   asked. Start a conversation and use prompts to channel it into
+   something useful to improve your proposal.
+
+   The AI answers are linked to parts of your proposal document. If
+   the proposal is very thin on the ground, or unclear, it'll show.
+
+   #+attr_html: :width 400px
+   [[../img/notebooklm.png]]
+
+8) Upload my feedback and ask in the =Chat= for clarification or changes
+   to the proposal. Ask for what the next steps could be.
+
+9) Fix your proposal accordingly.
+
+10) Upload an improved proposal.
+
+11) Rinse and repeat the =Chat= exercise until you've got no more
+    questions.
+
+12) Create the (first) podcast.
+
+
+* Week 8: Utilities & ~while~ loops
+#+attr_html: :width 400px :float nil:
+[[../img/jonah.jpg]]
+
+- [ ] Sample solutions
+- [ ] ~while~ loops - lecture & codealong & exercise
+- [ ] Test 5 on loops - deadline March 11
+- [ ] DataCamp review: Utilities
+
+** TODO Sample solutions for programming assignments
+
+I will grade these later in the week. You should then compare with the
+online sample solutions.
+
+- [[https://github.com/birkenkrahe/ds2-25/blob/main/org/conditional_statements.org][Conditional statements]] (see Canvas)
+- [[https://github.com/birkenkrahe/ds2-25/blob/main/org/7_switch_exercise_solution.org][Nested conditionals and switch]] (see Canvas)
+
+** =while= loops - lecture & codealong
+
+- Download and complete: [[https://tinyurl.com/while-codealong][tinyurl.com/while-codealong]].
+- Exercise for ~while~ loops: [[https://tinyurl.com/while-assignment][tinyurl.com/while-assignment]]
+
+** TODO Review (test preview): DataCamp Intermediate R - Utilities
+
+Fire up Emacs + Org-mode. There's some coding to do.
+
+1. What does the =abs()= function do in R when applied to a vector like
+   =v1 <- c(1.1, -7.1, 5.4, -2.7)=?
+   #+BEGIN_QUOTE
+   It returns the absolute values of the elements: =c(1.1, 7.1, 5.4,
+   2.7)=.
+   #+END_QUOTE
+   #+begin_src R :session *R* :results output :exports both
+     v1 <- c(1.1, -7.1, 5.4, -2.7)
+     abs(v1)
+   #+end_src
+
+2. Write a function =is.pos= that checks if the argument is positive by
+   printing 1 or 0 for every element that's positive (not positive),
+   and check it with =v1= and =abs(v1)=. Use ~ifelse~.
+
+   #+begin_src R :session *R* :results output :exports both
+     is.pos <- function(x) {ifelse(test=(x>0), yes=1, no=0)}
+     is.pos(abs(v1))
+     is.pos(v1)
+   #+end_src
+
+3. Do the same thing as before but now use a ~for~ loop over the
+   argument for a function =is.pos_for=.
+
+   #+begin_src R :session *R* :results output :exports both
+     ## loop over vector indices
+     is.pos_for <- function(x) {
+       for (i in 1:length(x)) {
+         if(x[i]>0) print(1)
+         else print (0)}
+     }
+     is.pos_for(abs(v1))
+     is.pos_for(v1)
+     ## loop over vector elements
+     is.pos_for2 <- function(x) {
+       for (element in x) {
+         if(element>0) print(1)
+         else print (0)}
+     }
+     is.pos_for2(abs(v1))
+     is.pos_for2(v1)
+   #+end_src
+
+4. Do the same thing yet again, but now use an ~apply~ function.
+
+   #+begin_src R :session *R* :results output :exports both
+     sapply(X=v1,FUN=function(x) { if(x>0) 1 else 0 })
+
+     ## using `print` inside the anonymous function prints x first.
+   #+end_src
+
+5. How does the =round()= function behave when rounding the vector
+   =c(1.1, 7.1, 5.4, 2.7)=?
+   #+BEGIN_QUOTE
+   It rounds each element to the nearest integer: =c(1, 7, 5, 3)=.
+   #+END_QUOTE
+
+   #+begin_src R :session *R* :results output :exports both
+     round(c(1.1, 7.1, 5.4, 2.7))
+   #+end_src
+
+6. What is the result of =mean(c(sum(c(1, 2, 3)), sum(c(0, 0, 6))))=?
+   #+BEGIN_QUOTE
+   The result is =6=.
+   #+END_QUOTE
+   #+begin_src R :session *R* :results output :exports both
+     sum(c(1, 2, 3)) # 6
+     sum(c(0, 0, 6)) # 6
+     c(sum(c(1, 2, 3)), sum(c(0, 0, 6))) # c(6,6)
+     mean(c(sum(c(1, 2, 3)), sum(c(0, 0, 6)))) # (6 + 6) / 2 = 12 / 2 = 6
+   #+end_src
+
+7. What does the =seq()= function produce when you run =seq(8, 2, by = -2)=?
+   #+BEGIN_QUOTE
+   It generates a sequence: =c(8, 6, 4, 2)= - stepping backwards.
+   #+END_QUOTE
+   #+begin_src R :session *R* :results output :exports both
+     seq(from=8, to=2, by=-2)
+   #+end_src
+
+8. What is the output of =sort(rep(seq(8, 2, by = -2), times = 2))=?
+   #+BEGIN_QUOTE
+   It returns =c(2, 2, 4, 4, 6, 6, 8, 8)=.
+
+   1) =seq(8, 2, by = -2)= gives =c(8, 6, 4, 2)=
+   2) =rep(..., times = 2)= repeats it to =c(8, 6, 4, 2, 8, 6, 4, 2)=
+   3) =sort()= orders it to  =c(2, 2, 4, 4, 6, 6, 8, 8)=.
+   #+END_QUOTE
+
+   #+begin_src R :session *R* :results output :exports both
+     seq(8, 2, by = -2) # 8 6 4 2
+     rep(seq(8, 2, by = -2), times = 2) # 8 6 4 2 8 6 4 2
+     sort(rep(seq(8, 2, by = -2), times = 2)) # 2 2 4 4 6 6 8 8
+   #+end_src
+
+9. How does =rep(c(8, 6, 4, 2), each = 2)= differ from =rep(c(8, 6, 4,
+   2), times = 2)=?
+   #+BEGIN_QUOTE
+   - =rep(..., each = 2)= repeats each element twice before moving on
+   - =rep(..., times = 2)= repeats the entire vector twice
+   #+END_QUOTE
+
+   #+begin_src R :session *R* :results output :exports both
+     rep(c(8, 6, 4, 2), each = 2)
+     rep(c(8, 6, 4, 2), times = 2)
+   #+end_src
+
+10. What does the =str()= function reveal about the structure of
+    #+begin_src R :session *R* :results none
+      li <- list(log = TRUE,
+                 ch = "hello",
+                 int_vec = sort(rep(seq(8, 2, by = -2), times = 2)))
+    #+end_src
+
+    #+begin_src R :session *R* :results output :exports both
+      str(li) # `log` is logical, `ch` is a string, `int_vec` is numeric
+    #+end_src
+
+11. What is the result of =unlist(li)= for the list defined in the last question?
+    #+BEGIN_QUOTE
+    It flattens the list into a character vector.
+    #+END_QUOTE
+
+    #+begin_src R :session *R* :results output :exports both
+      unlist(li)
+    #+end_src
+
+12. How do you create a date object in R for May 14, 1971, and what does it return?
+
+    #+begin_src R :session *R* :results output :exports both
+      class("1971-05-14")
+      my_date <- as.Date("1971-05-14")
+      my_date
+      class(my_date)
+    #+end_src
+
+13. What happens when you add =1= to a POSIXct object like =my_time <-
+    as.POSIXct("1971-05-14 11:25:15")=? And what happens when you
+    ~unclass~ the object?
+    #+BEGIN_QUOTE
+    It adds 1 second, resulting in ="1971-05-14 11:25:16 CET"=.
+    #+END_QUOTE
+
+    #+begin_src R :session *R* :results output :exports both
+      my_time <-  as.POSIXct("1971-05-14 11:25:15")
+      my_time + 1
+      as.numeric(unclass(my_time)) # seconds since epoch
+      ## days since epoch on 3-March 202
+      as.numeric(unclass(as.POSIXct("2025-03-03 00:00:00"))/(365*24*3600))
+    #+end_src
+
+    #+RESULTS:
+    : [1] "1971-05-14 11:25:16 CDT"
+    : [1] 43086315
+    : [1] 55.20616
+
+14. What does 'POSIXct' mean?
+    #+begin_quote
+    POSIXct stands for "Portable Operating System Interface, calendar
+    time". It is a class used in R to represent dates and times,
+    stored internally as the number of seconds since the "Unix epoch",
+    January 1, 1970, 00:00:00 UTC [French: Temps Universel Coordoné].
+    #+end_quote
+
+15. What does =Sys.Date= do, and what does this code return?
+    #+begin_src R :session *R* :results output :exports both
+      Sys.Date()  # current system date
+      as.integer(as.Date("2025-05-09") - Sys.Date())  # returns 303
+    #+end_src
+
+    #+begin_quote
+    - =Sys.Date= is the current date fetched via C's time functions
+    - Return value is the number of days left until end of term!
+    - =Sys.time= returns the date and time
+    #+end_quote
+    : [1] 303
+
+16. Does POSIXct require a lot of work from R?
+
+    Let's C:
+    #+begin_src C
+      #include <sys/time.h>  // For gettimeofday()
+      #include <time.h>      // For time_t and localtime()
+
+      struct timeval tv;   // tv has epoch time in seconds & microseconds
+      struct tm *timeinfo;
+
+      // Get the current time with `gettimeofday()`
+      if (gettimeofday(&tv, NULL) == -1) {
+        perror("gettimeofday failed");
+        return 1;
+       }
+
+      // Convert seconds since epoch to local time
+      timeinfo = localtime(&tv.tv_sec);
+      if (timeinfo == NULL) {
+        perror("localtime failed");
+        return 1;
+       }
+
+      // Buffer to hold formatted time string
+      char buffer[26];
+      strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", timeinfo);
+
+      // Print time with microseconds
+      printf("Current time: %s.%06ld %s\n",
+             buffer,
+             tv.tv_usec,
+             timeinfo->tm_zone);
+    #+end_src
+
+    #+RESULTS:
+    : Current time: 2025-03-03 22:41:39.584482 CST
+
+    Minimal (with way less control & less information):
+    #+begin_src C
+      #include <time.h>      // For time_t and ctime()
+      // get address-of compound literal `time_t` initialized at epoch 0
+      printf("%s\n",ctime(&(time_t){time(NULL)}));
+    #+end_src
+
+    #+RESULTS:
+    : Mon Mar  3 22:44:25 2025
+
+17. What does the following function do and what does it output?
+    #+begin_src R :session *R* :results output :exports both
+      wd <- function(date_str) {weekdays(as.Date(date_str))}
+      date_str = "2025-03-03"
+      wd(date_str)
+    #+end_src
+
+    #+begin_quote
+    - =date_str= is a string formatted as a date ("YYYY-MM-DD")
+    - =as.Date(data_str)= converts the string into a ~Date~ object.
+    - ~weekdays~ extracts parts of a date from a ~Date~ object.
+    #+end_quote
+
+18. What does this code output?
+    #+begin_src R :session *R* :results output :exports both
+      animals <- c("cat", "dog", "caterpillar", "bird", "catfish")
+      grep("cat", animals)
+    #+end_src
+
+    #+begin_quote
+    =grep= extracts the pattern of its first argument from its second
+    argument and returns the indices of its hits: =1 3 5=.
+    #+end_quote
+
+19. What does this code output?
+    #+BEGIN_SRC R :results output
+      words <- c("apple", "banana", "cat")
+      sub("a", "X", words)
+    #+END_SRC
+
+    #+RESULTS:
+    : [1] "Xpple"  "bXnana" "cXt"
+
+    #+begin_quote
+    ~sub~ replaces the first occurrence of ="a"= with ="X"= in each string
+    of a ~character~ vector: ="Xpple"  "bXnana" "cXt"=.
+    #+end_quote
+
+20. What's the difference between ~grep~ and ~grepl~, ~sub~ and ~gsub~?
+    #+BEGIN_QUOTE
+    - ~grep~ vs. ~grepl~:
+      - ~grep~: Returns the *indices* of elements in a vector that match a
+        pattern (e.g., =grep("cat", c("cat", "dog"))= → =[1] 1=).
+      - ~grepl~: Returns a *logical vector* indicating which elements
+        match (e.g., =grepl("cat", c("cat", "dog"))= → =[1] TRUE FALSE=).
+
+    - ~sub~ vs. ~gsub~:
+      - ~sub~: Replaces the *first occurrence* of a pattern in each string
+        (e.g., =sub("a", "X", "banana")= → ="bXnana"=).
+      - ~gsub~: Replaces *all occurrences* of a pattern (e.g., =gsub("a",
+        "X", "banana")= → ="bXnXnX"=).
+    #+END_QUOTE
 
 
 * Footnotes
