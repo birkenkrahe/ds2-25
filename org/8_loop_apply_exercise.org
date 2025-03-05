@@ -1,0 +1,107 @@
+#+TITLE: Exploring While Loops - Home Assignment
+#+AUTHOR: [yourname] (pledged)
+#+SUBTITLE: DSC 205 - Advanced Introduction to Data Science - Spring 2025
+#+STARTUP: overview hideblocks indent
+#+OPTIONS: toc:nil num:nil ^:nil
+#+PROPERTY: header-args:R :session *R* :results output :exports both :noweb yes
+* TODO Identify Yourself and Pledge
+
+  1) Replace ~[yourname]~ at the top with your full name and add ~(pledged)~
+     beside it (e.g., "Jane Doe (pledged)").
+  2) Mark this task as ~DONE~ by placing your cursor on the headline and
+     pressing ~S-<right>~ (Shift + right-arrow).
+* Titanic Survival Analysis with ~tapply~
+** Objective
+
+   Use R’s ~tapply~ function to analyze the Titanic dataset and determine
+   passenger survival by sex. Write your own code and document your
+   process in this Org-mode file.
+
+** Dataset
+   The built-in ~Titanic~ dataset (convertible to a data frame) includes:
+   - ~Class~: Passenger class (1st, 2nd, 3rd, Crew)
+   - ~Sex~: Male, Female
+   - ~Age~: Child, Adult
+   - ~Survived~: No, Yes
+   - ~Freq~: Number of passengers
+
+** Submission
+   Submit this Emacs Org-mode file with code, documentation and sample
+   results.
+
+** Tasks
+   For each task, include:
+   1. A description of your approach.
+   2. Your R code in a source block.
+   3. The output and a brief interpretation.
+
+*** Task 1: Setup
+
+    Convert the ~Titanic~ dataset to a data frame and explore its structure.
+
+    How many variables are in the dataset, and what does ~Freq~ represent?
+
+    #+begin_src R
+      ## Your code here (e.g., convert Titanic and check structure)
+
+    #+end_src
+
+*** Task 2: Total Passengers by Sex
+    Calculate the total number of male and female passengers.
+
+    How many male and female passengers were on the Titanic, and what’s
+    the total?
+
+    #+begin_src R
+      ## Your code here (e.g., sum Freq by Sex)
+
+    #+end_src
+
+*** Task 3: Survivors vs. Non-Survivors
+    Determine the total number of survivors and non-survivors.
+
+    How many passengers survived vs. died, and what does this suggest about the disaster?
+
+    #+begin_src R
+      ## Your code here (e.g., sum Freq by Survived)
+
+    #+end_src
+
+*** Task 4: Male and Female Survivors and Non-Survivors
+    Compute the number of male and female survivors and non-survivors.
+
+    What are the counts for each combination (e.g., male survivors), and what pattern emerges?
+
+    #+begin_src R
+      ## Your code here (e.g., sum Freq by Sex and Survived)
+
+    #+end_src
+
+
+*** Task 5: Bonus (Optional)
+    Analyze survival by ~Sex~, ~Survived~, and ~Age~.
+
+    What’s one interesting insight about survival differences (e.g.,
+    between adult males and female children)?
+
+    #+begin_src R
+      ## Your code here (e.g., sum Freq by Sex, Survived, and Age)
+
+    #+end_src
+
+** Submission Guidelines
+
+   - Use this Org-mode file.
+   - For each task:
+     - Explain your thought process in text (e.g., "I used tapply() to
+       sum Freq by Sex because...").
+     - Interpret the output below the results (e.g., "This shows more
+       females survived because...").
+   - Write your own code—don’t copy solutions. Experiment and explain
+     your choices.
+
+** Grading Criteria
+   - *Correctness*: Code answers the questions accurately.
+   - *Documentation*: Explanations are clear and justify choices.
+   - *Completion*: All required tasks attempted; bonus is optional for
+     extra credit.

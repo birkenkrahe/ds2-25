@@ -1,20 +1,9 @@
 #+TITLE: Exploring While Loops - Home Assignment
-#+AUTHOR: Marcus Birkenkrahe (pledged)
+#+AUTHOR: [yourname] (pledged)
 #+SUBTITLE: DSC 205 - Advanced Introduction to Data Science - Spring 2025
 #+STARTUP: overview hideblocks indent
 #+OPTIONS: toc:nil num:nil ^:nil
 #+PROPERTY: header-args:R :session *R* :results output :exports both :noweb yes
-* README
-
-- This bonus assignment complements the lecture on ~while~ loops in R.
-- Submit your completed Org-mode file via Canvas.
-- Earn bonus points toward your "home assignments" grade, with credit
-  given for both correctness and literate programming quality (clear
-  explanations, organized code, and comments).
-- Adapted from Davies, *Book of R* (2016), pp. 199-204.
-- Solutions will be shared as a PDF after the submission deadline.
-- Improved version with the help of Grok by xAI.
-
 * TODO Identify Yourself and Pledge
 
 1) Replace ~[yourname]~ at the top with your full name and add ~(pledged)~
