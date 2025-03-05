@@ -1,4 +1,4 @@
-#+TITLE: Exploring While Loops - Home Assignment
+#+TITLE: Exploring apply functions - Home Assignment
 #+AUTHOR: [yourname] (pledged)
 #+SUBTITLE: DSC 205 - Advanced Introduction to Data Science - Spring 2025
 #+STARTUP: overview hideblocks indent
