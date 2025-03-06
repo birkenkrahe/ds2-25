@@ -16,7 +16,6 @@ This practice file accompanies the [[https://github.com/birkenkrahe/ds2/blob/mai
 2) Go with the cursor on the headline and hange the ~TODO~ label to ~DONE~
    by entering ~S-<right>~ ("Shift + right-arrow").
 
-
 * ~apply~, ~lapply~, ~sapply~, ~tapply~, ~vapply~, ~mapply~
 
 - The ~apply~ family of functions allows implicit looping over subsets
@@ -120,7 +119,7 @@ This practice file accompanies the [[https://github.com/birkenkrahe/ds2/blob/mai
 
 * ~apply~ example: ~array~
 
-- Create a 3 x 2 x 2 array ~bar~ with the elements 1 through 18 named =bar=.
+- Create a 3 x 3 x 2 array ~bar~ with the elements 1 through 18 named =bar=.
   #+begin_src R
 
   #+end_src
@@ -165,6 +164,39 @@ This practice file accompanies the [[https://github.com/birkenkrahe/ds2/blob/mai
 - Using ~tapply~, you can add up the total value of the diamonds for the
   full data set but separated according to ~color~ (key coded):
   #+begin_src R
+
+  #+end_src
+
+- Edge case: What if the dataset doesn't have any ~factor~ vectors? Take
+  for example ~mtcars~ whose ~cyl~ variable is categorical. 
+  #+begin_src R :session *R* :results output :exports both
+
+  #+end_src
+  
+- Let's see the average fuel consumption for cars with different
+  number of cylinders:
+  #+begin_src R :session *R* :results output :exports both
+
+  #+end_src
+
+- What about using ~INDEX~ on ~character~ vectors? For example ~Titanic~: We
+  want to know how the numbers of are distributed across classes.
+  #+begin_src R :session *R* :results output :exports both
+
+  #+end_src
+
+- There is a subtlety here: the data are stored in a contingency table
+  #+begin_src R :session *R* :results output :exports both
+
+  #+end_src
+
+- The =Freq= column holds the numeric information. 
+  #+begin_src R :session *R* :results output :exports both
+
+  #+end_src
+
+- How many passengers were in each class on the Titanic?
+  #+begin_src R :session *R* :results output :exports both
 
   #+end_src
 

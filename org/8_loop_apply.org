@@ -242,7 +242,7 @@
   #+end_quote
 
 - Given a 4 x 4 x 3 array, what is the structure of the =result= after
-  this call?
+  this call? What's the topology of the ~array~ object?
   #+begin_src R :session *R* :results output :exports both
     arr <- array(TRUE, dim=c(4,4,3))
     result <- apply(X = arr, MARGIN = 3, FUN = sum)
@@ -273,10 +273,16 @@
 - Simple example: compute the ~mean~ tooth length by supply category in
   the ~ToothGrowth~ dataset:
   #+begin_src R
-    tapply(X = ToothGrowth$len,   # length of guinea pig teeth
+    tapply(X = ToothGrowth$len,       # length of guinea pig teeth
            INDEX = ToothGrowth$supp,  # OJ or VC supply
-           FUN = mean)   # arithmetic average
+           FUN = mean) -> meanTooth   # arithmetic average
+    names(meanTooth) <- c("Orange Juice","Vitamin C")
+    round(meanTooth,2)
   #+end_src
+
+  #+RESULTS:
+  : Orange Juice    Vitamin C 
+  :        20.66        16.96
 
 - The result returns the average length for guinea pigs supplied with
   orange juice (~OJ~) and vitamin C (~VC~).
@@ -292,6 +298,29 @@
     head(diamonds)
   #+end_src
 
+  #+RESULTS:
+  #+begin_example
+  'data.frame':	53943 obs. of  11 variables:
+   $ X      : int  1 2 3 4 5 6 7 8 9 10 ...
+   $ carat  : num  0.23 0.21 0.23 0.29 0.31 0.24 0.24 0.26 0.22 0.23 ...
+   $ cut    : Factor w/ 5 levels "Fair","Good",..: 3 4 2 4 2 5 5 5 1 5 ...
+   $ color  : Factor w/ 7 levels "D","E","F","G",..: 2 2 2 6 7 7 6 5 2 5 ...
+   $ clarity: Factor w/ 8 levels "I1","IF","SI1",..: 4 3 5 6 4 8 7 3 6 5 ...
+   $ depth  : num  61.5 59.8 56.9 62.4 63.3 62.8 62.3 61.9 65.1 59.4 ...
+   $ table  : num  55 61 65 58 58 57 57 55 61 61 ...
+   $ price  : int  326 326 327 334 335 336 336 337 337 338 ...
+   $ x      : num  3.95 3.89 4.05 4.2 4.34 3.94 3.95 4.07 3.87 4 ...
+   $ y      : num  3.98 3.84 4.07 4.23 4.35 3.96 3.98 4.11 3.78 4.05 ...
+   $ z      : num  2.43 2.31 2.31 2.63 2.75 2.48 2.47 2.53 2.49 2.39 ...
+    X carat       cut color clarity depth table price    x    y    z
+  1 1  0.23     Ideal     E     SI2  61.5    55   326 3.95 3.98 2.43
+  2 2  0.21   Premium     E     SI1  59.8    61   326 3.89 3.84 2.31
+  3 3  0.23      Good     E     VS1  56.9    65   327 4.05 4.07 2.31
+  4 4  0.29   Premium     I     VS2  62.4    58   334 4.20 4.23 2.63
+  5 5  0.31      Good     J     SI2  63.3    58   335 4.34 4.35 2.75
+  6 6  0.24 Very Good     J    VVS2  62.8    57   336 3.94 3.96 2.48
+  #+end_example
+
 - Using ~tapply~, you can add up the total value of the diamonds for the
   full data set but separated according to ~color~ (key coded):
   #+begin_src R
@@ -300,6 +329,101 @@
       INDEX = diamonds$color,
       FUN = sum)
   #+end_src
+
+  #+RESULTS:
+  :        D        E        F        G        H        I        J 
+  : 21476439 30148457 35545622 45158240 37257301 27608146 14949281
+
+- Edge case: What if the dataset doesn't have any ~factor~ vectors? Take
+  for example ~mtcars~ whose ~cyl~ variable is categorical. 
+  #+begin_src R :session *R* :results output :exports both
+    str(mtcars)
+  #+end_src
+
+  #+RESULTS:
+  #+begin_example
+  'data.frame':	32 obs. of  11 variables:
+   $ mpg : num  21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
+   $ cyl : num  6 6 4 6 8 6 8 4 4 6 ...
+   $ disp: num  160 160 108 258 360 ...
+   $ hp  : num  110 110 93 110 175 105 245 62 95 123 ...
+   $ drat: num  3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...
+   $ wt  : num  2.62 2.88 2.32 3.21 3.44 ...
+   $ qsec: num  16.5 17 18.6 19.4 17 ...
+   $ vs  : num  0 0 1 1 0 1 0 1 1 1 ...
+   $ am  : num  1 1 1 0 0 0 0 0 0 0 ...
+   $ gear: num  4 4 4 3 3 3 3 4 4 4 ...
+   $ carb: num  4 4 1 1 2 1 4 2 2 4 ...
+  #+end_example
+
+- Let's see the average fuel consumption for cars with different
+  number of cylinders:
+  #+begin_src R :session *R* :results output :exports both
+    tapply(X=mtcars$mpg,
+           INDEX=mtcars$cyl,
+           FUN=mean) |> round(2)
+  #+end_src
+
+  #+RESULTS:
+  :     4     6     8 
+  : 26.66 19.74 15.10
+
+- What about using ~INDEX~ on ~character~ vectors? For example ~Titanic~: We
+  want to know how the numbers of are distributed across classes.
+  #+begin_src R :session *R* :results output :exports both
+    str(Titanic)
+  #+end_src
+
+  #+RESULTS:
+  :  'table' num [1:4, 1:2, 1:2, 1:2] 0 0 35 0 0 0 17 0 118 154 ...
+  :  - attr(*, "dimnames")=List of 4
+  :   ..$ Class   : chr [1:4] "1st" "2nd" "3rd" "Crew"
+  :   ..$ Sex     : chr [1:2] "Male" "Female"
+  :   ..$ Age     : chr [1:2] "Child" "Adult"
+  :   ..$ Survived: chr [1:2] "No" "Yes"
+
+- There is a subtlety here: the data are stored in a contingency table
+  #+begin_src R :session *R* :results output :exports both
+    titanic <- as.data.frame(Titanic)
+    str(titanic)
+    head(titanic,3)
+  #+end_src
+
+  #+RESULTS:
+  #+begin_example
+  'data.frame':	32 obs. of  5 variables:
+   $ Class   : Factor w/ 4 levels "1st","2nd","3rd",..: 1 2 3 4 1 2 3 4 1 2 ...
+   $ Sex     : Factor w/ 2 levels "Male","Female": 1 1 1 1 2 2 2 2 1 1 ...
+   $ Age     : Factor w/ 2 levels "Child","Adult": 1 1 1 1 1 1 1 1 2 2 ...
+   $ Survived: Factor w/ 2 levels "No","Yes": 1 1 1 1 1 1 1 1 1 1 ...
+   $ Freq    : num  0 0 35 0 0 0 17 0 118 154 ...
+    Class  Sex   Age Survived Freq
+  1   1st Male Child       No    0
+  2   2nd Male Child       No    0
+  3   3rd Male Child       No   35
+  #+end_example
+
+- The =Freq= column holds the numeric information. 
+  #+begin_src R :session *R* :results output :exports both
+    str(titanic$Freq)
+  #+end_src
+
+  #+RESULTS:
+  :  num [1:32] 0 0 35 0 0 0 17 0 118 154 ...
+
+- How many passengers were in each class on the Titanic?
+  #+begin_src R :session *R* :results output :exports both
+    tapply(X=titanic$Freq,
+           INDEX=titanic$Class,
+           FUN=sum)
+  #+end_src
+
+  #+RESULTS:
+  :  1st  2nd  3rd Crew 
+  :  325  285  706  885
+
+- We conclude that ~tapply~ has no problems with categorical data that
+  are typed as ~numeric~ or ~character~ data.
 
 * ~lapply~ - cycling through lists
 
