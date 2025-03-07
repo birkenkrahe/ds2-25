@@ -1,5 +1,5 @@
 #+title: Agenda Notebook
-#+author: Marcus Birkenkrahe
+n#+author: Marcus Birkenkrahe
 #+subtitle: DSC 205 - Intro to Advanced Data Science - SP25
 #+SEQ_TODO: TODO NEXT IN_PROGRESS | DONE CANCELLED
 #+startup: overview hideblocks indent entitiespretty
