@@ -1,0 +1,94 @@
+#+title: Conditionals Bonus Assignment
+#+author: [yourname] (pledged)
+#+subtitle: DSC 205 Lyon College Spring 2025
+#+startup: overview hideblocks indent entitiespretty:
+#+property: header-args:R :session *R* :results output :exports both:
+* README
+
+- This assignment introduces conditional statements (if-else) in R, as
+  well as ~%in%~, ~any~, ~substr~ and ~ifelse~.
+
+- Complete and submit the Org-mode file to Canvas with your name,
+  pledge, and clear explanations of your process.
+
+- If you use generative AI, credit it, explain how you used it, and be
+  ready to explain your solution in class.
+
+- When you submit a solution you'll get my sample solution to check.
+
+* Problem
+
+Write R code that takes a vector of character strings and checks if
+any string begins with the letter ~g~ (lowercase or uppercase).
+
+- If at least one string starts with ~g~, replace those specific strings
+  with ~"FOUND"~.
+- If no strings start with ~g~, replace the entire vector with a new
+  vector of the same length filled with ~"NONE"~.
+
+/Tip:/ Use ~substr~ to check the first letter and ~ifelse~ for conditional
+replacement.
+
+* Solution
+
+Develop your solution step-by-step:
+
+1) Create a vector of strings to test.
+2) Use ~substr~ to extract the first letter of each string and store the
+   result in an object =first_letters=.
+3) Print the =first_letters= object.
+4) Use an ~if~-~else~ statement with ~%in%~ to check for 'g' or 'G'.
+5) To replace strings starting with 'g' or 'G', use ~ifelse~.
+6) To replace the whole vector, use ~rep~ over the ~length~ of the vector.
+
+Here’s starter pseudocode in R comments to guide you:
+#+begin_src R
+  ## Define a vector `my_vector` of character strings
+
+  ## Extract the first letter of each string in the vector
+
+  ## Check if any first letter is 'g' or 'G'
+  ## if (any first_letters is 'g' or 'G') then
+
+  ##   Replace strings starting with 'g' or 'G' with "FOUND"
+
+  ## else
+  ##   Replace the whole vector with "NONE" repeated for its length
+
+  ## end if
+
+  ## Print the result
+#+end_src
+
+Write your R code below this block.
+
+#+begin_src R
+
+#+end_src
+
+* Test your solution
+
+Test your code with these vectors and check the output:
+
+#+begin_src R
+  vector1 <- c("cat", "dog", "fish")
+  vector2 <- c("giraffe", "zebra", "Gorilla")
+  vector3 <- c("apple", "banana", "cherrygrape")
+#+end_src
+
+Expected output:
+#+begin_example
+[1] "NONE" "NONE" "NONE"
+[1] "FOUND" "zebra" "FOUND"
+[1] "NONE" "NONE" "NONE"
+#+end_example
+
+* Bonus challenges
+
+- Wrap your code in a function =check_g= that accepts a vector and
+  returns the changed vector. Sample call: =check_g(my_vector)=.
+
+- Wrap your code in a function =check_first_letter= that accepts a
+  vector and a letter and returns the changed vector. Sample call:
+  =check_first_letter(my_vector,my_letter).=
+
