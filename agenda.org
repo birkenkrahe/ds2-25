@@ -1,0 +1,1921 @@
+#+title: Agenda Notebook
+#+author: Marcus Birkenkrahe
+#+subtitle: DSC 205 - Intro to Advanced Data Science - SP25
+#+SEQ_TODO: TODO NEXT IN_PROGRESS | DONE CANCELLED
+#+startup: overview hideblocks indent entitiespretty
+#+property: :header-args:C:      :main yes :includes <stdio.h> :results output :exports both
+#+property: :header-args:python: :session *Python* :python python3 :results output :exports both
+#+property: :header-args:R  :session *R* :results output :exports both
+#+property: :header-args:C++:    :main yes :includes <iostream> :results output :exports both
+* DONE Week 1: Course overview & R Basics Test
+#+attr_html: :width 400px
+[[../img/cover.png]]
+
+- [X] Course overview
+- [X] On the DataCamp assignments
+- [X] A brief review of R (followed by test 1 - until Thu 23-Jan)
+- [ ] Calling functions: Scope and R environments
+
+** DONE On DataCamp assignments
+
+1. Watch the video first with full attention.
+2. Write down immediate questions for later.
+3. Build a notebook for DataCamp courses.
+4. Recreate the individual steps in the video.
+5. Create or import datasets.
+6. Look up function definitions.
+7. Solve the exercises outside of DataCamp.
+8. If you loathe Emacs, use DataLab or Colab instead.
+9. Don't ignore nagging questions that you have.
+10. Start a journal to summarize what you've learnt.
+
+** DONE Review
+
+1. When are data Big Data?
+   #+begin_quote
+   3V: When they're either very large (volume > 1 PetaByte), coming in
+   fast (velocity), or consist of multiple modes or media types
+   (variety).
+   #+end_quote
+
+2. What does "DevOps" mean?
+   #+begin_quote
+   "Development Operations", frameworks that address the interface
+   between IT operations and software developers.
+   #+end_quote
+
+3. What exactly does =sudo apt update -y && sudo apt upgrade -y= mean?
+   #+begin_quote
+   "As super-user, use the package manager program =apt= to =update= the
+   list of installed software (don't ask me any questions, and then
+   (provided the =update= process is complete), install the available
+   =upgrade= software (again without asking me any questions).
+   #+end_quote
+
+4. Name at least one element of a "data science workflow"!
+   #+begin_quote
+   1) *Search* for data, e.g. with a search engine
+   2) *Download* data, e.g. with =wget= on the command-line
+   3) *Edit* code & documentation in a notebook, e.g. =.org= in Emacs
+   4) *Run* scripts on the command-line using the =bash= shell program
+   5) *Debug* scripts, e.g. using the GNU debugger =gdb=
+   6) *Visualize* results, e.g. using R's =plot= function
+   7) *Predict* trends, e.g. using R's =lm= regression model
+   8) *Transform* data, e.g. using =log10= for base-10 logarithms
+   9) *Delete* data, e.g. by redirecting errors to =/dev/null=
+   10) *Model* data, e.g. by converting CSV data to a =data.frame=
+   #+end_quote
+
+5. What is *RStudio*?
+   #+begin_quote
+   RStudio is a popular integrated development environment (IDE) for R
+   (and Python, with SQL) with notebook and publication capabilities.
+   #+end_quote
+
+6. What is the "Tidyverse"?
+   #+begin_quote
+   The "Tidyverse" is a collection of R packages including the popular
+   =ggplot2= visualization package, and =dplyr= for =data.frame=
+   manipulation. I don't like it but don't let me stop you from liking
+   and using the "Tidyverse" packages: You can turn it into an
+   interesting project, too! Hadley Wickham is a central figure for
+   the "Tidyverse". He is also the author of the free "R in Action"
+   textbook, of the original =ggplot2=, and of RStudio.
+   #+end_quote
+
+** DONE A brief review of R - 10 problems
+#+attr_html: :width 400px:
+[[../img/review.png]]
+
+- *Download* the practice file: [[https://tinyurl.com/R-basics-org][tinyurl.com/R-basics-org]] on the
+  command-line using =wget= or in Emacs using =eww=
+
+- *Complete* the practice file: There are three short problems for each
+  of R's data structures - numbers, vectors, matrices, data frames,
+  factors, and lists.
+
+- *Upload* your completed practice file to Canvas so that I can check
+  your state of mind and mastery.
+
+- *Review* the solutions in class.
+
+- *Review* your own solutions depending on how you did in class.
+
+* DONE Week 2: Scope and environment
+#+attr_html: :width 400px:
+#+caption: Nikolay Bogdanov-Belsky, Mental Arithmetic (1893)
+[[../img/bogdanovbelskymentalarithmetic.jpg]]
+
+- [X] R Basics practice: You need to train! What can I do? [fn:1].
+- [X] *Test 1* (R Basics) is live - deadline: Friday 24-Jan (11:59 pm).
+- [ ] Calling functions: *Scope* and R *environments*
+- [ ] *Control flow*: DataCamp review (by Thursday 23-Jan, 11 am)
+
+** DONE Scope and environments
+
+- [X] Lecture: [[https://github.com/birkenkrahe/ds2-25/blob/main/org/2_scoping.org][See GitHub]]
+- [X] Codealong: [[https://tinyurl.com/scoping-codealong-org][tinyurl.com/scoping-codealong-org]]
+- [ ] Practice: [[https://tinyurl.com/scoping-practice-org][tinyurl.com/scoping-practice-org]]
+
+** DONE DataCamp review: Control flow (9 problems)
+
+I now longer trust that *showing* you solutions has any effect on your
+learning skills. You need to *solve problems*, no matter how small. If
+you don't do this on your own time, we'll do it in class.
+
+Download and complete the practice file:
+[[https://tinyurl.com/ds2-practice-2-org][tinyurl.com/ds2-practice-2-org]]
+
+* DONE Week 3: Arguments
+#+attr_html: :width 600px:
+#+caption: St. Thomas Aquinas (1225-1274)
+[[../img/aquinas.jpg]]
+
+/What are humanity's most discussed questions throughout the ages?/
+#+begin_quote
+- Why are we here?
+- What is the purpose of life?
+- Is there a higher power or ultimate truth?
+- What is the nature of good and evil?
+#+end_quote
+
+- [X] On the power of arguments (a philosophical distraction)
+- [X] *Projects:* Enter your ideas now - sprint review: Fri 7-Feb
+- [X] *Test 2* due Fri 31-Jan (100%) - available until Fri 7-Feb (50%)
+- [X] *Caveat:* test includes all of the lecture content on "scoping"
+- [X] *Review:* Plot test 1 grades [[https://tinyurl.com/scoping-review-org][tinyurl.com/scoping-review-org]]
+- [X] *Lecture*: Scoping, environments, namespaces (continued)
+- [X] *Practice:* [[https://tinyurl.com/scoping-practice-org][tinyurl.com/scoping-practice-org]]
+- [X] *Lecture*: Arguments (GitHub) with practice (GitHub)
+
+** Projects - sprint review coming soon
+#+attr_html: :width 600px:
+[[../img/projects.png]]
+
+** Plot your test grades (future assignment)
+#+attr_html: :width 400px:
+[[../img/test_1_report.png]]
+
+Don't let your plotting skills go to waste! When I see a plot like
+this, I always want to recreate (and improve) it (if I can).
+
+Let's do this together! Code along: [[https://tinyurl.com/scoping-review-org][tinyurl.com/scoping-review-org]]
+
+** Current assignments
+
+- New scoping review assignment (deadline Feb 7).
+- Pushed DataCamp assignment to Friday 11:59 pm.
+- Remember: 50% for a week after the deadline, 0% thereafter.
+- Project proposal deadline coming up (Feb 7).
+- You can do it on your own or in a team (we'll make it work).
+
+** Scoping practice (lab)
+
+- *Practice* file: [[https://tinyurl.com/scoping-practice-org][tinyurl.com/scoping-practice-org]]
+- Upload the result to Canvas
+
+** Function arguments (lecture & practice)
+
+- Download the code along file: [[https://tinyurl.com/arguments-code-along][tinyurl.com/arguments-code-along]]
+- Save it as an Org-mode file
+- Code along with me during the lecture.
+
+* DONE Week 4: Conditionals & Sprint review
+
+- [X] Test 2 results & extended deadline (50%)
+- [X] Review home assignment
+- [ ] *Review:* Loops in R & function arguments
+- [ ] *Test 3* due by Tuesday Feb 11 (extended deadline Friday Feb 14)
+- [ ] Lecture & practice: =if= =else= =ifelse=
+- [ ] In-class practice: =if= =else= =ifelse=
+- [ ] Home assignment: =if= =else= =ifelse= - until Friday 14 Feb
+- [X] Project revue: Briefly explain your idea(s)
+
+** Test 2 results are excellent!
+#+attr_html: :width 400px:
+[[../img/test2_results.png]]
+
+- A few missed the deadline & the extended deadline for test 1: 0 pts!
+- A few missed the deadline for test 2, too: complete it for 50% by Friday!
+- Use Canvas/Google Calendar to stay on top of your assignments!
+
+** Home assignment: Scoping & Environments
+
+Some students asked for a reminder. See also solution PDF in GitHub.
+
+1. How would you put this code into an R script?
+   #+begin_example R
+   hist(Nile)
+   #+end_example
+   #+begin_src R :tangle histNile.R
+     hist(Nile)  # tangle with C-c C-v t (org-babel-tangle)
+   #+end_src
+
+2. How would you check that a script exists without leaving R?
+   #+begin_src bash :results output :exports both
+     ls -l *.R  # on the CLI use the `ls` command
+   #+end_src
+   #+begin_src R :results output
+     system("ls -l *.R*")   # shell() on Windoze
+   #+end_src
+
+   #+RESULTS:
+   : -rw-rw-r-- 1 marcus marcus 55 Feb  4 11:11 histNile.R
+   : -rw-rw-r-- 1 marcus marcus 11 Feb  4 11:10 hN.R
+
+3. How can you run the script on the command-line?
+   #+begin_src bash :results output :exports both
+     Rscript histNile.R
+   #+end_src
+   #+begin_src R :results output
+     system("Rscript histNile.R")
+     system("ls -l *R*")
+   #+end_src
+
+   #+RESULTS:
+   : -rw-rw-r-- 1 marcus marcus   55 Feb  4 11:11 histNile.R
+   : -rw-rw-r-- 1 marcus marcus   11 Feb  4 11:10 hN.R
+   : -rw-rw-r-- 1 marcus marcus 4609 Feb  4 11:15 Rplots.pdf
+
+4. What is the output of the script?
+   #+begin_src R :results output
+     system("file R*") # Rscript produces R* files
+     system("evince Rplots.pdf")  # evince is a Linux PDF viewer app
+   #+end_src
+
+   #+RESULTS:
+   : Rplots.pdf: PDF document, version 1.4, 1 pages
+
+   This is what we do when we use notebooks in class:
+   #+begin_src R :file histNile.png :results output graphics file :exports both :comments both :tangle yes :noweb yes
+     hist(Nile)
+   #+end_src
+
+   #+RESULTS:
+   [[file:histNile.png]]
+
+5. What is the other way to run R scripts on the command-line?
+   #+begin_src R :results output
+     system("R CMD BATCH histNile.R")
+     system("ls -l *.R* R*")
+     system("cat histNile.Rout")
+   #+end_src
+
+   #+RESULTS:
+   #+begin_example
+   -rw-rw-r-- 1 marcus marcus   55 Feb  4 11:11 histNile.R
+   -rw-rw-r-- 1 marcus marcus  811 Feb  4 11:19 histNile.Rout
+   -rw-rw-r-- 1 marcus marcus   11 Feb  4 11:10 hN.R
+   -rw-rw-r-- 1 marcus marcus 4609 Feb  4 11:19 Rplots.pdf
+
+   R version 4.1.2 (2021-11-01) -- "Bird Hippie"
+   Copyright (C) 2021 The R Foundation for Statistical Computing
+   Platform: x86_64-pc-linux-gnu (64-bit)
+
+   R is free software and comes with ABSOLUTELY NO WARRANTY.
+   You are welcome to redistribute it under certain conditions.
+   Type 'license()' or 'licence()' for distribution details.
+
+     Natural language support but running in an English locale
+
+   R is a collaborative project with many contributors.
+   Type 'contributors()' for more information and
+   'citation()' on how to cite R or R packages in publications.
+
+   Type 'demo()' for some demos, 'help()' for on-line help, or
+   'help.start()' for an HTML browser interface to help.
+   Type 'q()' to quit R.
+
+   > hist(Nile)  # tangle with C-c C-v t (org-babel-tangle)
+   >
+   > proc.time()
+      user  system elapsed
+     0.108   0.017   0.116
+   #+end_example
+
+** Review & Practice: Arguments / Loops
+
+1) Is ~matrix~ elliptic?
+   #+begin_src R :results output
+     args(matrix) # not elliptic - no ellipsis arguments f(par1, par2,...)
+   #+end_src
+
+   #+RESULTS:
+   : function (data = NA, nrow = 1, ncol = 1, byrow = FALSE, dimnames = NULL)
+   : NULL
+
+2) Use positional matching with ~seq~ to create a sequence of values
+   between -4 and 4 that progresses in steps of 0.2.
+   #+begin_src R :results output
+     seq(-4,4,0.2)
+     args(seq)
+   #+end_src
+
+   #+RESULTS:
+   :  [1] -4.0 -3.8 -3.6 -3.4 -3.2 -3.0 -2.8 -2.6 -2.4 -2.2 -2.0 -1.8 -1.6 -1.4 -1.2
+   : [16] -1.0 -0.8 -0.6 -0.4 -0.2  0.0  0.2  0.4  0.6  0.8  1.0  1.2  1.4  1.6  1.8
+   : [31]  2.0  2.2  2.4  2.6  2.8  3.0  3.2  3.4  3.6  3.8  4.0
+   : function (...)
+   : NULL
+
+3) Identify, which style of argument matching is being used:
+   exact, partial, positional, or mixed. If mixed, which arguments are
+   specified?
+
+   1. ~array~
+      #+begin_src R :results output
+        array(8:1,dim=c(2,2,2)) # mixed, `data` is positional
+      #+end_src
+
+      #+RESULTS:
+      #+begin_example
+      , , 1
+
+           [,1] [,2]
+      [1,]    8    6
+      [2,]    7    5
+
+      , , 2
+
+           [,1] [,2]
+      [1,]    4    2
+      [2,]    3    1
+
+      #+end_example
+
+   2. ~rep~
+      #+begin_src R :results output
+        rep(1:2,3) # positional
+      #+end_src
+
+      #+RESULTS:
+      : [1] 1 2 1 2 1 2
+
+   3. ~seq~
+      #+begin_src R :results output
+        seq(from=10,to=8,length=5) # exact
+      #+end_src
+
+   4. ~sort~
+      #+begin_src R :results output
+        sort(decreasing=T,x=c(2,1,1,2,0.3,3,1.3)) # exact
+      #+end_src
+
+   5. ~which~ (1)
+      #+begin_src R :results output
+        matrix(c(T,F,T,T),2,2)
+        which(matrix(c(T,F,T,T),2,2)) # positional
+      #+end_src
+
+      #+RESULTS:
+      :       [,1] [,2]
+      : [1,]  TRUE TRUE
+      : [2,] FALSE TRUE
+      : [1] 1 3 4
+
+   6. ~which~ (2)
+      #+begin_src R :results output
+        which(matrix(c(T,F,T,T),2,2),a=T) # mixed
+        args(which)
+      #+end_src
+
+      #+RESULTS:
+      :      row col
+      : [1,]   1   1
+      : [2,]   1   2
+      : [3,]   2   2
+      : function (x, arr.ind = FALSE, useNames = TRUE)
+      : NULL
+
+4) What is the key difference between a =for= loop and a =while= loop?
+   #+begin_quote
+   A =for= loop iterates over a predefined sequence, such as a vector
+   or list, and executes the loop body once for each element.
+
+   A =while= loop, on the other hand, continues executing as long as a
+   specified condition remains =TRUE=, making it useful for situations
+   where the number of iterations is not known in advance.
+   #+end_quote
+
+5) What are the advantages and disadvantages of using a =for= loop
+   instead of a =while= loop in R?
+
+   #+begin_quote
+   *Advantages:*
+   - A =for= loop is generally more readable and requires fewer lines of
+     code when iterating over a known sequence.
+   - It reduces the risk of infinite loops since the iteration count
+     is predetermined.
+   - It is easier to debug because the loop boundaries are explicitly
+     defined.
+
+   *Disadvantages:*
+   - A =for= loop is less flexible when the number of iterations is not
+     known in advance.
+   - If the sequence length changes dynamically within the loop, a =for=
+     loop may not behave as expected.
+   - It can be less efficient when iterating over large datasets
+     compared to vectorized solutions.
+   #+end_quote
+
+6) Write a =for= and a =while= loop that prints the numbers 1 to 5.
+   #+begin_src R :session *R* :results output :exports both
+     for (i in 1:5)
+       print(i)
+
+     i <- 1
+     while(i<=5) {
+       print(i)
+       i <- i + 1
+     }
+   #+end_src
+
+   #+RESULTS:
+   #+begin_example
+   [1] 1
+   [1] 2
+   [1] 3
+   [1] 4
+   [1] 5
+   [1] 1
+   [1] 2
+   [1] 3
+   [1] 4
+   [1] 5
+   #+end_example
+
+7) Modify the loops to print the numbers as part of a vector like so:
+   #+begin_example
+     [1] 1 2 3 4 5
+   #+end_example
+
+   #+begin_src R :session *R* :results output :exports both
+     foo <- c() # alternative: vector()
+     foo
+     for (i in 1:5)
+       foo[i] <- i
+     foo
+
+     bar <- c()
+     i <- 1
+     while(i<=5) {
+       bar[i] <- i
+       i <- i + 1
+     }
+     bar
+   #+end_src
+
+   #+RESULTS:
+   : NULL
+   : [1] 1 2 3 4 5
+   : [1] 1 2 3 4 5
+
+   #+begin_src R :session *R* :results output :exports both
+     foo <- c()
+     for (i in 1:5) {
+       foo[i] <- i
+     }
+     foo
+
+     bar <- c()
+     i <- 1
+     while(i<=5) {
+       bar[i] <- i
+       i <- i + 1
+     }
+     bar
+   #+end_src
+
+8) Write a =for= loop that prints each element of a vector, where the
+   vector’s length is unknown in advance. Example vector:
+   =c("Joe","Jim","Jane","Jack","Jill")=
+
+   #+BEGIN_SRC R :results output
+     values <- c("Joe","Jim","Jane","Jack","Jill")  # could be any length
+
+     for (i in 1:length(values)) {
+       print(values[i])
+     }
+   #+END_SRC
+
+   #+RESULTS:
+   : [1] "Joe"
+   : [1] "Jim"
+   : [1] "Jane"
+   : [1] "Jack"
+   : [1] "Jill"
+
+9) Write a =while= loop that processes a Boolean vector, stopping as
+   soon as it encounters the first =FALSE= value, when the length of the
+   vector is not known. Example vector: c(TRUE, TRUE, TRUE, FALSE,
+   TRUE, TRUE)
+
+   #+begin_src R :results output
+     flags <- c(TRUE, TRUE, TRUE, FALSE, TRUE, TRUE)
+     i <- 1 # initialize index for loop
+
+     while(i <= length(flags) && flags[i]) { # FALSE when both conditions are FALSE
+       print(flags[i])
+       i <- i + 1
+     }
+   #+end_src
+
+   #+RESULTS:
+   : [1] TRUE
+   : [1] TRUE
+   : [1] TRUE
+
+   #+BEGIN_SRC R :results output
+     flags <- c(TRUE, TRUE, TRUE, FALSE, TRUE, TRUE)  # Boolean vector
+     i <- 1  # Initialize index
+
+     while (i <= length(flags) && flags[i]) { # TRUE if both are TRUE
+       print(paste("Processing element", i))
+       i <- i + 1  # Increment index
+     }
+   #+END_SRC
+
+10) Consider the following R code, explain step by step what this loop
+    does, and determine the output.
+    #+BEGIN_SRC R :results output
+      vec <- c(5, 2, 9, 0, 3, 8, 7)
+      i <- 1
+
+      while (i <= length(vec)) {
+        if (vec[i] == 0) {
+          print("Zero encountered! Stopping loop.")
+          break
+        } else if (vec[i] %% 2 == 0) {
+          i <- i + 1
+          next
+        }
+        print(vec[i])
+        i <- i + 1
+      }
+    #+END_SRC
+
+    #+RESULTS:
+    : [1] 5
+    : [1] 9
+    : [1] "Zero encountered! Stopping loop."
+
+    #+begin_quote
+    *Step-by-step execution:*
+    - The loop starts with =i = 1= and checks if =vec[i] == 0=.
+    - If =vec[i]= is =0=, it prints ="Zero encountered! Stopping loop."= and
+      exits (=break=).
+    - If =vec[i]= is even, the =next= statement skips printing and moves to the next iteration.
+    - Otherwise, it prints =vec[i]= and increments =i=.
+
+    *Tracing the execution:*
+    - =vec[1] = 5= → odd, so =print(5)=, increment =i= to 2.
+    - =vec[2] = 2= → even, so =next= skips printing, increment =i= to 3.
+    - =vec[3] = 9= → odd, so =print(9)=, increment =i= to 4.
+    - =vec[4] = 0= → =break= triggers, prints ="Zero encountered! Stopping
+      loop."= and exits.
+    #+end_quote
+
+* DONE Week 5: Nested If & Switch & function review
+#+attr_html: :width 600px:
+#+caption: Francisco de Goya, Still Life with Golden Bream (1808)
+[[../img/goya.jpg]]
+
+- [X] *Test 3* available only until tonight (max. 100%)
+- [ ] *Practice* (with upload): =if=-=else=-=ifelse=
+- [ ] *Programming assignment*: Conditional statements
+- [ ] *DataCamp review*: Functions (next test)
+- [ ] *Lecture & Practice*: =switch= function
+
+** Project proposal submissions
+
+- Everybody submitted on time (never happened before)
+- You should add your project to the Canvas pages
+- You should put your submission into GDrive
+- You should submit the URL to Canvas (1 per team)
+- I will view/grade the submissions later this week
+- The next sprint review is a *"Literature review"*
+- *What does this mean?* (Details in Canvas later)
+  1) *Understand* HOW you could continue your project.
+  2) *Review* other people's stuff (scholarly papers preferred).
+  3) *Deliver* either a =notebooklm= or a literature review
+
+** DataCamp Review - Functions
+
+1. What does the =na.rm= argument in =mean(x, na.rm = FALSE)= do?
+   #+BEGIN_QUOTE
+   It determines whether missing (=NA=) values should be removed before
+   computation. When =FALSE=, =NA= values cause the result to be =NA=.
+   #+END_QUOTE
+
+2. Can you construct an example showing this?
+   #+begin_src R :results output
+     mean(c(1,2,3,NA))   # `na.rm = FALSE` is the default
+     mean(c(1,2,3,NA),na.rm=TRUE)
+   #+end_src
+
+   #+RESULTS:
+   : [1] NA
+   : [1] 2
+
+3. What is wrong with this code, and how would you fix it?
+   #+begin_src R :results output :exports both
+     function(x) {
+       3 * x
+     }
+     ls()
+   #+end_src
+
+   #+RESULTS:
+   : function (x)
+   : {
+   :     3 * x
+   : }
+   : character(0)
+
+   #+begin_quote
+   There is nothing wrong with the code as such but the function is
+   not stored in an object (check with =ls()=) and cannot be used.
+   #+end_quote
+   #+begin_src R :session *R* :results output :exports both
+     triple <- function(x) {
+       3 * x
+     }
+     ls()
+   #+end_src
+
+   #+RESULTS:
+   : [1] "triple"
+
+4. Which of these function calls will work on this function?
+   #+begin_src R :session *R* :results output :exports both
+     triple(3)
+     triple(y=3)
+     triple(x=3)
+     triple()
+   #+end_src
+
+   #+RESULTS:
+   : [1] 9
+   : Error in triple(y = 3) : unused argument (y = 3)
+   : [1] 9
+   : Error in triple() : argument "x" is missing, with no default
+
+   #+begin_src R :session *R* :results output :exports both
+     triple
+     args(triple)
+   #+end_src
+
+   #+RESULTS:
+   : function(x) {
+   :   3 * x
+   : }
+   : <bytecode: 0x564099882540>
+   : function (x)
+   : NULL
+
+5. What does the "black box principle" mean in the context of functions?
+   #+BEGIN_QUOTE
+   It means that functions take inputs, process them internally, and
+   return outputs without the user needing to understand the internal
+   workings. However, you can, and should, still try to analyze them!
+   #+END_QUOTE
+
+6. What happens when =ls= is called without an argument? What happens
+   when =mean= is called without an argument?
+   #+begin_src R :session *R* :results output :exports both
+     ls()  # returns objects in the current environment
+     mean()  # computes arithmetic average
+     args(mean)  # shows that `x` (or 1st arg) is needed
+   #+end_src
+
+   #+RESULTS:
+   : [1] "triple"
+   : Error in mean.default() : argument "x" is missing, with no default
+   : function (x, ...)
+   : NULL
+
+   #+begin_src R :session *R* :results output :exports both
+     ls
+   #+end_src
+
+   #+RESULTS:
+   #+begin_example
+   function (name, pos = -1L, envir = as.environment(pos), all.names = FALSE,
+       pattern, sorted = TRUE)
+   {
+       if (!missing(name)) {
+           pos <- tryCatch(name, error = function(e) e)
+           if (inherits(pos, "error")) {
+               name <- substitute(name)
+               if (!is.character(name))
+                   name <- deparse(name)
+               warning(gettextf("%s converted to character string",
+                   sQuote(name)), domain = NA)
+               pos <- name
+           }
+       }
+       all.names <- .Internal(ls(envir, all.names, sorted))
+       if (!missing(pattern)) {
+           if ((ll <- length(grep("[", pattern, fixed = TRUE))) &&
+               ll != length(grep("]", pattern, fixed = TRUE))) {
+               if (pattern == "[") {
+                   pattern <- "\\["
+                   warning("replaced regular expression pattern '[' by  '\\\\['")
+               }
+               else if (length(grep("[^\\\\]\\[<-", pattern))) {
+                   pattern <- sub("\\[<-", "\\\\\\[<-", pattern)
+                   warning("replaced '[<-' by '\\\\[<-' in regular expression pattern")
+               }
+           }
+           grep(pattern, all.names, value = TRUE)
+       }
+       else all.names
+   }
+   <bytecode: 0x564097f07818>
+   <environment: namespace:base>
+   #+end_example
+
+   #+begin_quote
+   - =ls= is a utility function that retrieves object names from an
+     environment. If there is no name, it returns an empty =character=
+     vector.
+   - =mean= is a mathematical function expecting =numeric= input
+   #+end_quote
+
+   #+begin_src R :results output
+     environment(ls)
+   #+end_src
+
+   #+RESULTS:
+   : <environment: namespace:base>
+
+7. What is the difference between =return(y)= and simply writing =y= at
+   the end of an R function?
+   #+BEGIN_QUOTE
+   Both return the value, but using =return(y)= explicitly specifies the
+   return value.
+   #+END_QUOTE
+
+8. What will happen if you call =math_magic(4)= when
+   #+begin_example
+     math_magic <- function(a, b) { a * b + a / b }
+   #+end_example
+   #+BEGIN_QUOTE
+   It will result in an error because argument =b= is missing and has no
+   default.
+   #+END_QUOTE
+
+9. How can you define an optional argument in an R function?
+   #+BEGIN_QUOTE
+   By assigning a default value: =math_magic <- function(a, b = 1)=.
+   #+END_QUOTE
+
+10. What is the difference between =library("ggvis")= and =require("ggvis")=?
+    #+BEGIN_QUOTE
+    =library("ggvis")= throws an error if the package is not installed,
+    while =require("ggvis")= returns =FALSE= instead of an error.
+    #+END_QUOTE
+
+** Home assignment (by Monday 17 Feb) - Canvas
+
+- The final code is short (<10 lines) but packs a punch
+- You need functions =which=, =diag=, =matrix=, =substr=, and =if=, =else=
+- You need to plan your approach using pseudocode
+- Your submission should be a *literate program* (like your project)
+- What does that mean?
+  1) The submitted file is created for humans to read it (and not just
+     for machines to run it).
+  2) Some *documentation* that clarifies the approach (list of steps),
+     the logic (like pseudocode).
+  3) *Code* should be in blocks, (minimally) commented, indented (readable).
+  4) *Output:* Not arbitrary but as requested ("test suite" must pass).
+  5) *Meta data*: file header, purpose, author, pledge
+
+** In-class assignment conditional statements (Canvas upload)
+
+- Download the raw exercise file from [[https://tinyurl.com/R-ifelse-practice][tinyurl.com/R-ifelse-practice]]
+
+- Save and complete it, and upload your solution to Canvas:
+  =Classroom Assignments > Conditionals practice.=
+
+** Review =ifelse=
+
+1. What is the reason to use =ifelse= and what does it do?
+   #+begin_quote
+   From =help(ifelse)=: =ifelse(test, yes, no)=
+
+   =ifelse= returns a value with the same shape as =test= which is filled
+   with elements selected from either =yes= or =no= depending on whether
+   the element of =test= is ~TRUE~ or ~FALSE~.
+   #+end_quote
+
+2. What does this code produce?
+   #+begin_src R :session *R* :results output :exports both
+     mat <- diag(2)
+     ifelse(test=mat > 0,
+            yes="High",
+            no="Low")
+   #+end_src
+
+   #+RESULTS:
+   :      [,1]   [,2]
+   : [1,] "High" "Low"
+   : [2,] "Low"  "High"
+
+   #+begin_quote
+   - The shape of =mat= is a 2 x 2 matrix. =ifelse= returns such a matrix.
+   - The ~1~ values (=yes=) are filled with ~"High"~.
+   - The ~0~ values (=no=) are filled with ~"Low"~.
+   #+end_quote
+
+3. Let =foo <- c(192,168,1,1)= and =bar <- c(192,168,1,2)=. I want to
+   compare the two vectors to check if the first two elements are the
+   same. Will the following code do that or not?
+
+   #+begin_src R :session *R* :results output :exports both
+     foo <- c(192,168,1,1)
+     bar <- c(192,168,1,2)
+
+     ifelse(
+       test = (foo[1:2]==bar[1:2]),
+       yes  = cat("Same subnet\n"),
+       no   = cat("Not same subnet\n"))
+   #+end_src
+
+   #+RESULTS:
+   : Same subnet
+   : Error in ans[ypos] <- rep(yes, length.out = len)[ypos] :
+   :   replacement has length zero
+   : In addition: Warning message:
+   : In rep(yes, length.out = len) : 'x' is NULL so the result will be NULL
+
+   #+begin_src R :session *R* :results output :exports both
+     foo <- c(192,168,1,1) # IP = 192.168.1.1
+     bar <- c(192,168,1,2) # IP = 192.168.1.2
+
+     if (all(foo[1:2] == bar[1:2])) {
+       cat("Same subnet\n")
+     } else {
+       cat("Not same subnet\n")
+     }
+   #+end_src
+
+   #+RESULTS:
+   : Same subnet
+
+4. Make the =ifelse= statement explicit (by converting it to code with
+   =for= and =if= and =else=?
+   #+begin_src R :results output
+     foo <- c(192,168,1,1)
+     bar <- c(192,168,1,2)
+
+     ifelse(foo==bar,  # check if the two vectors are identical
+            yes=TRUE,  # returns TRUE as a vector element
+            no=FALSE)  # returns FALSE as a vector element
+   #+end_src
+
+   #+RESULTS:
+   : [1]  TRUE  TRUE  TRUE FALSE
+
+   Solution:
+   #+name: comparison
+   #+begin_src R :session *R* :results output :exports both
+     for (i in 1:length(foo)) {
+       if(foo[i]==bar[i]) {
+         print(TRUE)
+       } else {
+         print(FALSE)
+       }
+     }
+   #+end_src
+
+   #+RESULTS: comparison
+   : [1] TRUE
+   : [1] TRUE
+   : [1] TRUE
+   : [1] FALSE
+
+5. Turn the last program into a function =ip= that is called on =foo= and
+   =bar= and returns the Boolean values.
+   #+begin_src R :tangle ip.R :session *R* :results output :exports both :noweb yes
+     ## function definition
+     ip <- function(foo,bar) {
+       <<comparison>>      # this is noweb (insert `comparison` block
+     }
+     ## function call
+     ip(foo,bar)
+   #+end_src
+
+   #+RESULTS:
+   : [1] TRUE
+   : [1] TRUE
+   : [1] TRUE
+   : [1] FALSE
+
+* DONE Week 6: Practice nested if, switch & Loops
+
+- [X] *Test 4* is live - max 100% (50%) until Feb 21 (28).
+- [X] *Practice:* ~switch~ and nested ~if~ review practice
+- [X] *Lecture / Codealong / Practice review:* ~for~ loops
+
+* DONE Week 7: Even more loops - ~for~ a[nd] ~while~
+#+attr_html: :width 400px :float nil:
+[[../img/picasso.jpg]]
+
+- [X] *Tests & Assignments*: Removing 1 point per late day. Easier for
+  me, kinder to you. All close one week after the deadline though.
+
+- [X] *Unprecedented:* This course has 100% on time DataCamp completion!
+  Therefore, I'll assign the next course *as a whole* by April 1.
+
+- [X] *Review* ~for~ loop.
+
+- [X] *Bonus* programming assignment in Canvas.
+
+- [X] *Finish* lecture: nested ~for~ loops.
+
+- [X] *Test 5* coming up later this week (available only until March 11)
+
+- [X] *Download* and *complete* review exercises & upload solution:
+  [[https://tinyurl.com/for-loop-practice][tinyurl.com/for-loop-practice]] - we will review results in class.
+
+- [ ] *DataCamp* assignment ("Utilities") *deadline moved* to Monday.
+
+** =for= loop review (aka test preview) questions
+
+1. What is the primary difference between a ~for~ loop and a ~while~
+   loop in R (actually all ALGOL-like languages, C, Java, Python...)?
+
+   #+begin_quote
+   A ~for~ loop iterates over a predefined sequence (e.g., a vector),
+   whereas a ~while~ loop continues executing as long as a specified
+   condition remains =TRUE=.
+   #+end_quote
+
+2. Given the following ~for~ loop, what will be the output?
+
+   #+begin_src R :results output
+     for (i in c(2, 4, 6)) { # looping over vectorx
+       print(i^2)
+     }
+   #+end_src
+
+   #+RESULTS:
+   : [1] 4
+   : [1] 16
+   : [1] 36
+
+3. How does the ~apply~ function differ from traditional loops in R?
+
+   #+begin_quote
+   The ~apply~ function applies a function to elements of an array,
+   (matrix, or dataframe) without explicitly writing a loop, making
+   code more concise and often improving performance.
+   #+end_quote
+
+4. How would you compute the average of =c(1:10,NA)= using ~apply~?
+
+   #+begin_src R :results output
+     sapply(X=list(c(1:10,NA)),
+            FUN=mean,
+            na.rm=TRUE)
+   #+end_src
+
+   #+RESULTS:
+   : [1] 5.5
+
+   #+begin_src R :results output
+     lapply(X=list(c(1:10,NA)),
+            FUN=mean,
+            na.rm=TRUE) |> unlist()
+   #+end_src
+
+   #+RESULTS:
+   : [1] 5.5
+
+5. What is the difference between looping over a vector’s values
+   versus looping over its indices?
+
+   #+begin_quote
+   Both approaches produce the same output, but looping over indices
+   provides greater flexibility, such as modifying vector elements
+   inside the loop.
+   #+end_quote
+
+6. Loop over a) values, b) indices of =myvec <- c(0.4, 1.1, 0.34, 0.55)=
+   and print the vector values.
+
+   #+begin_src R :results output
+     myvec <- c(0.4, 1.1, 0.34, 0.55)
+
+                                             # Looping over values directly
+     for (i in myvec) {
+       print(i)
+     }
+
+                                             # Looping over indices
+     for (i in 1:length(myvec)) {
+       print(myvec[i])
+     }
+   #+end_src
+
+   #+RESULTS:
+   : [1] 0.4
+   : [1] 1.1
+   : [1] 0.34
+   : [1] 0.55
+   : [1] 0.4
+   : [1] 1.1
+   : [1] 0.34
+   : [1] 0.55
+
+7. How can you print the previous results as a vector like this:
+   #+begin_example
+   [1] 0.8 2.2 0.68 1.1
+   #+end_example
+
+   #+begin_src R :results output
+     myvec <- c(0.4, 1.1, 0.34, 0.55)
+     result <- NA  # initialize a generalized data structure
+
+     ## Looping over indices
+     for (i in 1:length(myvec)) {
+       result[i] <- myvec[i]       # cast result as a vector
+     }
+     result
+   #+end_src
+
+   #+RESULTS:
+
+   Pythonistas: This the same issue as printing a list vs. printing a
+   list "comprehension".
+
+8. Why does ~class(element)~ not work correctly when determining the
+   data type of matrix elements in a list?
+
+   #+begin_quote
+   The ~class(element)~ function returns the type of the entire object
+   rather than the data type of its contents. To retrieve the data
+   type of matrix elements, use ~class(as.vector(element))~ instead.
+   #+end_quote
+
+   #+begin_src R :results output
+     mylist <- list("hello",
+                    matrix(1:4,nrow=2))
+     ## loop over the values of myvec
+     for (i in mylist) {
+       print(class(i))   # which objects does mylist contain?
+     }
+   #+end_src
+
+   #+RESULTS:
+   : [1] "character"
+   : [1] "matrix" "array"
+
+   Can you show this?
+   #+begin_src R :results output
+     mylist <- list("hello", matrix(1:4,nrow=2))
+     ## loop over the values of mylist
+     for (i in mylist) {
+       print(paste("Object class:",class(i)))
+     }
+     ## loop over the values of mylist again
+     for (i in mylist) {
+       print(paste("Object class:",class(as.vector(i))))
+     }
+   #+end_src
+
+   #+RESULTS:
+   : [1] "Object class: character"
+   : [1] "Object class: matrix" "Object class: array"
+   : [1] "Object class: character"
+   : [1] "Object class: integer"
+
+9. What will be the output of the following ~for~ loop?
+
+   #+begin_src R :results output
+     for (i in 1:3) {
+       cat("Iteration:", i,"\n")  # cat is different from print!
+     }
+   #+end_src
+
+   #+RESULTS:
+   : Iteration: 1
+   : Iteration: 2
+   : Iteration: 3
+
+10. What about this ~for~ loop?
+
+    #+begin_src R :results output
+      for (i in 1:3) {
+        print(paste("Iteration:", i)) # `paste` coerces to `character`
+      }
+    #+end_src
+
+    #+RESULTS:
+    : [1] "Iteration: 1"
+    : [1] "Iteration: 2"
+    : [1] "Iteration: 3"
+
+11. How can you modify the following ~for~ loop to print both the index
+    and value of each element in ~myvec~?
+
+    #+begin_src R :results output
+      myvec <- c("A", "B", "C")
+
+      ## loop over the values of myvec
+      for (i in myvec) {
+        print(i)
+      }
+    #+end_src
+
+    *Solution:*
+    #+begin_src R :results output
+      myvec <- c("A", "B", "C")
+
+                                              # Use indexing to print both the index and value
+      for (i in 1:length(myvec)) {   # index looping
+        cat("Index:", i, "Value:", myvec[i], "\n")
+      }
+    #+end_src
+
+12. What happens when ~length(myvec)~ is used in a ~for~ loop but ~myvec~ is
+    an empty vector?
+
+    #+begin_src R :results output
+      myvec <- c()
+      for (i in 1:length(myvec)) {
+        print(i)
+      }
+    #+end_src
+
+    #+RESULTS:
+    : [1] 1
+    : [1] 0
+
+    #+begin_quote
+    =1:length(myvec)= is =1:0=, leading to two iterations.
+    #+end_quote
+
+13. How can you avoid looping over an empty vector?
+    #+begin_quote
+    Check if the vector is empty before looping:
+    #+end_quote
+    #+begin_src R :results output
+      myvec <- c()
+      if (length(myvec) > 0) {
+        for (i in 1:length(myvec)) {
+          print(i)
+        }
+      } else {
+        cat("Vector is empty.\n")
+      }
+    #+end_src
+
+    #+RESULTS:
+    : Vector is empty.
+
+** Project review - Issues and Tips
+
+1) What is the central purpose of a project proposal?
+
+   - Create an outline and think through your project
+   - Describe your project to someone who has no clue
+   - Check if you're on the right track before you bomb
+
+   #+begin_quote
+   To get buy-in from the project sponsor (that's me). Prove to him
+   that this is something worth spending some time on. Sell a product:
+   You + your work, to solve a problem within the framework of the
+   project.
+   #+end_quote
+
+2) What's the purpose of a sprint review?
+
+   - Evaluate results, identify good, bad, ugly
+   - Split the total project time up into sprints
+   - Show off your prototype (what you have so far)
+
+   #+begin_quote
+   To present your progress (or lack thereof) to the project owner or
+   sponsor, and to the other projects, to highlight issues, enter in a
+   conversation with the project owner, and to identify the steps for
+   the next sprint. This last step was not asked (I should have -
+   let's do it now).
+   #+end_quote
+
+3) How much time should you put into the project per week?
+   #+begin_quote
+   The syllabus does not mention the project separately (too hard to
+   do the accounting), but it says: You should spend no less than 25
+   minutes per day on this course (outside of class), or no less than
+   2.5 hours per week. I spend at least 1 hour per day per class (or >
+   4 hours per day). If you have 5-6 classes, you should spend 3-4
+   hours per day studying for them.
+
+   Within that schedule, at least 1 hour (10 min per day) should go
+   towards your project - in practice more like 1/2 day every 2
+   weeks - for a total of no less than 24-32 hours (3-4 days).
+
+   Many proposals look as if you spent too little time on the
+   proposals. Reading and working through references alone takes time.
+   #+end_quote
+
+4) What is the specific purpose of the project in this course?
+   #+begin_quote
+   To study, play with, and explain technology - in particular data
+   science packages of functions and datasets, in the context of
+   applying them to real problems.
+
+   Most of you only talk about the problem but not about the
+   tools. You don't even cite them. You need to combine your
+   tool-based and your topical research (and plan on doing that).
+
+   This is quite a different approach from what you're used to in
+   class, but it is quite close to what you'll be doing in the field.
+   #+end_quote
+
+5) What are inline references and what are they good for?
+   #+begin_quote
+   Inline references are abbreviated references that need to be
+   written out fully in the reference section. They back up claims
+   that made in the text that are non-trivial and not generally known
+   to be true.
+
+   Examples:
+   - "Agents are not typically taught..."
+   - "This approach is common..."
+   - "It is pointless to try to..."
+   - "Datasets are not publicly available..."
+
+   If you don't need inline references, you make no non-trivial
+   claims, which could mean that you're not specific enough or that
+   you have not researched the background of your problem.
+   #+end_quote
+
+6) What is AMA citation and did you use a consistent style?
+   #+begin_quote
+   An AMA citation refers to the citation style outlined in the
+   American Medical Association (AMA) Manual of Style, which is
+   commonly used in medicine, healthcare, and biological sciences. The
+   AMA citation style follows a numbered system where references are
+   listed in the order they appear in the text.
+
+   Examples:
+   - [Journal Paper] Smith J, Doe A. Neural networks and phase
+     transitions. J Comput Neurosci. 2023;45(2):123-135.
+     doi:10.1001/jcn.2023.456
+   - [Book] Bishop CM. Pattern Recognition and Machine
+     Learning. Springer; 2006.
+   - [Website] National Institutes of Health. Artificial intelligence
+     in medicine. NIH. Published January 10, 2024. Accessed February
+     25, 2025. https://www.nih.gov/ai-medicine
+   - [Conf Paper] Johnson K, Lee R. Category theory in neural network
+     phase transitions. In: Proceedings of the AI & Math Conference;
+     2024; New York, NY. Springer; 2024:210-225.
+   - Other things: blog, software, video, etc.
+
+   Who used AMA? I noticed a lot of inconsistencies, and unncecessary
+   URLs etc. Many more references than ever (!) but often in shambles.
+   #+end_quote
+
+7) How informal should a proposal be? How subjective in tone?
+   #+begin_quote
+   You need to balance personal, practical and professional tone in
+   anything you write to anyone for school or business. How much
+   depends totally on the audience and the problem.
+
+   There is only one hard rule for project documentation (and for
+   publication in general): Personal/subjective remarks need to have a
+   place of their own, and they must not bleed into the
+   professional/practical documentation. Otherwise you spoil your
+   professional appearance, and you make it very hard for anyone
+   except whom you were thinking of to understand what's going on.
+
+   A technical document (e.g. for a TV) has NO personal text, while a
+   entertaining novel (e.g. Pride and Prejudice) has NO professional
+   text. A research paper should have a mixture of both types of text.
+   #+end_quote
+
+8) Do you need references? Which ones, and why?
+   #+begin_quote
+   The only situation where you don't need any references is when you
+   are working on something that nobody has ever worked on so that
+   your choice of topic and method are completely original.
+
+   So you do need them. As many scientific ones (peer-reviewed) as
+   possible. You must make an assessment of the validity of your
+   sources, and you need to be able to answer for them.
+   #+end_quote
+
+9) Do you have to improve your proposal based on the feedback?
+   #+begin_quote
+   Yes, you should, and you should touch base with me if anything in
+   the feedback is unclear. The feedback should be more formal than it
+   is - basically I'm only checking if you fulfilled the requirements
+   to the letter (e.g. completeness, consistent references etc.)
+   and/or in spirit, if it's doable, and if you've done everything you
+   could at this point.
+
+   A formal feedback would require a formal list of weighted criteria
+   (a rubric). This is what you'll be facing in business not
+   academia. Academia is terribly weak this way and much less
+   resilient - you can see this in the science funding drama that is
+   currently unfolding around us: scientists often don't bother
+   justifying their ends, especially if they feel justified by their
+   means.
+
+   I don't bother with a formal framework mainly because otherwise I
+   would have to spend a lot more time on the projects (like a manager
+   would whose main job is managing projects, pennies, and people). So
+   this is your show and responsibility much more than it would be in
+   the real world.
+
+   Do you have to share your improved proposal with me, unasked?
+   Absolutely, if you've got any doubts if you did it right, or if you
+   just want to show off a good piece of work (that's never wrong -
+   you may want a letter of reference from me one day). This shows
+   both diligence and resilience.
+   #+end_quote
+
+10) Should you look at the proposals of others?
+    #+begin_quote
+    Absolutely. Cristian's proposals are the most polished ones. In
+    DSC 305, Matthew's proposal has the most meat (data sets and code
+    examples attached). Donna's proposal reflects the greatest range
+    of ambitions. Gavin's and Isaac's proposals are pithy and to the
+    point. Fowler's proposals are fairly personal.
+
+    You should make up your own mind about these. They're all
+    interesting, and they all have slight issues here and there.
+
+    You might even give the authors tips based on your experience or
+    your views.
+    #+end_quote
+
+11) Do you need an AI disclaimer?
+    #+begin_quote
+    It would be good! Matthew designed one that I asked the AI to
+    rewrite and I think it worked quite well (Ariel also had something
+    like this in his proposal):
+
+    "In researching for this project, I may have been exposed to
+    AI-generated content in search results and news feeds. However, I
+    affirm that this work is my own and was completed with academic
+    integrity, without relying on AI to circumvent my responsibilities
+    as a student."
+
+    If you don't have a disclaimer because you used AI directly, you
+    needed to (and still need to) document as much as possible
+    (including perhaps by sharing links to your conversation) why and
+    how you used the AI.
+    #+end_quote
+
+** Summary of my experiences
+
+1) What is NotebookLM? See [[https://notebooklm.google][notebooklm.google]].
+   #+begin_quote
+   - Personalized AI Research Assistant.
+   - Multimodal sources can be fed into it.
+   - Expert in the information that you've given it.
+   - Provides citations based on your sources.
+   - Provides engaging Deep Dive discussions between two hosts.
+   - Does not use your personal data and sources for training.
+   #+end_quote
+
+2) The first experiment: Uploaded a proposal that I wrote quickly,
+   with some broad resources that I had collected over the past weeks.
+
+3) The chat summarized my goals and approaches for me and linked the
+   output back to the text.
+
+4) I uploaded some hefty sources (almost 1000 pages of material),
+   papers, a book.
+
+5) Consequently, the sources were used in the chat when I asked about
+   the state of the art in my areas of interest.
+
+6) At the bottom of the screen, the AI suggests questions, some of
+   which are good.
+
+7) I saved interesting answers as notes for later.
+
+8) The notebook conversation never goes outside of the frame defined
+   by your proposal and the sources (unlike ChatGPT).
+
+9) Wrote a minimal proposal without references admitting my ignorance
+   about the topics, and uploaded it.
+
+10) Asked the AI what to do next: The AI will not go beyond what you
+    told it = a minimal proposal is not sufficient to proceed with the
+    research.
+
+11) Without any additional sources, generated a "Deep Dive
+    conversation" to see if it yields any insights or ideas (5.5 min).
+    - Defines the terms (easier for AI because it's about AI) - What.
+    - Identifies a motivation for the research - What.
+    - Talks about the methods - How.
+    - The goals/deliverables (in the context of the research).
+    - Recap is accurate and uplifting.
+    - Distracting question: Could this teach us something about how
+      our own brains work - what if our creativity is a biological
+      version of hallucinations (that's one theory). Is hallucinating
+      AI on the cusp of becoming conscious? Looking into the mind of a
+      machine to understand our own minds?
+
+12) Went to the other (richer, sourced) notebook, defined a focus that
+    interests me (understanding and modeling hallucinations) and
+    generated a podcast (12.5 min) - a few good insights and
+    questions leading to new papers and connections between ideas.
+
+13) The podcast is useful: It reveals both depth and lack of depth. It
+    inspires but this inspiration is very high level and useless
+    unless you buckle down and do the work that the AI is hinting at.
+
+** Today: Begin (or continue) your Literature Review
+
+You can skip the first two steps if you don't have at least one
+scientific paper yet. Instead, use the notebook to identify one.
+
+1) Open/register/login to litmaps.com.
+
+2) Create a litmap of a relevant scholarly article OR put your project
+   topic in the search field to identify potentially relevant papers.
+
+   #+attr_html: :width 400px
+   [[../img/litmap.png]]
+
+   This might help you find new stuff.
+   #+attr_html: :width 600px
+   [[../img/category.png]]
+
+3) Open NotebookLM by Google and create a new notebook.
+
+4) Upload your proposal in its present form. Before you go on, check
+   in the =Chat= in NotebookLM the summary and the questions.
+
+5) In the =Chat= ask a question that you actuall have related to your
+   project.
+
+6) Upload any other source that you already know.
+
+7) In the =Chat=, questions relevant to the proposal are being
+   asked. Start a conversation and use prompts to channel it into
+   something useful to improve your proposal.
+
+   The AI answers are linked to parts of your proposal document. If
+   the proposal is very thin on the ground, or unclear, it'll show.
+
+   #+attr_html: :width 400px
+   [[../img/notebooklm.png]]
+
+8) Upload my feedback and ask in the =Chat= for clarification or changes
+   to the proposal. Ask for what the next steps could be.
+
+9) Fix your proposal accordingly.
+
+10) Upload an improved proposal.
+
+11) Rinse and repeat the =Chat= exercise until you've got no more
+    questions.
+
+12) Create the (first) podcast.
+
+* DONE Week 8: Utilities & ~while~ loops
+#+attr_html: :width 400px :float nil:
+#+caption: Piet Lastman, Jonah and the Whale (1621)
+[[../img/jonah.jpg]]
+
+- [X] Sample solutions
+- [X] ~while~ loops - lecture & codealong & exercise
+- [X] Test 5 on loops, project, utilities - deadline March 18
+- [X] ~apply~ functions - lecture & codealong & exercise
+
+- [X] 25% not bothering with non-DataCamp assignments.
+- [X] There's a new assignment - =Titanic= with ~tapply~
+- [X] I will post a couple of (simple) bonus assignments.
+
+- [X] Fake papers & the literature review
+- [X] DataCamp review: Utilities & apply
+- [ ] Loops finisher: ~break,~ ~next,~ ~repeat~
+
+** Sample solutions for programming assignments
+
+I will grade these later in the week. You should then compare with the
+online sample solutions.
+
+- [[https://github.com/birkenkrahe/ds2-25/blob/main/org/conditional_statements.org][Conditional statements]] (see Canvas)
+- [[https://github.com/birkenkrahe/ds2-25/blob/main/org/7_switch_exercise_solution.org][Nested conditionals and switch]] (see Canvas)
+
+** ~while~ loops - lecture & codealong
+
+- Download and complete: [[https://tinyurl.com/while-code-along][tinyurl.com/while-code-along]].
+- Exercise: [[https://tinyurl.com/while-assignment][tinyurl.com/while-assignment]] (due March 13)
+
+** ~apply~ functions - lecture & codealong
+
+- Download and complete: [[https://tinyurl.com/apply-code-along][tinyurl.com/apply-code-along]].
+- Exercise: [[https://tinyurl.com/apply-assignment][tinyurl.com/apply-assignment]] (due March 18)
+
+** Literature Review: Fake Papers and the Sokal Hoax
+
+- Post with specific hints on uncovering fake papers in the chat
+  ([[https://blog.litmaps.com/p/have-you-cited-a-fake-paper-heres][Litmap]])
+
+- Apart from the obvious (fake citations), it's hard for you to do.
+
+- "Fake" does not just mean "made up": all research is made up to some
+  extent - when evidence is collected, a methodology is used, which
+  may be so flawed that the research findings are completely wrong.
+
+- "Fake" may also mean "in bad faith" (cutting corners, or
+  intellectually dishonest). This is an issue in the humanities.
+
+- The first person to cover this phenomenon with great effect was Alan
+  Sokal, a physics professor from NYU ([[https://physics.nyu.edu/sokal/weinberg.html][Weinberg, 1996]]) with
+  "Transgressing the boundaries - Toward a transformative hermeneutics
+  of quantum gravity" ([[https://physics.nyu.edu/sokal/transgress_v2/transgress_v2_singlefile.html][1995]]).
+
+- [[https://www.theatlantic.com/ideas/archive/2018/10/new-sokal-hoax/572212/][In a more recent example (2018)]], three researchers faked 20 papers
+  in fashionable disciplines ("gender studies", "queer studies", "fat
+  studies"), of which only 30% were rejected.
+
+- What do we learn from this?
+  #+begin_quote
+  1. Fake papers go beyond fabrication.
+  2. Ideological alignment must not go over scientific validity.
+  3. There is a tension between academic freedom and accountability.
+  #+end_quote
+
+- What can you do about it with regard to your research project?
+  #+begin_quote
+  1. Keep the topic - your research question - small and specific.
+  2. Limit your sources to well validated sources (many citations,
+     clear writing).
+  3. Know your few sources well (research them!)
+  4. Value primary data (that you take) above all else, and pay
+     special attention to the origin of your secondary data.
+  5. Consider alternate methodologies and have good reasons why you
+     pick one way of doing things (not just "because I could").
+  6. Don't be too sure, don't publish prematurely, and show your work
+     to many (trustworthy) people for feedback.
+  #+end_quote
+
+** Review (test preview): DataCamp Intermediate R - Utilities
+
+Fire up Emacs + Org-mode. There's some coding to do.
+
+1. What does the =abs()= function do in R when applied to a vector like
+   =v1 <- c(1.1, -7.1, 5.4, -2.7)=?
+   #+BEGIN_QUOTE
+   It returns the absolute values of the elements: =c(1.1, 7.1, 5.4,
+   2.7)=.
+   #+END_QUOTE
+   #+begin_src R :session *R* :results output :exports both
+     v1 <- c(1.1, -7.1, 5.4, -2.7)
+     abs(v1)
+   #+end_src
+
+2. Write a function =is.pos= that checks if the argument is positive by
+   printing 1 or 0 for every element that's positive (not positive),
+   and check it with =v1= and =abs(v1)=. Use ~ifelse~.
+
+   #+begin_src R :session *R* :results output :exports both
+     is.pos <- function(x) {ifelse(test=(x>0), yes=1, no=0)}
+     is.pos(abs(v1))
+     is.pos(v1)
+   #+end_src
+
+3. Do the same thing as before but now use a ~for~ loop over the
+   argument for a function =is.pos_for=.
+
+   #+begin_src R :session *R* :results output :exports both
+     ## loop over vector indices
+     is.pos_for <- function(x) {
+       for (i in 1:length(x)) {
+         if(x[i]>0) print(1)
+         else print (0)}
+     }
+     is.pos_for(abs(v1))
+     is.pos_for(v1)
+     ## loop over vector elements
+     is.pos_for2 <- function(x) {
+       for (element in x) {
+         if(element>0) print(1)
+         else print (0)}
+     }
+     is.pos_for2(abs(v1))
+     is.pos_for2(v1)
+   #+end_src
+
+   #+RESULTS:
+   #+begin_example
+   [1] 1
+   [1] 1
+   [1] 1
+   [1] 1
+   [1] 1
+   [1] 0
+   [1] 1
+   [1] 0
+   [1] 1
+   [1] 1
+   [1] 1
+   [1] 1
+   [1] 1
+   [1] 0
+   [1] 1
+   [1] 0
+   #+end_example
+
+4. Do the same thing yet again, but now use an ~apply~ function.
+
+   #+begin_src R :session *R* :results output :exports both
+     sapply(X=v1,FUN=function(x) { if(x>0) 1 else 0 })
+
+     ## using `print` inside the anonymous function prints x first.
+   #+end_src
+
+   #+RESULTS:
+   : [1] 1 0 1 0
+
+5. How does the =round()= function behave when rounding the vector
+   =c(1.1, 7.1, 5.4, 2.7)=?
+   #+BEGIN_QUOTE
+   It rounds each element to the nearest integer: =c(1, 7, 5, 3)=.
+   #+END_QUOTE
+
+   #+begin_src R :session *R* :results output :exports both
+     round(c(1.1, 7.1, 5.4, 2.7))
+   #+end_src
+
+6. What is the result of =mean(c(sum(c(1, 2, 3)), sum(c(0, 0, 6))))=?
+   #+BEGIN_QUOTE
+   The result is =6=.
+   #+END_QUOTE
+   #+begin_src R :session *R* :results output :exports both
+     sum(c(1, 2, 3)) # 6
+     sum(c(0, 0, 6)) # 6
+     c(sum(c(1, 2, 3)), sum(c(0, 0, 6))) # c(6,6)
+     mean(c(sum(c(1, 2, 3)), sum(c(0, 0, 6)))) # (6 + 6) / 2 = 12 / 2 = 6
+   #+end_src
+
+7. What does the =seq()= function produce when you run =seq(8, 2, by = -2)=?
+   #+BEGIN_QUOTE
+   It generates a sequence: =c(8, 6, 4, 2)= - stepping backwards.
+   #+END_QUOTE
+   #+begin_src R :session *R* :results output :exports both
+     seq(from=8, to=2, by=-2)
+   #+end_src
+
+8. What is the output of =sort(rep(seq(8, 2, by = -2), times = 2))=?
+   #+BEGIN_QUOTE
+   It returns =c(2, 2, 4, 4, 6, 6, 8, 8)=.
+
+   1) =seq(8, 2, by = -2)= gives =c(8, 6, 4, 2)=
+   2) =rep(..., times = 2)= repeats it to =c(8, 6, 4, 2, 8, 6, 4, 2)=
+   3) =sort()= orders it to  =c(2, 2, 4, 4, 6, 6, 8, 8)=.
+   #+END_QUOTE
+
+   #+begin_src R :session *R* :results output :exports both
+     seq(8, 2, by = -2) # 8 6 4 2
+     rep(seq(8, 2, by = -2), times = 2) # 8 6 4 2 8 6 4 2
+     sort(rep(seq(8, 2, by = -2), times = 2)) # 2 2 4 4 6 6 8 8
+   #+end_src
+
+9. How does =rep(c(8, 6, 4, 2), each = 2)= differ from =rep(c(8, 6, 4,
+   2), times = 2)=?
+   #+BEGIN_QUOTE
+   - =rep(..., each = 2)= repeats each element twice before moving on
+   - =rep(..., times = 2)= repeats the entire vector twice
+   #+END_QUOTE
+
+   #+begin_src R :session *R* :results output :exports both
+     rep(c(8, 6, 4, 2), each = 2)
+     rep(c(8, 6, 4, 2), times = 2)
+   #+end_src
+
+10. What does the =str()= function reveal about the structure of
+    #+begin_src R :session *R* :results none
+      li <- list(log = TRUE,
+                 ch = "hello",
+                 int_vec = sort(rep(seq(8, 2, by = -2), times = 2)))
+    #+end_src
+
+    #+begin_src R :session *R* :results output :exports both
+      str(li) # `log` is logical, `ch` is a string, `int_vec` is numeric
+    #+end_src
+
+11. What is the result of =unlist(li)= for the list defined in the last question?
+    #+BEGIN_QUOTE
+    It flattens the list into a character vector.
+    #+END_QUOTE
+
+    #+begin_src R :session *R* :results output :exports both
+      unlist(li)
+    #+end_src
+
+12. How do you create a date object in R for May 14, 1971, and what does it return?
+
+    #+begin_src R :session *R* :results output :exports both
+      class("1971-05-14")
+      my_date <- as.Date("1971-05-14")
+      my_date
+      class(my_date)
+    #+end_src
+
+13. What happens when you add =1= to a POSIXct object like =my_time <-
+    as.POSIXct("1971-05-14 11:25:15")=? And what happens when you
+    ~unclass~ the object?
+    #+BEGIN_QUOTE
+    It adds 1 second, resulting in ="1971-05-14 11:25:16 CET"=.
+    #+END_QUOTE
+
+    #+begin_src R :session *R* :results output :exports both
+      my_time <-  as.POSIXct("1971-05-14 11:25:15")
+      my_time + 1
+      as.numeric(unclass(my_time)) # seconds since epoch
+      ## days since epoch on 3-March 202
+      as.numeric(unclass(as.POSIXct("2025-03-03 00:00:00"))/(365*24*3600))
+    #+end_src
+
+14. What does 'POSIXct' mean?
+    #+begin_quote
+    POSIXct stands for "Portable Operating System Interface, calendar
+    time". It is a class used in R to represent dates and times,
+    stored internally as the number of seconds since the "Unix epoch",
+    January 1, 1970, 00:00:00 UTC [French: Temps Universel Coordoné].
+    #+end_quote
+
+15. What does =Sys.Date= do, and what does this code return?
+    #+begin_src R :session *R* :results output :exports both
+      Sys.Date()  # current system date
+      as.integer(as.Date("2025-05-09") - Sys.Date())  # returns 303
+    #+end_src
+
+    #+begin_quote
+    - =Sys.Date= is the current date fetched via C's time functions
+    - Return value is the number of days left until end of term!
+    - =Sys.time= returns the date and time
+    #+end_quote
+
+16. Does POSIXct require a lot of work from R?
+
+    Let's C:
+    #+begin_src C
+      #include <sys/time.h>  // For gettimeofday()
+      #include <time.h>      // For time_t and localtime()
+
+      struct timeval tv;   // tv has epoch time in seconds & microseconds
+      struct tm *timeinfo;
+
+      // Get the current time with `gettimeofday()`
+      if (gettimeofday(&tv, NULL) == -1) {
+        perror("gettimeofday failed");
+        return 1;
+       }
+
+      // Convert seconds since epoch to local time
+      timeinfo = localtime(&tv.tv_sec);
+      if (timeinfo == NULL) {
+        perror("localtime failed");
+        return 1;
+       }
+
+      // Buffer to hold formatted time string
+      char buffer[26];
+      strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", timeinfo);
+
+      // Print time with microseconds
+      printf("Current time: %s.%06ld %s\n",
+             buffer,
+             tv.tv_usec,
+             timeinfo->tm_zone);
+    #+end_src
+
+    Minimal (with way less control & less information):
+    #+begin_src C
+      #include <time.h>      // For time_t and ctime()
+      // get address-of compound literal `time_t` initialized at epoch 0
+      printf("%s\n",ctime(&(time_t){time(NULL)}));
+    #+end_src
+
+17. What does the following function do and what does it output?
+    #+begin_src R :session *R* :results output :exports both
+      wd <- function(date_str) {weekdays(as.Date(date_str))}
+      date_str = "2025-03-03"
+      wd(date_str)
+    #+end_src
+
+    #+begin_quote
+    - =date_str= is a string formatted as a date ("YYYY-MM-DD")
+    - =as.Date(data_str)= converts the string into a ~Date~ object.
+    - ~weekdays~ extracts parts of a date from a ~Date~ object.
+    #+end_quote
+
+18. What does this code output?
+    #+begin_src R :session *R* :results output :exports both
+      animals <- c("cat", "dog", "caterpillar", "bird", "catfish")
+      grep("cat", animals)
+    #+end_src
+
+    #+begin_quote
+    =grep= extracts the pattern of its first argument from its second
+    argument and returns the indices of its hits: =1 3 5=.
+    #+end_quote
+
+19. What does this code output?
+    #+BEGIN_SRC R :results output
+      words <- c("apple", "banana", "cat")
+      sub("a", "X", words)
+    #+END_SRC
+
+    #+begin_quote
+    ~sub~ replaces the first occurrence of ="a"= with ="X"= in each string
+    of a ~character~ vector: ="Xpple"  "bXnana" "cXt"=.
+    #+end_quote
+
+20. What's the difference between ~grep~ and ~grepl~, ~sub~ and ~gsub~?
+    #+BEGIN_QUOTE
+    - ~grep~ vs. ~grepl~:
+      - ~grep~: Returns the *indices* of elements in a vector that match a
+        pattern (e.g., =grep("cat", c("cat", "dog"))= → =[1] 1=).
+      - ~grepl~: Returns a *logical vector* indicating which elements
+        match (e.g., =grepl("cat", c("cat", "dog"))= → =[1] TRUE FALSE=).
+
+    - ~sub~ vs. ~gsub~:
+      - ~sub~: Replaces the *first occurrence* of a pattern in each string
+        (e.g., =sub("a", "X", "banana")= → ="bXnana"=).
+      - ~gsub~: Replaces *all occurrences* of a pattern (e.g., =gsub("a",
+        "X", "banana")= → ="bXnXnX"=).
+    #+END_QUOTE
+
+** When are ~rep~ and ~sort~ commutative?
+
+- [[https://chat.google.com/room/AAAAIVNZUqA/7QrooQtzlc8/7QrooQtzlc8?cls=10][Link to the Google Chat message]]
+
+- Chris Burris asked an interesting question about the association of
+  ~sort~ and ~rep~ - here are some experiments. sort is mathematically
+  idempotent (~sort(sort(x)) = sort(x)~, ~rep~ clearly is not but because
+  ~sort~ has this property, you can do this: the sorted repetition is
+  the same as a sorted repetition of the sorted vector.
+  #+begin_src R :session *R* :results output :exports both
+    seq(from=10,to=1,by=-2) -> toSort
+    sort(toSort)
+    sort(rep(toSort,2))
+    rep(sort(toSort),2)
+    sort(rep(sort(toSort),2))
+  #+end_src
+
+  #+RESULTS:
+  : [1]  2  4  6  8 10
+  :  [1]  2  2  4  4  6  6  8  8 10 10
+  :  [1]  2  4  6  8 10  2  4  6  8 10
+  :  [1]  2  2  4  4  6  6  8  8 10 10
+
+~sort(rep(x)) = rep(sort(x))~ holds when ~rep~ uses a consistent
+repetition that preserves the element frequencies, and the sorted form
+of ~x~ matches the sorted form of ~x~ repeated. If ~rep~ arguments differ
+like ~sort(rep(x,2))~ and ~rep(sort(x),3)~, lengths/counts mismatch
+breaking equality. but for standard calls ~rep(x,n)~ vs ~rep(sort(x),n)~
+they're equal post-sorting.
+
+* Week 9: ~break~ ~next~ ~repeat~ and ~function~ deep dive
+
+- [ ] Any feedback on the Literature Review sprint review?
+
+- [ ] *Tests*: Former rule (50% after the deadline) reinstalled (because
+  there aren't enough days left in the term for the other rule :-) But
+  you can complete the tests now at any time for 50% of the points
+  until May 2nd (term ends May 9th).
+
+- [ ] *Test 5* is live: 50 questions on loops, projects, utilities. Uses
+  lectures and review sessions (available in GitHub) as
+  usual. Deadline March 21 (2 weeks).
+
+- [ ] Loop control with ~break~, ~next~ and ~repeat~. Get:
+  [[https://raw.githubusercontent.com/birkenkrahe/ds2-25/refs/heads/main/org/9_simulation_codealong.org][tinyurl.com/simulation-codealong]] and open it in Emacs as =simul.org=.
+
+** Checkpoint GAI
+#+attr_html: :width 400px :float nil: 
+[[../img/debug.png]]
+
+- I'm enjoying re-developing my lectures and exercises with
+  Grok 3. It's generally more code-friendly than ChatGPT.
+
+- At the same time, every single code block in the current lecture was
+  wrong. The AI got the simplest things wrong (same for ChatGPT).
+
+- By testing every line of its code, improving and enlarging it, I
+  learnt something myself. If only to make sure I know what I code.
+
+- Though for professional applications, it's crap.
+
+* Footnotes
+
+[fn:1] Do I have to review my didactic approach? My assumption has
+been that if I force you to type everythng in while I do it, it will
+somehow rub off on you, and motivate you to continue on your own
+later. But now I am not so sure anymore. *Care to let me know what it
+would take for you to get better at coding?* More graded exercises?
+
