@@ -1,5 +1,5 @@
 #+title: Agenda Notebook
-n#+author: Marcus Birkenkrahe
+#+author: Marcus Birkenkrahe
 #+subtitle: DSC 205 - Intro to Advanced Data Science - SP25
 #+SEQ_TODO: TODO NEXT IN_PROGRESS | DONE CANCELLED
 #+startup: overview hideblocks indent entitiespretty
@@ -1481,25 +1481,25 @@ scientific paper yet. Instead, use the notebook to identify one.
 
 12) Create the (first) podcast.
 
-* Week 8: Utilities & ~while~ loops
+* DONE Week 8: Utilities & ~while~ loops
 #+attr_html: :width 400px :float nil:
 #+caption: Piet Lastman, Jonah and the Whale (1621)
 [[../img/jonah.jpg]]
 
 - [X] Sample solutions
 - [X] ~while~ loops - lecture & codealong & exercise
-- [ ] ~apply~ functions - lecture & codealong & exercise
-- [ ] Test 5 on loops - deadline March 18 
+- [X] Test 5 on loops, project, utilities - deadline March 18
+- [X] ~apply~ functions - lecture & codealong & exercise
 
-- [ ] 25% not bothering with non-DataCamp assignments.
-- [ ] There's a new assignment - =Titanic= with ~tapply~
-- [ ] I will post a couple of (simple) bonus assignments.
+- [X] 25% not bothering with non-DataCamp assignments.
+- [X] There's a new assignment - =Titanic= with ~tapply~
+- [X] I will post a couple of (simple) bonus assignments.
 
-- [ ] Fake papers & the literature review
-- [ ] DataCamp review: Utilities
+- [X] Fake papers & the literature review
+- [X] DataCamp review: Utilities & apply
 - [ ] Loops finisher: ~break,~ ~next,~ ~repeat~
 
-** DONE Sample solutions for programming assignments
+** Sample solutions for programming assignments
 
 I will grade these later in the week. You should then compare with the
 online sample solutions.
@@ -1507,18 +1507,17 @@ online sample solutions.
 - [[https://github.com/birkenkrahe/ds2-25/blob/main/org/conditional_statements.org][Conditional statements]] (see Canvas)
 - [[https://github.com/birkenkrahe/ds2-25/blob/main/org/7_switch_exercise_solution.org][Nested conditionals and switch]] (see Canvas)
 
-** DONE ~while~ loops - lecture & codealong
+** ~while~ loops - lecture & codealong
 
 - Download and complete: [[https://tinyurl.com/while-code-along][tinyurl.com/while-code-along]].
 - Exercise: [[https://tinyurl.com/while-assignment][tinyurl.com/while-assignment]] (due March 13)
 
-** IN_PROGRESS ~apply~ functions - lecture & codealong
+** ~apply~ functions - lecture & codealong
 
 - Download and complete: [[https://tinyurl.com/apply-code-along][tinyurl.com/apply-code-along]].
 - Exercise: [[https://tinyurl.com/apply-assignment][tinyurl.com/apply-assignment]] (due March 18)
 
-** TODO Literature Review: Fake Papers and the Sokal Hoax
-
+** Literature Review: Fake Papers and the Sokal Hoax
 
 - Post with specific hints on uncovering fake papers in the chat
   ([[https://blog.litmaps.com/p/have-you-cited-a-fake-paper-heres][Litmap]])
@@ -1562,7 +1561,7 @@ online sample solutions.
      to many (trustworthy) people for feedback.
   #+end_quote
 
-** TODO Review (test preview): DataCamp Intermediate R - Utilities
+** Review (test preview): DataCamp Intermediate R - Utilities
 
 Fire up Emacs + Org-mode. There's some coding to do.
 
@@ -1609,6 +1608,26 @@ Fire up Emacs + Org-mode. There's some coding to do.
      is.pos_for2(v1)
    #+end_src
 
+   #+RESULTS:
+   #+begin_example
+   [1] 1
+   [1] 1
+   [1] 1
+   [1] 1
+   [1] 1
+   [1] 0
+   [1] 1
+   [1] 0
+   [1] 1
+   [1] 1
+   [1] 1
+   [1] 1
+   [1] 1
+   [1] 0
+   [1] 1
+   [1] 0
+   #+end_example
+
 4. Do the same thing yet again, but now use an ~apply~ function.
 
    #+begin_src R :session *R* :results output :exports both
@@ -1616,6 +1635,9 @@ Fire up Emacs + Org-mode. There's some coding to do.
 
      ## using `print` inside the anonymous function prints x first.
    #+end_src
+
+   #+RESULTS:
+   : [1] 1 0 1 0
 
 5. How does the =round()= function behave when rounding the vector
    =c(1.1, 7.1, 5.4, 2.7)=?
@@ -1717,11 +1739,6 @@ Fire up Emacs + Org-mode. There's some coding to do.
       as.numeric(unclass(as.POSIXct("2025-03-03 00:00:00"))/(365*24*3600))
     #+end_src
 
-    #+RESULTS:
-    : [1] "1971-05-14 11:25:16 CDT"
-    : [1] 43086315
-    : [1] 55.20616
-
 14. What does 'POSIXct' mean?
     #+begin_quote
     POSIXct stands for "Portable Operating System Interface, calendar
@@ -1741,7 +1758,6 @@ Fire up Emacs + Org-mode. There's some coding to do.
     - Return value is the number of days left until end of term!
     - =Sys.time= returns the date and time
     #+end_quote
-    : [1] 303
 
 16. Does POSIXct require a lot of work from R?
 
@@ -1777,18 +1793,12 @@ Fire up Emacs + Org-mode. There's some coding to do.
              timeinfo->tm_zone);
     #+end_src
 
-    #+RESULTS:
-    : Current time: 2025-03-03 22:41:39.584482 CST
-
     Minimal (with way less control & less information):
     #+begin_src C
       #include <time.h>      // For time_t and ctime()
       // get address-of compound literal `time_t` initialized at epoch 0
       printf("%s\n",ctime(&(time_t){time(NULL)}));
     #+end_src
-
-    #+RESULTS:
-    : Mon Mar  3 22:44:25 2025
 
 17. What does the following function do and what does it output?
     #+begin_src R :session *R* :results output :exports both
@@ -1820,9 +1830,6 @@ Fire up Emacs + Org-mode. There's some coding to do.
       sub("a", "X", words)
     #+END_SRC
 
-    #+RESULTS:
-    : [1] "Xpple"  "bXnana" "cXt"
-
     #+begin_quote
     ~sub~ replaces the first occurrence of ="a"= with ="X"= in each string
     of a ~character~ vector: ="Xpple"  "bXnana" "cXt"=.
@@ -1843,6 +1850,65 @@ Fire up Emacs + Org-mode. There's some coding to do.
         "X", "banana")= → ="bXnXnX"=).
     #+END_QUOTE
 
+** When are ~rep~ and ~sort~ commutative?
+
+- [[https://chat.google.com/room/AAAAIVNZUqA/7QrooQtzlc8/7QrooQtzlc8?cls=10][Link to the Google Chat message]]
+
+- Chris Burris asked an interesting question about the association of
+  ~sort~ and ~rep~ - here are some experiments. sort is mathematically
+  idempotent (~sort(sort(x)) = sort(x)~, ~rep~ clearly is not but because
+  ~sort~ has this property, you can do this: the sorted repetition is
+  the same as a sorted repetition of the sorted vector.
+  #+begin_src R :session *R* :results output :exports both
+    seq(from=10,to=1,by=-2) -> toSort
+    sort(toSort)
+    sort(rep(toSort,2))
+    rep(sort(toSort),2)
+    sort(rep(sort(toSort),2))
+  #+end_src
+
+  #+RESULTS:
+  : [1]  2  4  6  8 10
+  :  [1]  2  2  4  4  6  6  8  8 10 10
+  :  [1]  2  4  6  8 10  2  4  6  8 10
+  :  [1]  2  2  4  4  6  6  8  8 10 10
+
+~sort(rep(x)) = rep(sort(x))~ holds when ~rep~ uses a consistent
+repetition that preserves the element frequencies, and the sorted form
+of ~x~ matches the sorted form of ~x~ repeated. If ~rep~ arguments differ
+like ~sort(rep(x,2))~ and ~rep(sort(x),3)~, lengths/counts mismatch
+breaking equality. but for standard calls ~rep(x,n)~ vs ~rep(sort(x),n)~
+they're equal post-sorting.
+
+* Week 9: ~break~ ~next~ ~repeat~ and ~function~ deep dive
+
+- [ ] Any feedback on the Literature Review sprint review?
+
+- [ ] *Tests*: Former rule (50% after the deadline) reinstalled (because
+  there aren't enough days left in the term for the other rule :-) But
+  you can complete the tests now at any time for 50% of the points
+  until May 2nd (term ends May 9th).
+
+- [ ] *Test 5* is live: 50 questions on loops, projects, utilities. Uses
+  lectures and review sessions (available in GitHub) as
+  usual. Deadline March 21 (2 weeks).
+
+- [ ] Loop control with ~break~, ~next~ and ~repeat~.
+
+** Checkpoint GAI
+#+attr_html: :width 400px :float nil: 
+[[../img/debug.png]]
+
+- I'm enjoying re-developing my lectures and exercises with
+  Grok 3. It's generally more code-friendly than ChatGPT.
+
+- At the same time, every single code block in the current lecture was
+  wrong. The AI got the simplest things wrong (same for ChatGPT).
+
+- By testing every line of its code, improving and enlarging it, I
+  learnt something myself. If only to make sure I know what I code.
+
+- Though for professional applications, it's crap.
 
 * Footnotes
 
@@ -1851,3 +1917,4 @@ been that if I force you to type everythng in while I do it, it will
 somehow rub off on you, and motivate you to continue on your own
 later. But now I am not so sure anymore. *Care to let me know what it
 would take for you to get better at coding?* More graded exercises?
+

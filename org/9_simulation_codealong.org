@@ -1,0 +1,179 @@
+#+TITLE: Practice: Loop Control in R for Data Science Scenarios
+#+AUTHOR: [yourname] (pledged)
+#+SUBTITLE: DSC 205 - Advanced introduction to data science
+#+STARTUP: overview hideblocks indent inlineimages entitiespretty
+#+OPTIONS: toc:nil num:nil ^:nil
+#+PROPERTY: header-args:R :session *R* :results output :exports both :noweb yes
+* README
+
+This practice file introduces loop control in R using ~break~, ~next~, and
+~repeat~ through data science scenarios like text processing and
+simulation. It accompanies intermediate data science topics on
+efficient iteration. Expect examples and exercises that mimic
+real-world tasks, such as filtering messy data or running Monte Carlo
+experiments. /Modified with the help of generative AI (Grok 3)./
+
+* Declaring ~break~ or ~next~ or ~repeat~
+
+- ~for~ loops will exit only when the /loopindex/ exhausts the /loopvector/:
+  #+begin_src R
+    for (i in 1:5) i <- i + 1
+    i
+  #+end_src
+
+- ~while~ loops will exit only when the /loopcondition/ evaluates to ~FALSE~:
+  #+begin_src R
+    i <- 1
+    while(i) i <- i - 1
+    i
+  #+end_src
+
+- ~break~ allows to pre-emptively terminate a loop:
+  #+begin_src R
+    k <- 1
+    while(k) {
+      break
+      k <- k + 1
+    }; k
+  #+end_src
+
+- ~next~ allows to leave a loop iteration and continue execution:
+  #+begin_src R
+    sum <- 0
+    for (i in 1:5) {
+      if (i %in% c(2,3,4)) next
+      sum <- sum + i
+    }
+    sum
+  #+end_src
+
+- ~repeat~ runs indefinitely until explicitly stopped (e.g., with ~break~):
+  #+begin_src R :session *R* :results output :exports both
+    n <- 0
+    repeat {
+      n <- n + 1;
+      print("hello")
+      if (n > 4) break
+    }; n
+  #+end_src
+
+- Both ~break~ and ~next~ work the same way in ~for~ or ~while~ loops, while
+  ~repeat~ requires ~break~ to exit.
+
+* Example: ~break~ in text analysis
+
+- *Objective:* Count words in a text vector until encountering a
+  specific "stop word."
+
+- *Scenario:* You’re analyzing customer feedback and want to stop
+  processing at the word "END."
+
+- *Define data:*
+  #+name: feedback
+  #+begin_src R :results silent
+    ## Feedback vector
+
+  #+end_src
+
+- *Algorithm:*
+  1) Initialize a counter ~word_count~ to 0.
+  2) Loop over ~text~:
+     - If the current word is "END," ~break~.
+     - Otherwise, increment ~word_count~.
+  3) Print the count of words before "END."
+  #+name: stop_count
+  #+begin_src R
+
+  #+end_src
+
+- Think: What if "END" isn’t in ~text~? How does this code behave?
+  #+begin_src R
+
+  #+end_src
+
+* Example: ~next~ for data cleaning
+
+- *Objective:* Sum numeric values in a mixed vector, skipping
+  non-numeric entries.
+
+- *Scenario:* You’re cleaning a dataset with messy input (e.g., sensor
+  readings with errors).
+
+- *Define data:*
+  #+name: sensor_data
+  #+begin_src R :results silent
+
+  #+end_src
+
+- *Algorithm:*
+  1) Initialize ~total~ to 0.
+  2) Loop over ~readings~:
+     - If the current element isn’t numeric, skip with ~next~.
+     - Otherwise, add it to ~total~.
+  3) Print the sum.
+  #+begin_src R
+
+  #+end_src
+
+- How would you modify this to also skip negative numbers?
+
+* ~break~ and ~next~ in simulation
+
+- *Objective:* Simulate coin flips until heads appear twice in a row,
+  skipping tails runs.
+
+- *Scenario:* You’re modeling a probabilistic process for a game analysis.
+
+- *Define setup:*
+  #+name: coin_setup
+  #+begin_src R 
+
+  #+end_src
+
+- Check out the arguments of ~sample~:
+  #+begin_src R 
+
+  #+end_src
+
+- *Algorithm:*
+  1) Initialize ~heads_in_row~ to 0.
+  2) Loop over ~flips~:
+     - If "T," reset ~heads_in_row~ to 0 and skip with ~next~.
+     - If "H," increment ~heads_in_row~; if it reaches 2, ~break~.
+  3) Print the number of flips until two heads.
+
+- More explicit code with index looping:
+  #+begin_src R
+
+  #+end_src
+
+- Note: This mimics stopping a simulation when a condition is met.
+
+* Example: ~repeat~ in Monte Carlo
+
+- *Objective:* Estimate π using a /Monte Carlo/ method until precision is
+  sufficient. MC simulations are used to estimate a range of outcomes
+  for uncertain events.
+
+- *Scenario:* You’re approximating π by simulating points in a square
+  and circle.
+
+- *Algorithm:*
+
+  1) Initialize counters for points inside a unit circle (~inside~) and
+     total points (~n~).
+
+  2) Repeat:
+     - Generate random =(x, y)= in =[-1, 1] x [-1, 1]=.
+     - Check if the point lies within the unit circle (x² + y² ≤ 1).
+     - Update ~inside~ and ~n~.
+     - Estimate π as =4 * (inside / n)=.
+     - If ~n~ exceeds 1000, ~break~.
+
+- Code using ~runif~:
+  #+begin_src R
+
+  #+end_src
+
+- Think: How could you stop based on precision (e.g., π estimate
+  stabilizes)?
