@@ -1893,7 +1893,8 @@ they're equal post-sorting.
   lectures and review sessions (available in GitHub) as
   usual. Deadline March 21 (2 weeks).
 
-- [ ] Loop control with ~break~, ~next~ and ~repeat~.
+- [ ] Loop control with ~break~, ~next~ and ~repeat~. Get:
+  [[https://raw.githubusercontent.com/birkenkrahe/ds2-25/refs/heads/main/org/9_simulation_codealong.org][tinyurl.com/simulation-codealong]] and open it in Emacs as =simul.org=.
 
 ** Checkpoint GAI
 #+attr_html: :width 400px :float nil: 
