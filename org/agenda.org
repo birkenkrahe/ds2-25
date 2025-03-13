@@ -1882,22 +1882,22 @@ they're equal post-sorting.
 
 * Week 9: ~break~ ~next~ ~repeat~ and ~function~ deep dive
 
-- [ ] Any feedback on the Literature Review sprint review?
+- [X] Any feedback on the Literature Review sprint review?
 
-- [ ] *Tests*: Former rule (50% after the deadline) reinstalled (because
+- [X] *Tests*: Former rule (50% after the deadline) reinstalled (because
   there aren't enough days left in the term for the other rule :-) But
   you can complete the tests now at any time for 50% of the points
   until May 2nd (term ends May 9th).
 
-- [ ] *Test 5* is live: 50 questions on loops, projects, utilities. Uses
+- [X] *Test 5* is live: 50 questions on loops, projects, utilities. Uses
   lectures and review sessions (available in GitHub) as
   usual. Deadline March 21 (2 weeks).
 
 - [ ] Loop control with ~break~, ~next~ and ~repeat~. Get:
   [[https://raw.githubusercontent.com/birkenkrahe/ds2-25/refs/heads/main/org/9_simulation_codealong.org][tinyurl.com/simulation-codealong]] and open it in Emacs as =simul.org=.
 
-** Checkpoint GAI
-#+attr_html: :width 400px :float nil: 
+** DONE Checkpoint GAI
+#+attr_html: :width 400px :float nil:
 [[../img/debug.png]]
 
 - I'm enjoying re-developing my lectures and exercises with
@@ -1911,6 +1911,109 @@ they're equal post-sorting.
 
 - Though for professional applications, it's crap.
 
+
+** TODO Review: loop control with ~break~ and ~next~
+
+1. You’re counting books on a shelf until you hit a "BROKEN"
+   one. Loop over the vector =shelf=, stop at every ="BROKEN"= book and
+   return the indices of these books. (Can you do it on one line?)
+
+   #+begin_src R :session *R* :results output :exports both
+     shelf <- c("Miller", "Moon", "BROKEN", "Nantucket", "BROKEN")  # Define shelf
+     which(shelf=="BROKEN")
+   #+end_src
+
+   #+begin_quote
+   You only need ~break~ if you actually want to break out of a loop.
+   #+end_quote
+
+2. You’re adding up scores like ~c(10, "skip", 15, 5)~ but need to
+   ignore non-numeric entries. What’s a ~for~ loop with ~next~ in R to
+   print only the numbers? (Can you do it on one line?)
+
+   #+begin_src R :session *R* :results output :exports both
+     scores <- c(10, "skip", 15, 5)
+     for (item in scores) if (!is.na(suppressWarnings(as.numeric(item)))) print(as.numeric(item))
+   #+end_src
+
+   #+begin_quote
+   You only need ~next~ if you actually want to skip loop events.
+   #+end_quote
+
+3. You’re flipping a coin until you get heads, tracking how many flips
+   it takes. How could a ~repeat~ loop with ~break~ look in R to stop at
+   the first "H"? (Can you do it in one line?)
+
+   #+BEGIN_SRC R
+     repeat {if((sample(c("H","T"),1)=="H"->H)) break}
+     H
+   #+END_SRC
+
+4. You’re counting "win" streaks in a vector of "win" and "lose"
+   results until two wins in a row. How might a ~for~ loop with ~break~
+   and ~next~ reset at "lose" in R? Write the pseudocode! Then the code!
+
+   Pseudocode:
+   #+begin_example
+   ## define results vector
+   ## initialize streak
+   ## for each result in results
+      ## if result is "lose"
+         ## set streak to zero
+         ## next result
+      ## increment streak
+      ## if streak is two
+         ## break loop
+   ## print streak
+   #+end_example
+
+   Code:
+   #+begin_src R :session *R* :results output :exports both
+     results <- sample(c("win","lose"),5,TRUE) ## define results vector
+     streak <- 0 ## initialize streak
+     for (result in results) { ## for each result in results
+       if (result == "lose") { ## if result is "lose"
+         streak <- 0 ## set streak to zero
+         next } ## next result
+       streak <- streak + 1 ## increment streak
+       if (streak == 2) ## if streak is two
+         break} ## break loop
+     ## print streak position
+     paste("Streak:",streak)
+     results
+   #+end_src
+
+   #+RESULTS:
+   : [1] "Streak: 0"
+   : [1] "win"  "lose" "win"  "lose" "lose"
+   
+5. What if you want to identify the position of the 2nd win (if any)?
+
+   #+begin_src R :session *R* :results output :exports both
+     results <- sample(c("win","lose"),5,TRUE) ## define results vector
+     streak <- 0 ## initialize streak
+     for (i in 1:length(results)) { ## for each result in results
+       if (results[i] == "lose") { ## if result is "lose"
+         streak <- 0 ## set streak to zero
+         next } ## next result
+       streak <- streak + 1 ## increment streak
+       if (streak == 2) ## if streak is two
+         break ## break loop
+     }
+     ## print streak position
+     if (i < length(results)) {
+       paste("Position of 2nd win:",i)
+     } else {
+       paste("No 2nd win.")
+     }
+     results
+   #+end_src
+
+   #+RESULTS:
+   : [1] "Position of 2nd win: 2"
+   : [1] "win"  "win"  "lose" "lose" "win"
+
+
 * Footnotes
 
 [fn:1] Do I have to review my didactic approach? My assumption has
@@ -1918,4 +2021,3 @@ been that if I force you to type everythng in while I do it, it will
 somehow rub off on you, and motivate you to continue on your own
 later. But now I am not so sure anymore. *Care to let me know what it
 would take for you to get better at coding?* More graded exercises?
-

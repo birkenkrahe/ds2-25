@@ -1,0 +1,107 @@
+#+TITLE:Loop Control Exercises 
+#+AUTHOR: [yourname] (pledged)
+#+SUBTITLE: DSC 205 Lyon College Spring 2025
+#+STARTUP: overview hideblocks indent
+#+OPTIONS: toc:nil num:nil ^:nil
+#+PROPERTY: header-args:R :session *R* :results output :exports both :noweb yes
+
+Get the exercise file from: [[https://tinyurl.com/loop-control-exercises][tinyurl.com/loop-control-exercises]]
+
+* Filtering with ~while~ and ~ifelse~
+
+You’re processing a log file with timestamps and error codes:
+#+name: log_data
+#+begin_src R :results silent
+  log <- c(10.5, 15.2, -999, 20.1, -999, 12.8, 18.0)  # -999 = error
+#+end_src
+
+1) Write a ~while~ loop—without ~break~ or ~next~ — to sum values until
+   hitting an error (-999). Expected result: 
+   #+begin_example
+   : Sum before error: 25.7
+   #+end_example
+
+   Pseudocode:
+   #+begin_example R
+   # Initialize sum total
+   # Initialize index i
+   # Loop over log and stop at error or end of log
+     # Add log event to sum total
+     # Go to next index i
+   # Print sum total before error
+   #+end_example
+
+   Code:
+   #+begin_src R
+
+   #+end_src
+
+2) Use ~ifelse~ to compute the product of all non-error values in
+   ~log~. Use the function ~prod~. Expected result: =739114=.
+
+   Solution:
+   #+begin_src R
+
+   #+end_src
+
+   #+RESULTS:
+   : Product of valid entries: 739114
+
+3) Challenge: Adjust the ~while~ loop to stop at the *second* error
+   instead of the first. Tip: you need to add an =error_count= variable.
+   Expected result: 
+   #+begin_example
+   : Sum before second error: 45.8
+   #+end_example
+
+   Code:
+   #+BEGIN_SRC R
+
+   #+END_SRC
+
+* Simulation with ~for~ and ~repeat~
+
+You’re simulating a dice game where you roll until the sum exceeds 20:
+Use ~sample~ with 15 dice rolls, and ~set.seed~ to =99= for replicability.
+
+Expected result:
+#+begin_example
+: Sum exceeded 20 after 5 rolls: 22
+#+end_example
+
+1) Write a ~for~ loop with ~break~ to sum rolls until exceeding 20. Tip:
+   use an index rather than a vector loop.
+
+   Pseudocode:
+   #+begin_example R
+   # Set seed to 99
+   # 15 dice rolls
+   # Initialize sum total
+   # Loop over rolls
+     # Add roll to total
+     # Check threshold
+        # Print result
+        # Stop rolling
+      #+end_example
+
+   Code:
+   #+begin_src R
+
+   #+end_src
+
+2) Write a ~repeat~ loop to do the same:
+   #+begin_src R
+
+   #+end_src
+
+3) Challenge: Modify either loop to stop only if the sum exceeds 20
+   *and* the last roll was a 6. Expected result:
+   #+begin_example
+   : Sum exceeded 20 with a 6 after 8 rolls: 33
+   #+end_example
+
+   Code:
+   #+BEGIN_SRC R
+                                              # Sum exceeded 20 with a 6 after 6 rolls: 23  # 2 + 5 + 3 + 6 + 1 + 6
+   #+END_SRC
+
