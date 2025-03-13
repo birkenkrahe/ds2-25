@@ -1,0 +1,519 @@
+#+TITLE: Practice: Loop Control in R for Data Science Scenarios
+#+AUTHOR: Marcus Birkenkrahe (pledged)
+#+SUBTITLE: DSC 205 - Advanced introduction to data science
+#+STARTUP: overview hideblocks indent inlineimages entitiespretty
+#+OPTIONS: toc:nil num:nil ^:nil
+#+PROPERTY: header-args:R :session *R* :results output :exports both :noweb yes
+* README
+
+This practice file introduces loop control in R using ~break~, ~next~, and
+~repeat~ through data science scenarios like text processing and
+simulation. It accompanies intermediate data science topics on
+efficient iteration. Expect examples and exercises that mimic
+real-world tasks, such as filtering messy data or running Monte Carlo
+experiments. /Modified with the help of generative AI (Grok 3)./
+
+* Declaring ~break~ or ~next~ or ~repeat~
+
+- ~for~ loops will exit only when the /loopindex/ exhausts the /loopvector/
+  #+begin_src R
+    for (i in 1:5) i <- i + 1
+    i
+  #+end_src
+
+- ~while~ loops will exit only when the /loopcondition/ evaluates to ~FALSE~
+  #+begin_src R
+    i <- 1
+    while(i) i <- i - 1
+    i
+  #+end_src
+
+- ~break~ allows to pre-emptively terminate a loop
+  #+begin_src R
+    k <- 1
+    while(k) {
+      break
+      k <- k + 1
+    }; k
+  #+end_src
+
+- ~next~ allows to leave a loop iteration and continue execution
+  #+begin_src R
+    sum <- 0
+    for (i in 1:5) {
+      if (i %in% c(2,3,4)) next
+      sum <- sum + i
+    }
+    sum
+  #+end_src
+
+- ~repeat~ runs indefinitely until explicitly stopped (e.g., with ~break~)
+  #+begin_src R :session *R* :results output :exports both
+    n <- 0
+    repeat {
+      n <- n + 1;
+      print("hello")
+      if (n > 4) break
+    }; n
+  #+end_src
+
+- Both ~break~ and ~next~ work the same way in ~for~ or ~while~ loops, while
+  ~repeat~ requires ~break~ to exit.
+
+* Example: ~break~ in text analysis
+
+- *Objective:* Count words in a text vector until encountering a
+  specific "stop word."
+
+- *Scenario:* You’re analyzing customer feedback and want to stop
+  processing at the word "END."
+
+- *Define data:*
+  #+name: feedback
+  #+begin_src R :results silent
+    ## Feedback vector
+    text <- c("service", "was", "great", "END", "but", "slow", "today")
+  #+end_src
+
+- *Algorithm:*
+  1) Initialize a counter ~word_count~ to 0.
+  2) Loop over ~text~:
+     - If the current word is "END," ~break~.
+     - Otherwise, increment ~word_count~.
+  3) Print the count of words before "END."
+  #+name: stop_count
+  #+begin_src R
+    word_count <- 0                  # Step 1: Initialize counter
+    for (i in 1:length(text)) {      # Step 2: Loop over text
+      if (text[i] == "END") break    # Check for stop word - exit if found
+      word_count <- word_count + 1   # Increment counter
+    }
+    cat("Words before END:", word_count, "\n")  # Step 3: Output result
+  #+end_src
+
+  #+RESULTS: stop_count
+  : Error in text[i] : object of type 'closure' is not subsettable
+  : Words before END: 0
+
+- Think: What if "END" isn’t in ~text~? How does this code behave?
+  #+begin_src R
+    text2 <- c("service", "was", "great", "but", "slow", "today")
+    word_count <- 0                  # Step 1: Initialize counter
+    for (i in 1:length(text2)) {      # Step 2: Loop over text
+      if (text2[i] == "END") break   # Check for stop word - exit if found
+      word_count <- word_count + 1   # Increment counter
+    }
+    cat("Words before END:", word_count, "\n")  # Step 3: Output result
+  #+end_src
+
+* Example: ~next~ for data cleaning
+
+- *Objective:* Sum numeric values in a mixed vector, skipping
+  non-numeric entries.
+
+- *Scenario:* You’re cleaning a dataset with messy input (e.g., sensor
+  readings with errors).
+
+- *Define data:*
+  #+name: sensor_data
+  #+begin_src R :results silent
+    readings <- c(12.5, "error", -8.0, NA, 15.2, "fault", -9.1)  # Mixed vector
+  #+end_src
+
+- *Algorithm:*
+  1) Initialize ~total~ to 0.
+  2) Loop over ~readings~:
+     - If the current element isn’t numeric, skip with ~next~.
+     - Otherwise, add it to ~total~.
+  3) Print the sum.
+  #+begin_src R
+    total <- 0                        # Step 1: Initialize sum
+    for (i in 1:length(readings)) {   # Step 2: Loop over readings
+      if (!is.numeric(readings[i])) { # Check if not numeric
+        next                          # Skip non-numeric values
+      }
+      total <- total + readings[i]    # Add to total
+    }
+    cat("Sum of numeric readings:", total, "\n")  # Step 3: Output result
+  #+end_src
+
+  #+RESULTS:
+  : Sum of numeric readings: 0
+
+  #+begin_src R
+    total <- 0
+    for (item in readings) {
+      if (!is.numeric(item)) {
+        next
+      } else {
+        total <- total + item
+      }
+    }
+    total
+  #+end_src
+
+  #+RESULTS:
+  : [1] 0
+
+- Hey, this should totally work. What's going on? Print =item=:
+  #+begin_src R
+    total <- 0
+    for (item in readings) {
+      print(item)
+      if (!is.numeric(item)) {
+        next
+      } else {
+        total <- total + item
+      }
+    }
+    total
+  #+end_src
+
+  #+RESULTS:
+  : [1] "12.5"
+  : [1] "error"
+  : [1] "-8"
+  : [1] NA
+  : [1] "15.2"
+  : [1] "fault"
+  : [1] "-9.1"
+  : [1] 0
+
+- That explains it: All elements are coerced to ~character~ values
+  because there are such values present in the vector! So: when
+  encountering an ~item~, we have to first check if it's a number or
+  not:
+  #+begin_src R
+    readings
+    (as.numeric(readings[1]) -> foo) # 12.5
+    (as.numeric(readings[2]) -> bar) # NA introduced by coercion
+    is.na(bar) # test to see if element is NA (still `numeric`)
+  #+end_src
+
+  #+RESULTS:
+  : [1] "12.5"  "error" "-8"    NA      "15.2"  "fault" "-9.1"
+  : [1] 12.5
+  : [1] NA
+  : Warning message:
+  : NAs introduced by coercion
+  : [1] TRUE
+
+- Another attempt (using ~suppressWarnings~):
+  #+begin_src R
+    total <- 0
+    for (item in suppressWarnings(as.numeric(readings))) {
+      if (is.na(item)) next
+      else total <- total + item
+    }
+    total
+  #+end_src
+
+  #+RESULTS:
+  : [1] 10.6
+
+- As an exercise, turn the code from vector loop into index loop.
+  #+begin_src R
+    total <- 0
+    for (i in 1:length(readings)) {
+      item <- suppressWarnings(as.numeric(readings[i]))
+      if (is.na(item)) next
+      else total <- total + item
+    }
+    total
+  #+end_src
+
+  #+RESULTS:
+  : [1] 10.6
+
+- How would you modify this to also skip negative numbers?
+
+  #+begin_src R
+    total <- 0
+    for (item in suppressWarnings(as.numeric(readings))) {
+      print(item)
+      if (is.na(item) || item < 0) next
+      else total <- total + item
+    }
+    total
+  #+end_src
+
+  #+RESULTS:
+  : [1] 12.5
+  : [1] NA
+  : [1] -8
+  : [1] NA
+  : [1] 15.2
+  : [1] NA
+  : [1] -9.1
+  : [1] 27.7
+
+* ~break~ and ~next~ in simulation
+
+- *Objective:* Simulate coin flips until heads appear twice in a row,
+  skipping tails runs.
+
+- *Scenario:* You’re modeling a probabilistic process for a game analysis.
+
+- *Define setup:*
+  #+name: coin_setup
+  #+begin_src R
+    ##set.seed(42)                   # For reproducibility
+    ## runif(1)                         # run to advance the RNG
+    flips <- sample(c("H", "T"), 20, replace = TRUE)  # 20 coin flips
+    flips
+  #+end_src
+
+  #+RESULTS: coin_setup
+  : [1] 0.5734759
+  :  [1] "T" "T" "H" "H" "T" "H" "H" "H" "T" "H" "H" "T" "T" "T" "H" "H" "T" "H" "H" "T"
+
+- Check out the arguments of ~sample~[fn:1]:
+  #+begin_src R
+    args(sample) # x = source, size = sample size, with/without replacement
+  #+end_src
+
+  #+RESULTS:
+  : function (x, size, replace = FALSE, prob = NULL)
+  : NULL
+
+- Algorithm:
+  1) Initialize ~heads_in_row~ to 0.
+  2) Loop over ~flips~:
+     - If "T," reset ~heads_in_row~ to 0 and skip with ~next~.
+     - If "H," increment ~heads_in_row~; if it reaches 2, ~break~.
+  3) Print the number of flips until two heads.
+
+- More explicit code with index looping:
+  #+begin_src R
+    heads_in_row <- 0                # Step 1: Track consecutive heads
+    for (i in 1:length(flips)) {     # Step 2: Loop over flips
+      if (flips[i] == "T") {         # Tail case
+        heads_in_row <- 0            # Reset counter
+        next                         # Skip to next flip
+      }
+      heads_in_row <- heads_in_row + 1  # Head: increment
+      if (heads_in_row == 2) {       # Check for two heads
+        cat("Two heads after", i, "flips:", flips[1:i], "\n")
+        break                        # Exit loop
+      }
+    }
+  #+end_src
+
+  #+RESULTS:
+  : Two heads after 4 flips: T T H H
+
+- Note: This mimics stopping a simulation when a condition is met.
+
+* Example: Monte Carlo (MC) Method for Estimating π
+** Mathematical Formulation
+
+1. Consider a *unit square* with corners at (0,0), (1,0), (1,1), and
+   (0,1).
+
+2. Inside this square, inscribe a *quarter-circle* of radius r = 1,
+   centered at (0,0), using the equation: x^2 + y^2 \leq 1.
+
+   This equation represents all points inside the quarter-circle
+   (Pythagoras!).
+
+3. Generate *random points* (x, y) where x,y are uniformly distributed
+   between 0 and 1 meaning (will cover all area given enough time).
+
+4. Count the number of points that fall inside the quarter-circle:
+   - A point (x,y) is inside if x^2 + y^2 \leq 1
+   - The fraction of points inside the quarter-circle approximates the
+     ratio of the quarter-circle’s area to the square’s area.
+
+5. Compute π using the frequency approximation:
+
+   \pi \approx 4 \times (# points inside quarter-circle)/ (total # of points)
+
+** Monte Carlo Algorithm
+
+1. Initialize N (total number of random points).
+2. Generate N random points (x,y).
+3. Count how many satisfy x^2 + y^2 \leq 1.
+4. Compute \pi using the ratio times 4.
+
+* Example: estimating \pi with ~repeat~ in Monte Carlo
+
+- *Objective:* Estimate π using a /Monte Carlo/ method until precision is
+  sufficient. MC simulations are used to estimate a range of outcomes
+  for uncertain events[fn:2].
+
+- *Scenario:* You’re approximating π by simulating points in a square
+  and circle.
+
+- *Algorithm:*
+
+  1) Initialize counters for points inside a unit circle (~inside~) and
+     total points (~n~).
+
+  2) Repeat:
+     - Generate random =(x, y)= in =[-1, 1] x [-1, 1]=.
+     - Check if the point lies within the unit circle (x² + y² ≤ 1).
+     - Update ~inside~ and ~n~.
+     - Estimate π as =4 * (inside / n)=.
+     - If ~n~ exceeds 1000, ~break~.
+
+- Code using ~runif~[fn:3]:
+  #+begin_src R
+    ##set.seed(123)                # Reproducible randomness
+    inside <- 0                    # Points inside circle
+    n <- 0                         # Total points
+    repeat {                       # Infinite loop
+      x <- runif(1, -1, 1)         # Random x-coordinate
+      y <- runif(1, -1, 1)         # Random y-coordinate
+      if (x^2 + y^2 <= 1) {        # Inside unit circle?
+        inside <- inside + 1       # Count it
+      }
+      n <- n + 1                   # Total points attempted
+      pi_est <- 4 * (inside / n)   # Estimate π
+      if (n > 1000) {              # Stop after 1000 iterations
+        cat("Estimated π after", n, "points:", pi_est, "\n")
+        break                      # Exit loop
+      }
+    }
+  #+end_src
+
+  #+RESULTS:
+  : Estimated π after 1001 points: 3.180819
+
+- Think: How could you stop based on precision (e.g., π estimate
+  stabilizes)?
+  #+begin_quote
+  To stop a simulation based on *precision* (e.g., π estimate
+  stabilizes), you could track the difference between consecutive
+  estimates and use ~break~ when the change falls below a small
+  threshold (e.g., =abs(pi_est - prev_pi_est) < 0.001=), indicating
+  stability.
+  #+end_quote
+
+* Exercises
+
+- Get the exercise file and complete it:
+  [[https://tinyurl.com/loop-control-exercises][tinyurl.com/loop-control-exercises]]
+
+** Filtering with ~while~ and ~ifelse~
+
+You’re processing a log file with timestamps and error codes:
+#+name: log_data
+#+begin_src R :results silent
+  log <- c(10.5, 15.2, -999, 20.1, -999, 12.8, 18.0)  # -999 = error
+#+end_src
+
+1) Write a ~while~ loop—without ~break~ or ~next~ — to sum values until
+   hitting an error (-999).
+
+   Starter code:
+   #+begin_example R
+   # Initialize sum total
+   # Initialize index i
+   # Loop over log and stop at error or end of log
+     # Add log event to sum total
+     # Go to next index i
+   # Print sum total before error
+   #+end_example
+
+   Code:
+   #+begin_src R
+     total <- 0                  # Initialize sum total
+     i <- 1                      # Initialize index i
+     while (i <= length(log) && log[i] != -999) {  # Stop at error or end
+       total <- total + log[i]   # Add log event
+       i <- i + 1                # Next index
+     }
+     cat("Sum before error:", total, "\n") # Print total before error
+   #+end_src
+
+   #+RESULTS:
+   : Sum before error: 25.7
+
+2) Use ~ifelse~ to compute the product of all non-error values in
+   ~log~. You can use the function ~prod~. Expected result: =739114=.
+
+   Solution:
+   #+begin_src R
+     product <- prod(ifelse(log == -999, 1, log))  # Replace errors with 1
+     cat("Product of valid entries:", product, "\n")
+   #+end_src
+
+   #+RESULTS:
+   : Product of valid entries: 739114
+
+** Simulation with ~for~ and ~repeat~
+
+You’re simulating a dice game where you roll until the sum exceeds 20:
+Use ~sample~ with 15 dice rolls, and ~set.seed~ to =99= for replicability.
+
+Exepected result:
+#+begin_example
+: Sum exceeded 20 after 5 rolls: 22
+#+end_example
+
+1) Write a ~for~ loop with ~break~ to sum rolls until exceeding 20. Tip:
+   use an index rather than a vector loop.
+
+   Pseudocode:
+   #+begin_example R
+   # Set seed to 99
+   # 15 dice rolls
+   # Initialize sum total
+   # Loop over rolls
+     # Add roll to total
+     # Check threshold
+        # Print result
+        # Stop rolling
+      #+end_example
+
+   Solution with index loop:
+   #+begin_src R
+     set.seed(99) # Set seed 99
+     rolls <- sample(1:6, 15, replace = TRUE)  # 15 dice rolls
+     total <- 0                  # Initialize sum
+     for (i in 1:length(rolls)) {  # Loop over rolls
+       total <- total + rolls[i]   # Add roll
+       if (total > 20) {          # Check threshold
+         cat("Sum exceeded 20 after", i, "rolls:", total, "\n")
+         break                    # Stop rolling
+       }
+     }
+   #+end_src
+
+   #+RESULTS:
+   : Sum exceeded 20 after 5 rolls: 22
+
+2) Write a ~repeat~ loop to do the same:
+   #+begin_src R
+     <<dice_setup>>
+     total <- 0                  # Initialize sum
+     i <- 1                      # Start index
+     repeat {                    # Infinite loop
+       total <- total + rolls[i] # Add roll
+       if (total > 20) {         # Check threshold
+         cat("Sum exceeded 20 after", i, "rolls:", total, "\n")
+         break                   # Stop rolling
+       }
+       i <- i + 1               # Next roll
+     }
+   #+end_src
+
+3) Bonus challenge: Modify either loop to stop only if the sum exceeds
+   20 *and* the last roll was a 6. Expected result:
+   #+begin_example
+   : Sum exceeded 20 with a 6 after 8 rolls: 33
+   #+end_example
+
+* Footnotes
+
+[fn:1] ~prob~ is a vector of probability weights. You could for example
+use this to create an unfair die when rolling dice.
+
+[fn:2]There is a course [[https://app.datacamp.com/learn/courses/monte-carlo-simulations-in-python][Monte Carlo Simulations in Python on
+DataCamp]]. This method is hugely important in physics, and should be
+familiar to students who took my DSC 482 class "Data and process
+modeling" (last class in Fall 2023).
+
+[fn:3] ~runif~ draws numbers from a uniform distribution, where all
+possible outcomes within a given range are equally like to occur. E.g.
+when cossing a fair coin, each side has 1/2 probability to come up.
