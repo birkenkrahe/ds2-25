@@ -1881,6 +1881,9 @@ breaking equality. but for standard calls ~rep(x,n)~ vs ~rep(sort(x),n)~
 they're equal post-sorting.
 
 * DONE Week 9: ~break~ ~next~ ~repeat~ and ~function~ deep dive
+#+attr_html: :width 400px :float nil: 
+#+caption: Monte Carlo Casino
+[[../img/monte-carlo-casino.jpg]]
 
 - [X] Any feedback on the Literature Review sprint review?
 
@@ -1893,7 +1896,7 @@ they're equal post-sorting.
   lectures and review sessions (available in GitHub) as
   usual. Deadline March 21 (2 weeks).
 
-- [ ] Loop control with ~break~, ~next~ and ~repeat~. Get:
+- [X] Loop control with ~break~, ~next~ and ~repeat~. Get:
   [[https://raw.githubusercontent.com/birkenkrahe/ds2-25/refs/heads/main/org/9_simulation_codealong.org][tinyurl.com/simulation-codealong]] and open it in Emacs as =simul.org=.
 
 ** Checkpoint GAI
@@ -1910,7 +1913,6 @@ they're equal post-sorting.
   learnt something myself. If only to make sure I know what I code.
 
 - Though for professional applications, it's crap.
-
 
 ** Review: loop control with ~break~ and ~next~
 
@@ -2026,6 +2028,111 @@ they're equal post-sorting.
 
 TO FIX: ="win"  "win"  "lose" "lose" "lose"= generates a bug!
 
+* Week 10: Real World Problems
+#+attr_html: :width 400px :float nil: 
+#+caption: The Dukes of Burgundy and their ladies (15th century AD)
+[[../img/tolerant.jpg]]
+
+- [X] Test 5 is due this Friday March 21st
+- [X] Titanic Survival Analysis with ~tapply~ due today March 18th
+- [X] DataCamp course ("Writing functions") due April 1st
+- [X] New home programming assignment (MC simulation)
+- [X] Advisees: I will share degree plans & you upload to GDrive
+
+** TODO Review Questions for Monte Carlo Simulation
+
+1. What is the main purpose of using the Monte Carlo method to
+   estimate π?
+   #+BEGIN_QUOTE
+   To approximate π by simulating random points and using their
+   distribution to estimate the ratio of areas.
+   #+END_QUOTE
+
+2. How does the Monte Carlo method use the relationship between two
+   geometric shapes, such as a quarter-circle inscribed in a unit
+   square, to estimate a mathematical constant?
+   #+BEGIN_QUOTE
+   The method compares the proportion of random points falling within
+   the quarter-circle to the total area of the unit square, which
+   reflects the constant’s value based on the area formula
+   #+END_QUOTE
+
+3. Why is it important for the random points in the Monte Carlo method
+   to be uniformly distributed?
+   #+BEGIN_QUOTE
+   Uniform distribution ensures that all areas within the sampling
+   region have an equal chance of being sampled, providing a fair
+   estimate of the target value.
+   #+END_QUOTE
+
+4. What geometric relationship allows the Monte Carlo method to
+   estimate π from the ratio of points inside and outside a specific
+   region?
+   #+BEGIN_QUOTE
+   The ratio of the area of a curved region to a surrounding area is
+   related to π because the curved region’s area is a fraction of π
+   multiplied by a known dimension, specifically the radius (e.g., r
+   = 1) of the quarter-circle around (0,0).
+   #+END_QUOTE
+
+5. How does increasing the number of random points in a Monte Carlo
+   simulation affect the accuracy of the π estimate?
+   #+BEGIN_QUOTE
+   Increasing the number of points generally improves accuracy by
+   reducing the impact of random variation, as more samples better
+   reflect the true proportion.
+   #+END_QUOTE
+
+6. What is the key idea behind stopping a Monte Carlo simulation based
+   on precision rather than a fixed number of points?
+   #+BEGIN_QUOTE
+   The simulation stops when the estimate stabilizes, indicating that
+   additional points are unlikely to significantly change the result.
+   #+END_QUOTE
+
+7. How does the Monte Carlo method handle uncertainty in estimating
+   outcomes like π?
+   #+BEGIN_QUOTE
+   It uses repeated random sampling to simulate a range of possible
+   outcomes and derive an average or approximate value.
+   #+END_QUOTE
+
+8. In the context of processing log data with a ~while~ loop, what
+   role does an error value (like -999) play in the simulation?
+   #+BEGIN_QUOTE
+   The error value acts as a signal to stop or adjust the processing
+   when an invalid or problematic data point is encountered. Example:
+   Halting the calculation of server uptime when a system crash is
+   logged.
+   #+END_QUOTE
+
+9. What is the conceptual goal of simulating a dice game with a ~for~ or
+   ~repeat~ loop until the sum exceeds a threshold?
+   #+BEGIN_QUOTE
+   To model a sequence of random events and determine how many steps
+   are needed to reach a specific condition. Example: Deciding when to
+   end a game based on a player’s total score.
+   #+END_QUOTE
+
+10. How might adding a condition like requiring a specific roll (e.g.,
+    a 6) to stop a simulation change the approach to analyzing the
+    results?
+    #+BEGIN_QUOTE
+    It introduces an additional constraint, requiring the simulation
+    to consider both the cumulative outcome and the nature of the
+    final event. Example: Analyzing a dice game where a win is
+    declared only if a 6 is rolled after exceeding a score threshold,
+    affecting the strategy for predicting victory.
+    #+END_QUOTE
+
+
+** TODO More real world problems solved with functions
+
+- [ ] Lazy evaluation of function arguments
+- [ ] Checking for missing arguments
+- [ ] Using ellipses to customize plots
+- [ ] Bonus: Matrix multiplication in Python vs R
+- [ ] Bonus: Using ~tapply~ to split data into weekly groups
 
 * Footnotes
 
