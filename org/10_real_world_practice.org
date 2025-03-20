@@ -4,6 +4,19 @@
 #+OPTIONS: toc:nil num:nil
 #+STARTUP: overview hideblocks indent entitiespretty:
 #+PROPERTY: header-args:R :session *R* :results output :exports both :noweb yes
+* READ Tips for the practice examples
+
+- Each practice exercise comes with its own quick example to
+  illustrate the key issue.
+
+- Each practice exercise has its own starter code. Don't mess with it
+  but instead copy it into a separate (new) code block.
+
+- To solve the practice assignment, you must run of the required tests
+  and reproduce the expected output exactly, not approximately.
+
+- When you're done, upload the completed practice file to Canvas
+  ("Function Arguments" in the "Classroom Assignments" section).
 * Quick Example of Lazy Evaluation
 
 - A function that only calculates a discount if applied:
@@ -20,10 +33,6 @@
     apply_discount(100, TRUE)   # 90 (calculates discount)
   #+END_SRC
 
-  #+RESULTS:
-  : [1] 100
-  : [1] 90
-
 - *Lazy Bit*: ~discounted~ isn’t calculated unless ~use_discount~ is ~TRUE~
   —saves effort!
 
@@ -39,21 +48,14 @@
 
 - Starter CodeL: Here’s a function that always calculates everything:
   #+BEGIN_SRC R
-    sales_report <- function(sales, detail) {
+    sales_report <- function(sales) {
       total <- sum(sales)
       breakdown <- sales / total  # Always computed
-      if (detail) {
-        return(breakdown)
-      } else {
-        return(total)
-      }
+      return (total)
     }
     daily_sales <- c(10, 20, 30)
-    sales_report(daily_sales, FALSE)  # 60, but breakdown still runs
+    sales_report(daily_sales)  # 60, but breakdown still runs
   #+END_SRC
-
-  #+RESULTS:
-  : [1] 60
 
 - Modify ~sales_report~ to:
   1. Take ~sales~ (a vector) and ~detail~ (TRUE/FALSE).
@@ -65,17 +67,17 @@
      - ~sales_report(daily_sales, TRUE)~ (proportions).
 
 - Hints:
-  * Put ~breakdown~ inside an ~if (detail)~ block.
-  * R naturally delays evaluating arguments until needed—your
+  + Put ~breakdown~ inside an ~if (detail)~ block.
+  + R naturally delays evaluating arguments until needed—your
     structure controls this.
 
 - Expected Output:
-  * ~sales_report(daily_sales, FALSE)~ → =60= (skips breakdown).
-  * ~sales_report(daily_sales, TRUE)~ →
+  + ~sales_report(daily_sales, FALSE)~ → =60= (skips breakdown).
+  + ~sales_report(daily_sales, TRUE)~ →
     #+begin_example
-    [1] 0.1666667 0.3333333 0.5000000 
+    [1] 0.1666667 0.3333333 0.5000000
     #+end_example
-    (proportions: 10/60, 20/60, 30/60).    
+    (proportions: 10/60, 20/60, 30/60).
 
 * Quick Example of Checking for Missing Arguments
 
@@ -91,10 +93,6 @@
     log_sale()      # "No sale amount provided"
     log_sale(25)    # "Sale logged: 25"
   #+END_SRC
-
-  #+RESULTS:
-  : [1] "No sale amount provided"
-  : [1] "Sale logged: 25"
 
 - *Key*: ~missing(amount)~ catches the absent input, avoiding an error.
 
@@ -121,39 +119,58 @@
   4. Calculate and return the revenue only if both are provided.
 
 - Test it with:
-  * No arguments: ~calc_revenue()~
-  * Only units: ~calc_revenue(10)~
-  * Only price: ~calc_revenue(, 5)~
-  * Both: ~calc_revenue(10, 5)~
+  + No arguments: ~calc_revenue()~
+  + Only units: ~calc_revenue(10)~
+  + Only price: ~calc_revenue(, 5)~
+  + Both: ~calc_revenue(10, 5)~
 
 - Hints
-  * Use ~if (missing(units))~ to check for ~units~.
-  * Use ~else if (missing(price))~ for ~price~.
-  * Use ~else~ for the calculation.
-  * Order matters—check ~units~ first, then ~price~.
+  + Use ~if (missing(units))~ to check for ~units~.
+  + Use ~else if (missing(price))~ for ~price~.
+  + Use ~else~ for the calculation.
+  + Order matters—check ~units~ first, then ~price~.
 
-*-* Expected Output
-  * ~calc_revenue()~ → ="Please provide units sold"=
-  * ~calc_revenue(10)~ → ="Please provide price per unit"=
-  * ~calc_revenue(, 5)~ → ="Please provide units sold"=
-  * ~calc_revenue(10, 5)~ → =50=
+- Expected output:
+  + ~calc_revenue()~ → ="Please provide units sold and price per unit"=
+  + ~calc_revenue(10)~ → ="Please provide price per unit"=
+  + ~calc_revenue(, 5)~ → ="Please provide units sold"=
+  + ~calc_revenue(10, 5)~ → =50=
 
 * Quick Example of Dealing with Ellipses
 
-- A function to display sales with flexible text options:
-  #+BEGIN_SRC R :session *R* :results graphics output file :file ellipsis_demo.png
+- The function =show_sales= should display sales with flexible text
+  options for different visualization purposes.
+
+- This version generates only a basic plot for quick visualization:
+  #+BEGIN_SRC R :session *R* :results graphics output file :file ellipsis_demo_basic.png
     show_sales <- function(sales, ...) {
-      plot(sales, type = "p", ...)
+      plot(sales, ...)
     }
-    daily_sales <- c(5, 7, 6)
+    daily_sales <- c("Mon"=5, "Wed"=7, "Fri"=6)
     show_sales(daily_sales)              # Basic plot
-    show_sales(daily_sales, col = "blue", pch = 16, cex = 2) # Fat blue
-                                                             # solid
-                                                             # points
   #+END_SRC
 
-- *Key*: ~...~ passes extra plot arguments (e.g., ~col~) without defining
-  them upfront.
+- This version generates a customized plot for a presentation:
+  #+BEGIN_SRC R :session *R* :results graphics output file :file ellipsis_demo_cust.png
+    show_sales_cust <- function(sales, ...) {
+      plot(sales, ...)
+    }
+    daily_sales <- c("Mon"=5, "Wed"=7, "Fri"=6)
+    show_sales_cust(daily_sales,  # Customized plot
+                    type = "b",   # Line type (points with lines)
+                    lwd = 2,      # Line width
+                    col = "blue", # Line color
+                    pch = 16,     # Point character
+                    cex = 2,      # Point extension
+                    main = "Daily sales data", # Plot title
+                    xlab = "Days",  # x-axis labels
+                    ylab = "Sales", # y-axis labels
+                    xaxt = "n")   # Suppress default x-axis
+    axis(1, at = 1:3, labels = names(daily_sales))  # Add custom x ticks at 1, 2, 3
+  #+END_SRC
+
+- *Key*: The ellipsis argument ~...~ passes extra plot arguments without
+  defining them upfront.
 
 * TODO Practice Exercise: Dealing with Ellipses
 
@@ -161,35 +178,53 @@
   store and want to plot the data. Use ~...~ to let the function accept
   custom plot styles without hardcoding them.
 
-** Starter Code
-
-- Here’s a basic function without flexibility:
-  #+BEGIN_SRC R
+- Starter Code: Here’s a basic function without flexibility:
+  #+BEGIN_SRC R :file sales_basic.png :session *R* :results graphics file output
     plot_sales <- function(sales) {
-      plot(sales, type = "l")
+      plot(sales, type = "p")
     }
-    sales <- c(10, 12, 15, 14, 18, 20, 22)
+    sales <- c(10, 12, 15, 14, 18, 20, 22) # Sales Monday through Sunday
     plot_sales(sales)  # Simple line plot
   #+END_SRC
 
-** Task
-
 - Modify ~plot_sales~ to:
-  1. Accept a ~sales~ vector and ~...~ for extra plot arguments.
+  1. Accept a =weekly_sales= vector that is named by days of the week and
+     contains an ellipsis argument ~...~ for extra plot arguments.
   2. Plot the sales data, passing ~...~ to ~plot()~ to customize it.
   3. Test with:
-     - Basic call: ~plot_sales(sales)~
-     - Custom call: ~plot_sales(sales, main = "Little Rock Daily Sales", col = "red")~
+     - Basic call: ~plot_sales(weekly_sales)~ line plot without
+       customization.
+     - Custom call 1: Dashed line plot with points.
+     - Custom call 2: Titled, red line plot, labeled axes, x-axis
+       ticks named by weekday, with double-sized full points and a
+       double-sized line.
 
-** Hints
-- Add ~...~ after ~sales~ in the function definition.
-- Pass ~...~ directly to ~plot()~.
-- Keep ~type = "l"~ as the default plot type.
+- Hints:
+  + Add ~...~ after ~sales~ in the function definition.
+  + Pass ~...~ directly to ~plot()~.
+  + Use ~names~ to name ~weekly_sales~ vector data by day of week:
+    #+begin_example
+    : Mon Tue Wed Thu Fri Sat Sun
+    :  10  12  15  14  18  20  22
+    #+end_example
 
-** Expected Output
+- Expected Output:
+  + Plot ~plot_sales(weekly_sales)~: A plain line plot of sales (10 to 22 over 7
+    days) from the starter code.
+  + Same plot with a dashed line and points.
+  + Same plot with title, red line plot, labeled axes, x-axis ticks
+    named by weekday, double-sized full points, a double-sized line.
 
-- ~plot_sales(sales)~: A plain line plot of sales (10 to 22 over 7
-  days).
-- ~plot_sales(sales, main = "Little Rock Daily Sales", col = "red")~:
-  Same plot with a title and red line.
+- Solution code blocks (graphic output):
 
+  1. Customized plot with dashed line and points:
+     #+BEGIN_SRC R :file sales_cust.png :session *R* :results graphics file output
+
+     #+END_SRC
+
+  2. Fully customized plot with title, red double-sized line plot,
+     labeled axes, x-axis ticks named by weekday, double-sized full
+     points:
+     #+BEGIN_SRC R :file sales_cust_full.png :session *R* :results graphics file output
+
+     #+END_SRC
