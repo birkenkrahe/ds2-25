@@ -1,0 +1,1086 @@
+#+TITLE: Functions in R: Practical Tools for Real-World Data
+#+DATE: March 12, 2025
+#+AUTHOR: Marcus Birkenkrahe (pledged)
+#+OPTIONS: toc:nil num:nil
+#+STARTUP: overview hideblocks indent entitiespretty:
+#+PROPERTY: header-args:R :session *R* :results output :exports both :noweb yes
+* Introduction
+
+You’ve mastered R’s conditionals, loops, and =apply= functions—now we’re
+stepping into *functions*, with a focus on *lazy argument evaluation* and
+matrix operations. These aren’t just coding exercises; they’re tools
+for solving real problems. Let’s explore why they matter through
+examples you might actually use.
+
+* Lazy Argument Evaluation: Optimizing a Data Pipeline
+
+- *Why It Matters:* Imagine you’re processing a massive dataset—like
+  sensor readings from a weather station. You don’t want to compute
+  every possible statistic upfront (e.g., /mean/, /variance/, /trends/)
+  because it’s slow and some might not be needed. Lazy evaluation
+  ensures R only crunches numbers when a specific output is requested,
+  saving time and memory.
+
+- *Scenario:* You’re building a tool to analyze a list of data objects
+  (some are matrices, some aren’t) and multiply matrices with a
+  transformation matrix—but only if it’s necessary. This mimics tasks
+  like /image processing/ or /financial modeling/, where you filter and
+  transform data on demand.
+
+- *What’s Coming:* We’ll create a ~function~ that searches a list for
+  matrices and multiplies them with a given matrix, leveraging lazy
+  evaluation to skip unused arguments.
+
+* Intermission: Matrix Multiplication – Modeling Real Systems
+
+- *Why It Matters:* Matrix multiplication isn’t just math—it’s how we
+  model relationships in science, economics, and tech. For example:
+
+  * *Physics:* Transforming coordinates of a moving object (e.g., a
+    drone’s position).
+  * *Economics:* Calculating revenue across product lines and regions.
+  * *Machine Learning:* Applying weights to features in a neural
+    network.
+
+- *The Rule:* For matrices =A= (size =m x n=) and =B= (size =p x q=), =n= must
+  equal =p=. The result is an =m x q= matrix. R uses =%*%= for this — not =*=
+  — because it’s a row-by-column operation, not element-wise.
+
+- *Application Example:* Suppose the matrix =Sales= represents sales data
+  (2 stores, 3 products) and the matrix =Cost= is a cost matrix (3
+  products, 2 cost types—e.g., production, shipping). Multiplying them
+  gives total costs per store.
+
+- Create matrices =Sales=, =Cost= for:
+  1) Stores in: Batesville and Little Rock.
+  2) Products: pasta, porridge, pie.
+  3) Cost types: production, shipping.
+
+  Tip: Use ~rbind~ and ~cbind~ to add vectors row-wise and column-wise.
+
+  #+BEGIN_SRC R
+    Sales <- rbind("Batesville" = c("pasta"=2, "porridge"=5, "pie"=2),
+                   "Little Rock"  = c("pasta"=6, "porridge"=1, "pie"=4))
+    Sales
+    ##      [,1] [,2] [,3]
+    ## [1,]    2    5    2
+    ## [2,]    6    1    4
+    dim(Sales)  # [1] 2 3
+
+    Cost <- cbind("production"= c("pasta"=3, "porridge"=-1, "pie"=1),
+                  "shipping"  = c("pasta"=-3, "porridge"=1, "pie"=5))
+    Cost
+    ##      [,1] [,2]
+    ## [1,]    3   -3
+    ## [2,]   -1    1
+    ## [3,]    1    5
+    dim(Cost)  # [1] 3 2
+  #+END_SRC
+
+  #+RESULTS:
+  :             pasta porridge pie
+  : Batesville      2        5   2
+  : Little Rock     6        1   4
+  : [1] 2 3
+  :          production shipping
+  : pasta             3       -3
+  : porridge         -1        1
+  : pie               1        5
+  : [1] 3 2
+
+- *Build a Function:* Let’s write =multiply= to compute this cost
+  breakdown, and multiply the quantity with the cost matrix:
+  #+BEGIN_SRC R
+    multiply <- function(A, B) {
+      ## exception handling
+      if (ncol(A) == nrow(B)) {  # 3 == 3? Compatible!
+        return(A %*% B)          # Total costs per store
+      } else {
+        return("Matrices not compatible—check your data!")
+      }
+    }
+
+    multiply(Sales, Cost)
+    ##      [,1] [,2]
+    ## [1,]    3    9    # Store 1: $3 production, $9 shipping
+    ## [2,]   21    3    # Store 2: $21 production, $3 shipping
+  #+END_SRC
+
+  #+RESULTS:
+  :             production shipping
+  : Batesville           3        9
+  : Little Rock         21        3
+
+- What did we learn from the data?
+  #+begin_quote
+  + It is 7 times more expensive to produce in Little Rock.
+  + It is 3 times more expensive to ship to Batesville.
+  #+end_quote
+
+- *Why Non-Commutative?* Switch the order (=B %*% A=), and you have solved
+  a different problem:
+  #+BEGIN_SRC R
+    multiply(Cost, Sales)
+    ##      [,1] [,2] [,3]
+    ## [1,]  -12   12   -6
+    ## [2,]    4   -4    2
+    ## [3,]   32   10   22
+  #+END_SRC
+
+  #+RESULTS:
+  :          pasta porridge pie
+  : pasta      -12       12  -6
+  : porridge     4       -4   2
+  : pie         32       10  22
+
+- Order defines the question—master this, and you control the
+  analysis. What do these new data say?
+  #+begin_quote
+  + We've multiplied the =Cost= matrix with the =Sales= matrix.
+  + The resulting entries combine cost and quantity.
+  + This could capture a cross-product effect but it's unclear.
+  #+end_quote
+
+- *Error Case:* If your data’s misaligned (e.g., 2x2 sales vs. 3x3
+  costs), the function catches it:
+  #+BEGIN_SRC R
+    C <- matrix(1:4, 2)  # 2x2
+    D <- matrix(1:9, 3)  # 3x3
+    multiply(C, D)       # "Matrices not compatible—check your data!"
+  #+END_SRC
+
+  #+RESULTS:
+  : [1] "Matrices not compatible—check your data!"
+
+* Core Example: Searching and Transforming Data with =mult1=
+
+- *Why It Matters:* In business analytics, you often deal with messy
+  datasets from various sources (e.g., sales reports, cost
+  spreadsheets, or CRM systems). Some data are matrices (e.g., sales
+  quantities or cost breakdowns), while others are not (e.g., text
+  notes). You need a function to filter and process only the relevant
+  matrices, such as calculating total costs or revenues for
+  decision-making.
+
+- *Scenario:* You’re tasked with analyzing a list of datasets from
+  different store branches. Some are matrices representing sales
+  quantities or cost allocations (e.g., for products like pasta,
+  porridge, and pie across stores like Batesville and Little Rock);
+  you need to multiply them by a cost matrix to compute total
+  expenses. Lazy evaluation ensures R only processes error messages
+  when necessary, optimizing performance for large datasets.
+
+- *The Function:*
+  #+BEGIN_SRC R :results none
+    mult1 <- function(x, mat, str1, str2) {
+      flag <- sapply(x, is.matrix)  # Identify matrices
+      if (!any(flag)) return(str1)  # No matrices? Done.
+
+      idx <- which(flag)  # Indices of matrices
+      counter <- 0
+      result <- list()
+
+      for (i in idx) {
+        temp <- x[[i]]
+        if (ncol(temp) == nrow(mat)) {  # Cost multiplication possible?
+          counter <- counter + 1
+          result[[counter]] <- temp %*% mat  # Total costs or revenues
+        }
+      }
+
+      if (counter == 0) return(str2)  # No matches
+      return(result)  # Processed results
+    }
+  #+END_SRC
+
+- Function: =mult1= analyzed
+  #+begin_quote
+  - The ~mult1~ function is designed to process a list of datasets in
+    a business analytics context, filtering for matrices (e.g., sales
+    quantities or cost allocations) and multiplying compatible ones by
+    a cost matrix to compute total costs or revenues. It handles messy
+    inputs like text notes by identifying only matrix data.
+
+  - *How It Works:* It uses ~sapply~ to check for matrices, extracts their
+    indices, and loops through them. If a matrix’s column count
+    matches the cost matrix’s row count, it performs matrix
+    multiplication (~%*%~) and stores the result. If no compatible
+    matrices are found, it returns an error message; otherwise, it
+    returns a list of results.
+
+  - *Use Case:* Ideal for a sales analyst processing store data to
+    calculate costs, ignoring non-matrix entries like inventory notes.
+  #+end_quote
+
+- *Real Data Test:*
+  #+BEGIN_SRC R
+    foo <- list(matrix(c(2, 6, 5, 1, 2, 4), 2, 3, byrow=TRUE),  ## Sales: Batesville & Little Rock (pasta, porridge, pie)
+                "inventory note",                             # Junk
+                matrix(c(1, 3, 4, 2, 5, 6), 2, 3, byrow=TRUE), # Sales: Another dataset
+                matrix(c(3, 1, 2, 4), 2, 2))                   # Cost data: 2x2
+    mat <- matrix(c(3, -1, 1, 5), 2, 2, byrow=TRUE)  # 2x2 cost matrix (e.g., production, shipping adjustments)
+
+    mult1(foo, mat, "No matrices found", "No compatible data")
+    ## [[1]]
+    ##      [,1] [,2]
+    ## [1,]    4    7
+    ## [2,]   15   29
+    ##
+    ## [[2]]
+    ##      [,1] [,2]
+    ## [1,]   10   19
+    ## [2,]   22   43
+  #+END_SRC
+
+  #+RESULTS:
+  : [[1]]
+  :      [,1] [,2]
+  : [1,]   11    7
+  : [2,]    7   19
+
+- *Edge Cases:*
+  #+BEGIN_SRC R
+    bar <- list(c(100, 200), "sales comment", c(TRUE, FALSE))  # No matrices
+    mult1(bar, mat, "No matrices found", "No compatible data")
+    ## "No matrices found"
+
+    baz <- list(c(100, 200), matrix(c(1, 2, 3, 4, 5, 6), 2, 3))  # 2x3 not compatible with 2x2
+    mult1(baz, mat, "No matrices found", "No compatible data")
+    ## "No compatible data"
+  #+END_SRC
+
+  #+RESULTS:
+  : [1] "No matrices found"
+  : [1] "No compatible data"
+
+- *Lazy Payoff:* For =foo=, =str1= and =str2= are ignored—R doesn’t evaluate
+  them unless the =if= conditions trigger. This efficiency is critical
+  when processing large sales datasets, ensuring the function scales
+  well in a business analytics pipeline.
+
+* Default Arguments: Streamlining Reusable Tools
+
+- *Why It Matters:* In business analytics, you’ll reuse functions across
+  projects (e.g., cost calculation scripts or sales reports). Defaults
+  make them plug-and-play, reducing repetitive coding. Think of a
+  sales manager analyzing cost matrices — default messages save time
+  when the data is inconsistent or incomplete.
+
+- *Upgrade to =mult2=:*
+  #+BEGIN_SRC R :results none
+    mult2 <- function(x, mat, str1 = "No matrices detected", str2 = "No compatible matrices") {
+      flag <- sapply(x, is.matrix)
+      if (!any(flag)) return(str1)
+      idx <- which(flag)
+      counter <- 0
+      result <- list()
+      for (i in idx) {
+        temp <- x[[i]]
+        if (ncol(temp) == nrow(mat)) {
+          counter <- counter + 1
+          result[[counter]] <- temp %*% mat}}
+      if (counter == 0)
+        return(str2)
+      return(result)
+    }
+  #+END_SRC
+
+- Function =mult2= analyzed
+  #+begin_quote
+  - *Purpose:* The =mult2= function extends `mult1` by adding default
+    arguments for error messages, making it more user-friendly for
+    repetitive business tasks like cost analysis across multiple store
+    datasets.
+
+  - *How It Works:* It retains the core logic of =mult1= (matrix filtering
+    and multiplication) but sets default values for =str1= ("No matrices
+    detected") and =str2= ("No compatible matrices"). Users can override
+    these defaults, and the function still returns a list of
+    multiplied results for compatible matrices.
+
+  - *Use Case:* Useful for a sales manager who frequently runs cost
+    calculations, allowing quick execution with defaults or customized
+    messages for specific reports.
+  #+end_quote
+
+- *Application:* A sales analyst uses =mult2= to process store sales data
+  without specifying messages every time:
+  #+BEGIN_SRC R
+    mult2(foo, mat)  # Works with defaults
+    ## [[1]]
+    ##      [,1] [,2]
+    ## [1,]    4    7
+    ## [2,]   15   29
+    ##
+    ## [[2]]
+    ##      [,1] [,2]
+    ## [1,]   10   19
+    ## [2,]   22   43
+
+    mult2(bar, mat)  # "No matrices detected"
+  #+END_SRC
+
+  #+RESULTS:
+  : [[1]]
+  :      [,1] [,2]
+  : [1,]   11    7
+  : [2,]    7   19
+  : [1] "No matrices detected"
+
+- *Customization:* Override defaults for specific reporting:
+  #+BEGIN_SRC R
+    mult2(baz, mat, str2 = "Data dimensions misaligned for cost calculation")
+    ## "Data dimensions misaligned for cost calculation"
+  #+END_SRC
+
+  #+RESULTS:
+  : [1] "Data dimensions misaligned for cost calculation"
+
+* Takeaway: Lazy Evaluation
+
+- *Lazy Evaluation:* Speeds up workflows by skipping unnecessary
+  computations—critical for processing large sales or cost datasets
+  efficiently.
+
+- *Matrix Multiplication:* Unlocks modeling of complex relationships
+  (e.g., sales quantities and costs across stores)—a foundational
+  skill for business analytics.
+
+- *Functions:* Encapsulate logic for reusable, efficient solutions to
+  recurring business problems like cost analysis or revenue
+  forecasting.
+
+These skills aren’t abstract—they’re how you’ll tackle real business
+datasets, from store sales to cost breakdowns. Next, we’ll add
+ellipses and more to handle even messier inputs.
+
+* TODO Practice Exercise: Lazy Evaluation
+
+- Explore lazy evaluation by creating a function that skips
+  unnecessary calculations, reinforcing the lecture’s emphasis on
+  efficient data processing.
+
+- Scenario: You’re calculating a store’s total sales, but only if a
+  manager requests the detailed breakdown. Lazy evaluation ensures the
+  breakdown isn’t computed unless needed.
+
+- Starter CodeL: Here’s a function that always calculates everything:
+  #+BEGIN_SRC R
+    sales_report <- function(sales, detail) {
+      total <- sum(sales)
+      breakdown <- sales / total  # Always computed
+      if (detail) {
+        return(breakdown)
+      } else {
+        return(total)
+      }
+    }
+    daily_sales <- c(10, 20, 30)
+    sales_report(daily_sales, FALSE)  # 60, but breakdown still runs
+  #+END_SRC
+
+  #+RESULTS:
+  : [1] 60
+
+- Modify ~sales_report~ to:
+  1. Take ~sales~ (a vector) and ~detail~ (TRUE/FALSE).
+  2. Compute ~total~ first.
+  3. Only calculate ~breakdown~ if ~detail~ is TRUE, using lazy
+     evaluation.
+  4. Test with:
+     - ~sales_report(daily_sales, FALSE)~ (just total).
+     - ~sales_report(daily_sales, TRUE)~ (proportions).
+
+- Hints:
+  * Put ~breakdown~ inside an ~if (detail)~ block.
+  * R naturally delays evaluating arguments until needed—your
+    structure controls this.
+
+- Expected Output:
+  * ~sales_report(daily_sales, FALSE)~ → =60= (skips breakdown).
+  * ~sales_report(daily_sales, TRUE)~ →
+    #+begin_example
+    [1] 0.1666667 0.3333333 0.5000000
+    #+end_example
+    (proportions: 10/60, 20/60, 30/60).
+
+** Sample solution (Try First!)
+
+- Here’s a lazy version:
+  #+BEGIN_SRC R :results silent
+    sales_report <- function(sales, detail) {
+      total <- sum(sales)
+      if (detail) {
+        breakdown <- sales / total
+        return(breakdown)
+      } else {
+        return(total)
+      }
+    }
+  #+END_SRC
+
+  #+BEGIN_SRC R
+    daily_sales <- c(10, 20, 30)
+    sales_report(daily_sales, FALSE)
+    sales_report(daily_sales, TRUE)
+  #+END_SRC
+
+  #+RESULTS:
+  : [1] 60
+  : [1] 0.1666667 0.3333333 0.5000000
+
+* Checking for Missing Arguments
+
+** Why It Matters
+
+- In real-world data tasks—like analyzing sales data across
+  stores—you’ll often write functions where some arguments are
+  optional or context-dependent. The ~missing()~ function in R lets you
+  check if an argument was supplied, avoiding errors and enabling
+  flexible, reusable code.
+
+- This ties into lazy evaluation by allowing functions to adapt
+  dynamically, skipping computations or providing defaults when inputs
+  are absent—crucial for efficient workflows with large datasets.
+
+** Basics of ~missing()~
+
+- The ~missing()~ function checks if a required argument is provided. It
+  returns ~TRUE~ if the argument is absent, ~FALSE~ otherwise.
+
+- *Use Case:* Imagine a function processing store sales data that needs
+  a custom error message if no cost matrix is supplied.
+
+** Example: A Simple Greeting Function
+
+- Without a check, a basic function fails if an argument is missing:
+  #+BEGIN_SRC R
+    hello <- function(name) {
+      return(paste("Hello", name))
+    }
+    hello()  # Error: argument "name" is missing
+  #+END_SRC
+
+  #+RESULTS:
+  : Error in paste("Hello", name) :
+  :   argument "name" is missing, with no default
+
+- Add ~missing()~ to handle this gracefully:
+  #+BEGIN_SRC R
+    hello_1 <- function(name) {
+      if (missing(name)) {
+        return("No name provided—please specify one!")
+      } else {
+        return(paste("Hello", name))
+      }
+    }
+    hello_1()         # "No name provided—please specify one!"
+    hello_1("Marcus") # "Hello Marcus"
+  #+END_SRC
+
+  #+RESULTS:
+  : [1] "No name provided—please specify one!"
+  : [1] "Hello Marcus"
+
+** Application: Enhancing ~mult1~ from Lecture
+
+- Context: The ~mult1~ function processes a list of datasets,
+  multiplying matrices by a cost matrix (e.g., for store cost
+  analysis). If ~str1~ or ~str2~ (error messages) are missing, it fails
+  without defaults.
+
+- Solution: Modify =mult2= to use ~missing()~ in a modified function =mult3=
+  to handle absent arguments:
+
+  #+NAME: mult3
+  #+BEGIN_SRC R :results silent
+    mult3 <- function(x, mat, str1, str2) {
+      flag <- sapply(x, FUN = is.matrix)
+      if (!any(flag)) {
+        if (missing(str1)) {
+          return("No matrices detected in the input list.")
+        } else {
+          return(str1)
+        }
+      }
+      idx <- which(flag)
+      counter <- 0
+      result <- list()
+      for (i in idx) {
+        temp <- x[[i]]
+        if (ncol(temp) == nrow(mat)) {
+          counter <- counter + 1
+          result[[counter]] <- temp %*% mat
+        }
+      }
+      if (counter == 0) {
+        if (missing(str2)) {
+          return("No compatible matrices found for multiplication.")
+        } else {
+          return(str2)
+        }
+      } else {
+        return(result)
+      }
+    }
+  #+END_SRC
+
+** Test ~mult3~ with Real-World Data
+
+- Assume ~bar~ (no matrices) and ~baz~ (incompatible matrices) from the
+  lecture:
+  #+BEGIN_SRC R
+    ## Sample data from lecture context
+    mat <- matrix(c(1, 0, 0, 1), 2, 2)  # 2x2 identity matrix
+    bar <- list("not_a_matrix", c(1, 2, 3))  # No matrices
+    baz <- list(matrix(1:6, 2, 3))  # 2x3 matrix, incompatible with 2x2 mat
+
+    <<mult3>>
+    mult3(bar, mat)  # "No matrices detected in the input list."
+    mult3(baz, mat)  # "No compatible matrices found for multiplication."
+    mult3(bar, mat, str1 = "Sales data invalid!")  # "Sales data invalid!"
+  #+END_SRC
+
+  #+RESULTS:
+  : [1] "No matrices detected in the input list."
+  : [1] "No compatible matrices found for multiplication."
+  : [1] "Sales data invalid!"
+
+** Alternative: Defaults vs. ~missing()~
+
+- The =mult2= function uses defaults (=str1 = "No matrices detected"=,
+  =str2 = "No compatible matrices"=) for simplicity, aligning with
+  business analytics needs.
+
+- Trade-off: Using ~missing()~ adds flexibility but increases
+  complexity. Defaults (as in =mult2=) are often better for repetitive
+  tasks like cost analysis, avoiding the need for explicit checks.
+
+** When to Use ~missing()~
+
+- Use it when:
+  1) Default values are hard to define (e.g., context-specific error
+     messages).
+  2) You need to trigger alternative logic based on argument presence.
+
+- Example: A sales tool where missing cost matrices require a special
+  log entry, not just a generic message.
+
+** How ~missing()~ Works
+
+- It’s a "primitive" function in R - built-in and programmed directly
+  in C (or FORTRAN) for speed and convenience:
+  #+BEGIN_SRC R
+    missing
+  #+END_SRC
+
+  #+RESULTS:
+  : function (x)  .Primitive("missing")
+
+- Primitive functions don't have an environment or closure where its
+  variables are stored:
+  #+begin_src R :session *R* :results output :exports both
+    environment(missing)  # which environment is `missing` part of?
+    is.primitive(missing) # is it a primitive function?
+    any(ls()=="missing")  # is it listed in the user-defined functions?
+  #+end_src
+
+** Takeaway
+
+~missing()~ enhances function robustness, fitting the need for
+practical tools for real-world data—like handling messy sales
+datasets efficiently. Pair it with lazy evaluation and matrix
+operations for powerful, adaptable analytics.
+
+* TODO Practice Exercise: Checking for Missing Arguments with ~missing()~
+
+- You’re writing a function to calculate the total revenue from a
+  sale, given the number of units sold and the price per unit. If
+  either argument is missing, it should return a helpful message
+  instead of an error.
+
+- Here’s a basic function that breaks if arguments are missing:
+  #+BEGIN_SRC R
+    calc_revenue <- function(units, price) {
+      return(units * price)
+    }
+    calc_revenue(10, 5)  # Works: 50
+    calc_revenue()       # Error!
+  #+END_SRC
+
+- Modify ~calc_revenue~ to:
+  1. Use ~missing()~ to check if ~units~ or ~price~ is missing.
+  2. Return ="Please provide units sold"= if ~units~ is missing.
+  3. Return ="Please provide price per unit"= if ~price~ is missing.
+  4. Calculate and return the revenue only if both are provided.
+
+- Test it with:
+  + No arguments: ~calc_revenue()~
+  + Only units: ~calc_revenue(10)~
+  + Only price: ~calc_revenue(, 5)~
+  + Both: ~calc_revenue(10, 5)~
+
+- Hints
+  + Use ~if (missing(units))~ to check for ~units~.
+  + Use ~else if (missing(price))~ for ~price~.
+  + Use ~else~ for the calculation.
+  + Order matters—check ~units~ first, then ~price~.
+
+*-* Expected Output
+  + ~calc_revenue()~ → ="Please provide units sold"=
+  + ~calc_revenue(10)~ → ="Please provide price per unit"=
+  + ~calc_revenue(, 5)~ → ="Please provide units sold"=
+  + ~calc_revenue(10, 5)~ → =50=
+
+** Sample Solution (Try First!)
+
+- Here’s one way to do it:
+  #+BEGIN_SRC R
+    calc_revenue <- function(units, price) {
+      if (missing(units)) {
+        return("Please provide units sold")
+      } else if (missing(price)) {
+        return("Please provide price per unit")
+      } else {
+        return(units * price)
+      }
+    }
+  #+END_SRC
+
+  #+BEGIN_SRC R
+    calc_revenue()
+    calc_revenue(10)
+    calc_revenue(, 5)
+    calc_revenue(10, 5)
+  #+END_SRC
+
+  #+RESULTS:
+  : [1] "Please provide units sold"
+  : [1] "Please provide price per unit"
+  : [1] "Please provide units sold"
+  : [1] 50
+
+* Dealing with Ellipses
+
+** Why It Matters
+
+- The ellipsis (~...~) in R lets you pass extra arguments—like plot
+  styles or filters—without predefining them. This is perfect for
+  sales analysis, where you need flexible, reusable tools for shifting
+  report needs.
+
+- The ellipsis ~...~ goes last in a function’s argument list, capturing
+  any number of additional options. For sales, it’s a way to tweak
+  charts or add data on the fly.
+
+** Example: Plotting Weekly Sales Trends
+
+- *Scenario*: You’re analyzing weekly sales for a Batesville store from
+  daily data.
+
+- *Function*:
+  #+BEGIN_SRC R :results silent
+    sales_trend <- function(sales_data, plotit = TRUE, ...) {
+      weekly_sales <- tapply(sales_data,(seq_along(sales_data) - 1) %/% 7,sum)
+      if (plotit) {
+        plot(1:length(weekly_sales), weekly_sales, ...)
+      } else {
+        return(weekly_sales)
+      }
+    }
+  #+END_SRC
+
+- Takes daily sales, sums them weekly, and plots (or returns) the
+  trend, with ~...~ for customization.
+
+- We'll analyse the use of ~tapply~ below.
+
+** Test 1: Weekly Totals
+- 28 days of sales:
+  #+BEGIN_SRC R
+    daily_sales <- c(2, 3, 1, 4, 2, 5, 3, 3, 2, 4, 3, 5, 4, 6,
+                     4, 5, 3, 6, 5, 7, 4, 6, 5, 7, 6, 8, 7, 9)
+    sales_trend(daily_sales, plotit = FALSE)
+  #+END_SRC
+
+  #+RESULTS:
+  :  0  1  2  3
+  : 20 27 34 48
+
+- Week 1: 20 units, Week 2: 27, Week 3: 34, Week 4: 48—a realistic
+  climb.
+
+** Test 2: Basic Plot
+#+BEGIN_SRC R :results graphics file :file ../img/sales_trend.png
+  sales_trend(daily_sales, type="l") # plot type = ellipsis argument
+#+END_SRC
+
+#+RESULTS:
+[[file:../img/sales_trend.png]]
+
+- A simple line plot showing the upward trend.
+
+** Test 3: Customized Plot
+
+- For a manager’s report:
+  #+BEGIN_SRC R :results graphics file :file ../img/sales_trend_custom.png
+    sales_trend(daily_sales,
+                main = "Batesville Weekly Sales Trend",
+                xlab = "Week", ylab = "Units Sold",
+                col = "blue", lwd = 2,
+                type = "b", pch = 16)
+  #+END_SRC
+
+  #+RESULTS:
+  [[file:../img/sales_trend_custom.png]]
+
+- Adds title, labels, a blue line with solid points—ready for
+  presentation.
+
+** Takeaway
+
+Ellipses make functions like ~sales_trend~ adaptable for real sales
+analysis—far more practical than Fibonacci for showing R’s power
+with business data.
+
+* TODO Practice Exercise: Dealing with Ellipses
+
+- Scenario: You’re summarizing daily sales for a week at a Little Rock
+  store and want to plot the data. Use ~...~ to let the function accept
+  custom plot styles without hardcoding them.
+
+** Starter Code
+
+- Here’s a basic function without flexibility:
+  #+BEGIN_SRC R
+    plot_sales <- function(sales) {
+      plot(sales, type = "l")
+    }
+    sales <- c(10, 12, 15, 14, 18, 20, 22)
+    plot_sales(sales)  # Simple line plot
+  #+END_SRC
+
+** Task
+
+- Modify ~plot_sales~ to:
+  1. Accept a ~sales~ vector and ~...~ for extra plot arguments.
+  2. Plot the sales data, passing ~...~ to ~plot()~ to customize it.
+  3. Test with:
+     + Basic call: ~plot_sales(sales)~
+     + Custom call: ~plot_sales(sales, main = "Little Rock Daily Sales", col = "red")~
+
+** Hints
+- Add ~...~ after ~sales~ in the function definition.
+- Pass ~...~ directly to ~plot()~.
+- Keep ~type = "l"~ as the default plot type.
+
+** Expected Output
+
+- ~plot_sales(sales)~: A plain line plot of sales (10 to 22 over 7
+  days).
+- ~plot_sales(sales, main = "Little Rock Daily Sales", col = "red")~:
+  Same plot with a title and red line.
+
+** Solution (Try First!)
+
+      - Here’s a solution:
+        #+BEGIN_SRC R :results silent
+          plot_sales <- function(sales, ...) {
+            plot(sales, type = "l", ...)
+          }
+        #+END_SRC
+
+        #+BEGIN_SRC R :results graphics file :file ../img/sales_basic.png
+          sales <- c(10, 12, 15, 14, 18, 20, 22)
+          plot_sales(sales)
+        #+END_SRC
+
+        #+RESULTS:
+        [[file:../img/sales_basic.png]]
+
+        #+BEGIN_SRC R :results graphics file :file ../img/sales_custom.png
+          plot_sales(sales, 
+                     main = "Little Rock Daily Sales", 
+                     col = "red",
+                     lwd=2)
+        #+END_SRC
+
+        #+RESULTS:
+        [[file:../img/sales_custom.png]]
+
+* Python Matrix Multiplication Example
+
+** Application Example
+
+Suppose the matrix =Sales= represents sales data (2 stores, 3 products)
+and the matrix =Cost= is a cost matrix (3 products, 2 cost types—e.g.,
+production, shipping). Multiplying them gives total costs per store.
+
+** Matrix Creation
+
+Create matrices =Sales= and =Cost= for:
+1) Stores: Batesville and Little Rock
+2) Products: pasta, porridge, pie
+3) Cost types: production, shipping
+
+#+BEGIN_SRC python :results output :exports both :session *Python* :python python3
+  import numpy as np
+
+  # Create Sales matrix (2 stores x 3 products)
+  Sales = np.array([
+      [2, 5, 2],  # Batesville: pasta, porridge, pie
+      [6, 1, 4]   # Little Rock: pasta, porridge, pie
+  ])
+
+  # Create Cost matrix (3 products x 2 cost types)
+  Cost = np.array([
+      [3, -3],    # pasta: production, shipping
+      [-1, 1],    # porridge: production, shipping
+      [1, 5]      # pie: production, shipping
+  ])
+
+  # Print matrices with labels
+  print("Sales matrix:")
+  print("             pasta  porridge  pie")
+  print(f"Batesville   {Sales[0,0]}      {Sales[0,1]}        {Sales[0,2]}")
+  print(f"Little Rock  {Sales[1,0]}      {Sales[1,1]}        {Sales[1,2]}")
+  print(f"Shape: {Sales.shape}\n")
+
+  print("Cost matrix:")
+  print("         production  shipping")
+  print(f"pasta    {Cost[0,0]}          {Cost[0,1]}")
+  print(f"porridge {Cost[1,0]}          {Cost[1,1]}")
+  print(f"pie      {Cost[2,0]}           {Cost[2,1]}")
+  print(f"Shape: {Cost.shape}\n")
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+Sales matrix:
+             pasta  porridge  pie
+Batesville   2      5        2
+Little Rock  6      1        4
+Shape: (2, 3)
+
+Cost matrix:
+         production  shipping
+pasta    3          -3
+porridge -1          1
+pie      1           5
+Shape: (3, 2)
+#+end_example
+
+** Build a Function
+
+Create a function to multiply the matrices and compute the cost
+breakdown:
+
+#+BEGIN_SRC python :results output :exports both :session *Python* :python python3
+  def multiply(A, B):
+      # Exception handling
+      if A.shape[1] == B.shape[0]:  # Check if matrices are compatible
+          return np.dot(A, B)       # Matrix multiplication
+      else:
+          return "Matrices not compatible—check your data!"
+
+  # Perform multiplication and display results
+  result = multiply(Sales, Cost)
+  print("Result (Total costs per store):")
+  print("             production  shipping")
+  print(f"Batesville   {result[0,0]}          {result[0,1]}")
+  print(f"Little Rock  {result[1,0]}          {result[1,1]}")
+#+END_SRC
+
+#+RESULTS:
+: Result (Total costs per store):
+:              production  shipping
+: Batesville   3          9
+: Little Rock  21          3
+
+** Comparison
+
+The R and Python versions accomplish the same matrix multiplication
+task but use different syntax and libraries:
+
+*** Matrix creation and labelling
+
+- *R Version*
+  - Uses ~rbind~ and ~cbind~ to create matrices from named vectors
+  - Syntax: ~rbind("Batesville" = c("pasta"=2, "porridge"=5, "pie"=2), ...)~
+  - Automatically creates a matrix with row/col names
+
+- *Python Version*
+  - Uses NumPy's ~np.array()~ with nested lists
+  - Syntax: ~np.array([[2, 5, 2], [6, 1, 4]])~
+  - Requires manual printing of labels (no built-in row/col names)
+
+*** Dimension Access
+
+- *R Version*
+  - Uses ~dim()~ function to get matrix dimensions
+  - Returns: ~[1] 2 3~ for Sales matrix
+- *Python Version*
+  - Uses ~.shape~ attribute from NumPy
+  - Returns: ~(2, 3)~ tuple for Sales matrix
+
+*** Matrix Multiplication
+
+- *R Version*
+  - Uses ~%*%~ operator for matrix multiplication
+  - Syntax: ~A %*% B~
+- *Python Version*
+  - Uses NumPy's ~np.dot()~ function
+  - Syntax: ~np.dot(A, B)~
+
+*** Compatibility Check
+
+- *R Version*
+  - Uses ~ncol(A) == nrow(B)~ to check matrix compatibility
+- *Python Version*
+  - Uses ~A.shape[1] == B.shape[0]~ (NumPy array shape indexing)
+
+*** Output Formatting
+
+- *R Version*
+  - Automatically displays matrices with row/col names
+  - Output includes named dimensions naturally
+- *Python Version*
+  - Requires explicit print statements with f-strings for formatting
+  - Manual alignment of labels with values
+
+*** Dependencies
+
+- *R Version*
+  - Base R is sufficient (no external packages needed)
+- *Python Version*
+  - Requires NumPy library (~import numpy as np~)
+
+*** Indexing
+
+- *R Version*
+  - Starts at 1 (e.g., ~Sales[1,1]~ is first element)
+- *Python Version*
+  - Starts at 0 (e.g., ~Sales[0,0]~ is first element), though hidden in
+    output formatting
+
+*** Summary
+
+Both versions produce identical numerical results, but Python requires
+more explicit control over formatting and depends on NumPy, while R
+provides more built-in matrix functionality and naming support.
+* Understanding ~tapply~ and Its ~INDEX~ Argument, Including ~%/%~
+
+** Review: What is ~tapply~?
+
+- ~tapply~ applies a function (e.g., ~sum~) to subsets of a vector,
+  grouped by an ~INDEX~. It’s great for summarizing sales data by
+  categories like weeks or stores.
+
+- *Syntax*: ~tapply(X, INDEX, FUN, ...)~
+  - ~X~: Data vector (e.g., daily sales).
+  - ~INDEX~: Defines groups.
+  - ~FUN~: Function to apply (e.g., ~sum~).
+
+** The ~INDEX~ Argument
+
+- ~INDEX~ is a vector (same length as ~X~) that assigns group labels to
+  each element. It can be numbers, characters, or factors.
+
+- *Example*: Group sales by even/odd days:
+  #+BEGIN_SRC R
+    sales <- c(10, 15, 12, 18, 20, 25)
+    day_type <- c("even", "odd", "even", "odd", "even", "odd")
+    tapply(X=sales, INDEX=day_type, FUN=sum)
+  #+END_SRC
+
+  #+RESULTS:
+  : even  odd
+  :   42   58
+
+- If we don't want to use (e.g. order, plot) the levels of the index
+  vectors or groups, there is no need to use a ~factor~ vector.
+
+** What’s ~%/%~ Doing in ~sales_trend~?
+
+- In ~sales_trend~:
+  #+BEGIN_SRC R
+    weekly_sales <- tapply(X = daily_sales,
+                           INDEX = (seq_along(daily_sales) - 1) %/% 7,
+                           FUN = sum)
+    weekly_sales
+  #+END_SRC
+
+  #+RESULTS:
+  :  0  1  2  3
+  : 20 27 34 48
+
+- Let’s break down ~(seq_along(daily_sales) - 1) %/% 7~:
+
+  1. =seq_along(daily_sales)=: Makes a regular sequence ~1, 2, ...,
+     length(daily_sales)~. For 28 days: =1, 2, ..., 28=
+     #+BEGIN_SRC R
+       daily_sales
+       seq_along(daily_sales)
+     #+END_SRC
+
+     #+RESULTS:
+     :  [1] 2 3 1 4 2 5 3 3 2 4 3 5 4 6 4 5 3 6 5 7 4 6 5 7 6 8 7 9
+     :  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28
+
+  2. =-1=: Shifts it to ~0, 1, ..., 27~, starting at 0 for week grouping.
+     #+BEGIN_SRC R
+       seq_along(daily_sales)-1
+     #+END_SRC
+
+     #+RESULTS:
+     :  [1]  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27
+
+  3. =%/%=: Integer division—divides and keeps the whole number,
+     dropping the remainder. We use this to aggregate daily sales into
+     weeks.
+
+     - Examples:
+       #+BEGIN_SRC R
+         5 %/% 2   # 2
+         7 %/% 7   # 1
+         13 %/% 7  # 1
+       #+END_SRC
+
+       #+RESULTS:
+       : [1] 2
+       : [1] 1
+       : [1] 1
+
+     - For the sales data sequence, this groups the days into weeks:
+       0-6 (Week 1), 7-13 (Week 2), etc.
+       #+BEGIN_SRC R
+         0:27 %/% 7
+       #+END_SRC
+
+       #+RESULTS:
+       :  [1] 0 0 0 0 0 0 0 1 1 1 1 1 1 1 2 2 2 2 2 2 2 3 3 3 3 3 3 3
+
+  4. *Result*:
+
+     ~tapply~ sums ~daily_sales~ by these week numbers: 4 weeks of 7 days
+     each.
+
+** Test It Out
+
+- Small example:
+  #+BEGIN_SRC R
+    small_sales <- c(2, 3, 1, 4, 2, 5, 3)  # 7 days
+    tapply(small_sales, (0:6) %/% 7, sum)
+  #+END_SRC
+
+  #+RESULTS:
+  : [1] 20
+
+- For 28 days (from ~sales_trend~): ~[1] 20 27 34 48~.
+
+** Takeaway
+
+- ~INDEX~ in ~tapply~ splits data into groups. Here,
+  ~(seq_along(sales_data) - 1) %/% 7~ uses integer division to create
+  weekly groups from daily sales—a clean, real-world trick for
+  time-based analysis.

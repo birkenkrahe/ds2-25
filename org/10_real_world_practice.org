@@ -1,0 +1,195 @@
+#+TITLE: Functions in R: Practical Tools for Real-World Data
+#+DATE: March 12, 2025
+#+AUTHOR: Marcus Birkenkrahe (pledged)
+#+OPTIONS: toc:nil num:nil
+#+STARTUP: overview hideblocks indent entitiespretty:
+#+PROPERTY: header-args:R :session *R* :results output :exports both :noweb yes
+* Quick Example of Lazy Evaluation
+
+- A function that only calculates a discount if applied:
+  #+BEGIN_SRC R
+    apply_discount <- function(price, use_discount) {
+      if (use_discount) {
+        discounted <- price * 0.9  # Only computed if needed
+        return(discounted)
+      } else {
+        return(price)
+      }
+    }
+    apply_discount(100, FALSE)  # 100 (skips discount)
+    apply_discount(100, TRUE)   # 90 (calculates discount)
+  #+END_SRC
+
+  #+RESULTS:
+  : [1] 100
+  : [1] 90
+
+- *Lazy Bit*: ~discounted~ isn’t calculated unless ~use_discount~ is ~TRUE~
+  —saves effort!
+
+* TODO Practice Exercise: Lazy Evaluation
+
+- Explore lazy evaluation by creating a function that skips
+  unnecessary calculations, reinforcing the lecture’s emphasis on
+  efficient data processing.
+
+- Scenario: You’re calculating a store’s total sales, but only if a
+  manager requests the detailed breakdown. Lazy evaluation ensures the
+  breakdown isn’t computed unless needed.
+
+- Starter CodeL: Here’s a function that always calculates everything:
+  #+BEGIN_SRC R
+    sales_report <- function(sales, detail) {
+      total <- sum(sales)
+      breakdown <- sales / total  # Always computed
+      if (detail) {
+        return(breakdown)
+      } else {
+        return(total)
+      }
+    }
+    daily_sales <- c(10, 20, 30)
+    sales_report(daily_sales, FALSE)  # 60, but breakdown still runs
+  #+END_SRC
+
+  #+RESULTS:
+  : [1] 60
+
+- Modify ~sales_report~ to:
+  1. Take ~sales~ (a vector) and ~detail~ (TRUE/FALSE).
+  2. Compute ~total~ first.
+  3. Only calculate ~breakdown~ if ~detail~ is TRUE, using lazy
+     evaluation.
+  4. Test with:
+     - ~sales_report(daily_sales, FALSE)~ (just total).
+     - ~sales_report(daily_sales, TRUE)~ (proportions).
+
+- Hints:
+  * Put ~breakdown~ inside an ~if (detail)~ block.
+  * R naturally delays evaluating arguments until needed—your
+    structure controls this.
+
+- Expected Output:
+  * ~sales_report(daily_sales, FALSE)~ → =60= (skips breakdown).
+  * ~sales_report(daily_sales, TRUE)~ →
+    #+begin_example
+    [1] 0.1666667 0.3333333 0.5000000 
+    #+end_example
+    (proportions: 10/60, 20/60, 30/60).    
+
+* Quick Example of Checking for Missing Arguments
+
+- A function that checks for a missing sales amount:
+  #+BEGIN_SRC R
+    log_sale <- function(amount) {
+      if (missing(amount)) {
+        return("No sale amount provided")
+      } else {
+        return(paste("Sale logged:", amount))
+      }
+    }
+    log_sale()      # "No sale amount provided"
+    log_sale(25)    # "Sale logged: 25"
+  #+END_SRC
+
+  #+RESULTS:
+  : [1] "No sale amount provided"
+  : [1] "Sale logged: 25"
+
+- *Key*: ~missing(amount)~ catches the absent input, avoiding an error.
+
+* TODO Practice Exercise: Checking for Missing Arguments with ~missing()~
+
+- You’re writing a function to calculate the total revenue from a
+  sale, given the number of units sold and the price per unit. If
+  either argument is missing, it should return a helpful message
+  instead of an error.
+
+- Here’s a basic function that breaks if arguments are missing:
+  #+BEGIN_SRC R
+    calc_revenue <- function(units, price) {
+      return(units * price)
+    }
+    calc_revenue(10, 5)  # Works: 50
+    calc_revenue()       # Error!
+  #+END_SRC
+
+- Modify ~calc_revenue~ to:
+  1. Use ~missing()~ to check if ~units~ or ~price~ is missing.
+  2. Return ="Please provide units sold"= if ~units~ is missing.
+  3. Return ="Please provide price per unit"= if ~price~ is missing.
+  4. Calculate and return the revenue only if both are provided.
+
+- Test it with:
+  * No arguments: ~calc_revenue()~
+  * Only units: ~calc_revenue(10)~
+  * Only price: ~calc_revenue(, 5)~
+  * Both: ~calc_revenue(10, 5)~
+
+- Hints
+  * Use ~if (missing(units))~ to check for ~units~.
+  * Use ~else if (missing(price))~ for ~price~.
+  * Use ~else~ for the calculation.
+  * Order matters—check ~units~ first, then ~price~.
+
+*-* Expected Output
+  * ~calc_revenue()~ → ="Please provide units sold"=
+  * ~calc_revenue(10)~ → ="Please provide price per unit"=
+  * ~calc_revenue(, 5)~ → ="Please provide units sold"=
+  * ~calc_revenue(10, 5)~ → =50=
+
+* Quick Example of Dealing with Ellipses
+
+- A function to display sales with flexible text options:
+  #+BEGIN_SRC R :session *R* :results graphics output file :file ellipsis_demo.png
+    show_sales <- function(sales, ...) {
+      plot(sales, type = "p", ...)
+    }
+    daily_sales <- c(5, 7, 6)
+    show_sales(daily_sales)              # Basic plot
+    show_sales(daily_sales, col = "blue", pch = 16, cex = 2) # Fat blue
+                                                             # solid
+                                                             # points
+  #+END_SRC
+
+- *Key*: ~...~ passes extra plot arguments (e.g., ~col~) without defining
+  them upfront.
+
+* TODO Practice Exercise: Dealing with Ellipses
+
+- Scenario: You’re summarizing daily sales for a week at a Little Rock
+  store and want to plot the data. Use ~...~ to let the function accept
+  custom plot styles without hardcoding them.
+
+** Starter Code
+
+- Here’s a basic function without flexibility:
+  #+BEGIN_SRC R
+    plot_sales <- function(sales) {
+      plot(sales, type = "l")
+    }
+    sales <- c(10, 12, 15, 14, 18, 20, 22)
+    plot_sales(sales)  # Simple line plot
+  #+END_SRC
+
+** Task
+
+- Modify ~plot_sales~ to:
+  1. Accept a ~sales~ vector and ~...~ for extra plot arguments.
+  2. Plot the sales data, passing ~...~ to ~plot()~ to customize it.
+  3. Test with:
+     - Basic call: ~plot_sales(sales)~
+     - Custom call: ~plot_sales(sales, main = "Little Rock Daily Sales", col = "red")~
+
+** Hints
+- Add ~...~ after ~sales~ in the function definition.
+- Pass ~...~ directly to ~plot()~.
+- Keep ~type = "l"~ as the default plot type.
+
+** Expected Output
+
+- ~plot_sales(sales)~: A plain line plot of sales (10 to 22 over 7
+  days).
+- ~plot_sales(sales, main = "Little Rock Daily Sales", col = "red")~:
+  Same plot with a title and red line.
+
