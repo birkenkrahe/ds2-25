@@ -2039,7 +2039,7 @@ TO FIX: ="win"  "win"  "lose" "lose" "lose"= generates a bug!
 - [X] New home programming assignment (MC simulation)
 - [X] Advisees: I will share degree plans & you upload to GDrive
 
-** TODO Review Questions for Monte Carlo Simulation
+** DONE Review Questions for Monte Carlo Simulation
 
 1. What is the main purpose of using the Monte Carlo method to
    estimate π?
@@ -2128,6 +2128,9 @@ TO FIX: ="win"  "win"  "lose" "lose" "lose"= generates a bug!
 
 ** TODO More real world problems solved with functions
 
+Lecture and practice: [[https://tinyurl.com/real-world-practice][tinyurl.com/real-world-practice]]
+
+Topics: 
 - [ ] Lazy evaluation of function arguments
 - [ ] Checking for missing arguments
 - [ ] Using ellipses to customize plots
