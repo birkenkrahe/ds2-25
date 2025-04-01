@@ -1,0 +1,470 @@
+#+TITLE: Writing your own functions
+#+AUTHOR: Marcus Birkenkrahe (pledged)
+#+SUBTITLE: DSC 205 - Advanced introduction to data science
+#+STARTUP: overview hideblocks indent inlineimages entitiespretty
+#+OPTIONS: toc:nil num:nil ^:nil
+#+PROPERTY: header-args:R :session *R* :results output :exports both :noweb yes
+* README
+
+- In this review, we'll explore why to write your own functions in R
+  with examples.
+
+- You'll implement these from pseudocode to practice translating logic
+  into code.
+
+- Inspired by DataCamp lesson "Introduction to Writing Functions in
+  R", written and tested with AI assistance (Grok 3 beta version).
+
+- Codealong file: [[https://tinyurl.com/functions-codealong][tinyurl.com/r-functions-codealong]]
+
+* New Functionality: Calculate Midrange
+
+Sometimes R lacks a specific tool you need. The midrange—average of
+the maximum and minimum values—is a simple measure of central tendency
+not built into base R.
+
+- *Task*: Write a function ~calc_midrange~ that takes a numeric vector and
+  returns its midrange (max + min) / 2.
+
+- *Test Case*: Use ~[5, 8, 3, 10, 6]~ (should output 6.5).
+
+*Where It’s Used*: In statistics, midrange is a quick estimate of a
+dataset’s center, like ~[20, 25, 30]~ for temperatures. It’s niche but
+useful in exploratory analysis when median or mean isn’t ideal.
+
+Pseudocode:
+
+#+BEGIN_EXAMPLE
+FUNCTION calc_midrange takes a numeric vector x
+  SET max_val to the maximum of x (handle missing values)
+  SET min_val to the minimum of x (handle missing values)
+  COMPUTE midrange as (max_val + min_val) / 2
+  RETURN midrange
+END FUNCTION
+#+END_EXAMPLE
+
+*Notes*:
+- This adds a new statistic R doesn’t provide directly.
+- Focus: It’s about creating something new, not reuse or maintenance.
+
+*Challenge:*
+- Turn the function into a one-liner =calc_midrange2=.
+- Which function is faster?
+
+** Sample solutions
+
+- Long solution:
+  #+begin_src R :session *R* :results none :exports both
+    ## FUNCTION calc_midrange takes a numeric vector x
+    calc_midrange <- function(x) {
+      ## SET max_val to the maximum of x (handle missing values)
+      max_val <- max(x, na.rm=TRUE)
+      ## SET min_val to the minimum of x (handle missing values)
+      min_val <- min(x, na.rm=TRUE)
+      ## COMPUTE midrange as (max_val + min_val) / 2
+      midrange <- (max_val + min_val)/2
+      ## RETURN midrange
+      return (midrange)
+    } # END FUNCTION
+  #+end_src
+
+- Test:
+  #+begin_src R :session *R* :results output :exports both
+    foo <- c(5, 8, 3, 10, 6)
+    calc_midrange(foo)
+  #+end_src
+
+  #+RESULTS:
+  : [1] 6.5
+
+- Short solution (no intermediate objects):
+  #+begin_src R :session *R* :results output :exports both
+    ## FUNCTION calc_midrange takes a numeric vector x
+    calc_midrange2 <- function(x) {
+      (max(x, na.rm=TRUE) + min(x, na.rm=TRUE)) / 2
+    }
+    bar <- c(5, 8, 3, 10, 6)
+    calc_midrange2(bar)
+  #+end_src
+
+  #+RESULTS:
+  : [1] 6.5
+
+- Are there arguments against the short solution?
+  #+begin_quote
+  None other than that it is less readable and hence less
+  debuggable.
+  #+end_quote
+
+- What if one wanted to re-use =max_val= and =min_val= from the long
+  solution?
+  #+begin_quote
+  These objects are local to the function, and they cannot be accessed
+  outside. You'd have to return them as part of a list to retain them,
+  or use the ~<<-~ operator or the ~assign~ function.
+  #+end_quote
+
+- Demonstration of ~<<-~
+  #+begin_src R :session *R* :results output :exports both
+    rm(list=ls()) # clean environment from user-defined stuff
+    ## Define function
+    f <- function() { 
+      global <<- 100    # add to .GlobalEnv
+      non_global <- 200
+    }
+
+    f() # call function
+    global # print variable
+    ls(envir=.GlobalEnv)
+    non_global # local variable
+  #+end_src
+
+  #+RESULTS:
+  : [1] 100
+  : [1] "f"      "global"
+  : Error: object 'non_global' not found
+
+* Comparing Function Performance
+
+You’ve written functions like ~calc_midrange~ for new
+functionality. Now, let’s explore how design affects speed. Below are
+two versions of the midrange function—your task is to measure which is
+faster and explain why.
+
+- Task: Benchmark Two Midrange Functions. Here are two functions that
+  calculate the midrange (average of max and min):
+  #+name: f1
+  #+BEGIN_SRC R
+    calc_midrange <- function(x) {
+      max_val <- max(x, na.rm=TRUE)
+      min_val <- min(x, na.rm=TRUE)
+      midrange <- (max_val + min_val)/2
+      return(midrange)
+    }
+  #+END_SRC
+  #+name: f2
+  #+BEGIN_SRC R
+    calc_midrange2 <- function(x) {
+      (max(x, na.rm=TRUE) + min(x, na.rm=TRUE)) / 2
+    }
+  #+END_SRC
+
+- *Goal*: Use R to measure which function runs faster on a small and
+  large dataset.
+
+- *Steps*:
+  1. Load the ~microbenchmark~ package (install if needed:
+     ~install.packages("microbenchmark")~).
+  2. Create a small vector (e.g., 5 numbers) and a large vector (e.g.,
+     10,000 numbers with ~rnorm()~).
+  3. Use ~microbenchmark()~ to compare the functions, running each at
+     least 100 times.
+  4. Report the median times for both functions on both datasets.
+
+- *Test Cases*:
+  - Small: ~[5, 8, 3, 10, 6]~
+  - Large: ~rnorm(10000)~ (random normal data)
+
+- *Where It’s Used*: In data science, performance matters when
+  processing big datasets (e.g., millions of sensor readings). Small
+  efficiency gains in functions can add up.
+
+** Sample Solution (with extension)
+
+1. Load the ~microbenchmark~ package (install if needed:
+   ~install.packages("microbenchmark")~).
+   #+begin_src R :session *R* :results output :exports both
+     install.packages("microbenchmark")
+     library(microbenchmark)
+   #+end_src
+
+   Check that it's been loaded.
+   #+begin_src R :session *R* :results output :exports both
+     search()[grep("microbenchmark",search())]
+   #+end_src
+
+   #+RESULTS:
+   : [1] "package:microbenchmark"
+
+   We need this more often, so let's turn the last command into a
+   function:
+   #+begin_src R :session *R* :results output :exports both
+     loaded <- function(str) {
+       search()[grep(str,search())]
+     }
+     loaded("microbenchmark")
+   #+end_src
+
+   #+RESULTS:
+   : [1] "package:microbenchmark"
+
+   To not have to recreate and/or reload this useful function, you
+   need to save it and have it be loaded automatically by R:
+   #+begin_src R :session *R* :results output :exports both
+     dump("loaded",file="~/my_functions.R")
+     system("cat ~/my_functions.R")
+   #+end_src
+
+   #+RESULTS:
+   : loaded <-
+   : function(str) {
+   :   search()[grep(str,search())]
+   : }
+
+   To load when R starts up, add =source(~/my_functions.R)= to your
+   =~/.Rprofile= file. You can test that by opening a new R console, and
+   checking with =ls()=, then with =loaded("base")= to see if it works.
+
+2. Create a small vector (e.g., 5 numbers) and a large vector (e.g.,
+   10,000 numbers with ~rnorm()~).
+
+   #+begin_src R :session *R* :results output :exports both
+     small_data <- c(5, 8, 3, 10, 6)
+     large_data <- rnorm(10000)
+     head(large_data)
+   #+end_src
+
+   #+RESULTS:
+   : [1] -0.4282709  0.3839430 -1.2921647  0.6433541 -2.8037460 -0.3804803
+
+3. Use ~microbenchmark()~ to compare the functions, running each at
+   least 100 times.
+
+   #+begin_src R :session *R* :results output :exports both
+     args(microbenchmark)
+   #+end_src
+
+   #+RESULTS:
+   : function (..., list = NULL, times = 100L, unit = NULL, check = NULL,
+   :     control = list(), setup = NULL)
+   : NULL
+
+   #+begin_src R :session *R* :results output :exports both
+     microbenchmark(calc_midrange(small_data),calc_midrange2(small_data),times=100)
+     microbenchmark(calc_midrange(large_data),calc_midrange2(large_data),times=100)
+   #+end_src
+
+   #+RESULTS:
+   : Unit: nanoseconds
+   :                        expr min    lq   mean median    uq  max neval
+   :   calc_midrange(small_data) 458 483.0 554.18  498.0 524.0 4685   100
+   :  calc_midrange2(small_data) 375 396.5 445.84  409.5 428.5 2240   100
+   : Unit: microseconds
+   :                        expr   min      lq     mean median     uq    max neval
+   :   calc_midrange(large_data) 14.87 14.9065 15.24509 14.930 14.984 22.078   100
+   :  calc_midrange2(large_data) 14.81 14.8395 15.12707 14.864 14.897 18.830   100
+
+4. Report the median times for both functions on both datasets.
+
+   - Small data (5 data points): Nanoseconds: [ns] = one billionth of
+     a second (E-09)
+     + ~calc_midrange~: Median = 554.18 ns
+     + ~calc_midrange2~: Median = 445.84 ns
+     + Difference: 88.5 ns faster for ~calc_midrange2~.
+
+   - Large data (10,000 data points): Microseconds: [µs] = millionth
+     of a second (E-06)
+     + ~calc_midrange~: Median = 14.930 µs
+     + ~calc_midrange2~: Median = 14.864 µs
+     + Difference: 0.12 µs faster for ~calc_midrange2~.
+
+   - *Which is Faster?*
+     + ~calc_midrange2~ wins in both cases—79 ns faster for small data,
+       0.108 µs for large data.
+     + Why? It skips variable assignments and ~return~, reducing
+       overhead.
+
+   - *Why the Difference?*
+     + Small data: Extra steps in ~calc_midrange~ (three assignments)
+       add ~16% to its time.
+     + Large data: ~max()~ and ~min()~ take most of the time, so the
+       overhead is tiny (<0.2%).
+
+- *Does It Matter?* For small data, 79 ns is too small to notice unless
+  called billions of data.
+
+* Converting scripts to functions
+
+- The process:
+  #+begin_quote
+  1. Make a template
+  2. Paste in the script
+  3. Choose the arguments
+  4. Replace specific values with argument names
+  5. Make specific variable names more general
+  6. Remove a final assignment
+  #+end_quote
+
+- Can you do this for the following script? It calculates the
+  percentage of values in a dataset above a specific threshold,
+  e.g. test scores above 70:
+  #+begin_src R :session *R* :results output :exports both
+    ## Calculate percentage of values above threshold
+    scores <- c(65, 78, 92, 55, 88)
+    threshold <- 70
+    count_above <- sum(scores > threshold)
+    total <- length(scores)
+    percent_above <- (count_above / total) * 100
+    percent_above
+  #+end_src
+
+  #+RESULTS:
+  : [1] 60
+
+- It works for only one specific case - for the given vector =scores=,
+  =60%= of the values are above =70=. Generalize it as a function now!
+
+** Sample Solution
+
+- Steps:
+
+  1. Make a template:
+     #+begin_src R :session *R* :results none
+       percent_above <- function() {
+       }
+     #+end_src
+
+  2. Paste in the script
+     #+begin_src R :session *R* :results none
+       percent_above <- function() {
+         ## Calculate percentage of values above threshold
+         scores <- c(65, 78, 92, 55, 88)
+         threshold <- 70
+         count_above <- sum(scores > threshold)
+         total <- length(scores)
+         percent_above <- (count_above / total) * 100
+         percent_above
+       }
+     #+end_src
+
+  3. Choose the arguments: =scores= (the data vector) and =threshold= (the
+     cutoff) are variable.
+     #+begin_src R :session *R* :results output :exports both
+       scores <- c(65, 78, 92, 55, 88)
+       threshold <- 70
+     #+end_src
+
+  4. Make specific variable names more general: The definitions in the
+     code are replaced by arguments. The variables will now be passed
+     as arguments from the calling function, and the =result= will be
+     returned.
+
+     #+begin_src R :session *R* :results none
+       ## Calculate percentage of values above threshold
+       percent_above <- function(scores, threshold) {
+         ##scores <- c(65, 78, 92, 55, 88)
+         ##threshold <- 70
+         count_above <- sum(scores > threshold)
+         total <- length(scores)
+         result <- (count_above / total) * 100
+         return (result)
+       }
+     #+end_src
+
+  5. Remove a final assignment: =result= can be removed, and the
+     calculation can be returned directly:
+
+     #+begin_src R :session *R* :results none
+       ## Calculate percentage of values above threshold
+       percent_above <- function(scores, threshold) {
+         count_above <- sum(scores > threshold)
+         total <- length(scores)
+         (count_above / total) * 100
+       }
+     #+end_src
+
+- Final code with sample data test:
+
+  #+begin_src R :session *R* :results output :exports both
+    ## function definition
+    percent_above <- function(scores, threshold) {
+      count_above <- sum(scores > threshold)
+      total <- length(scores)
+      (count_above / total) * 100
+    }
+    ## test
+    scores <- c(65, 78, 92, 55, 88)
+    threshold <- 70
+    percent_above(scores, threshold)
+  #+end_src
+
+  #+RESULTS:
+  : [1] 60
+
+* Converting Tidyverse to Base R
+
+This exercise provides a simple Tidyverse code snippet for students to
+rewrite using only base R functions. The task involves reading a CSV
+file, selecting specific columns, and filtering rows based on a
+condition.
+
+** Tidyverse Version
+#+begin_src R :session *R* :results output :exports both
+  library(dplyr)
+  library(readr)
+  
+  process_grades <- function(filename) {
+    grades <- read_csv(filename)
+    grades %>%
+      select(student_id, grade) %>%
+      filter(grade >= 80)
+  }
+  
+  process_grades("../data/grades.csv")
+#+end_src
+
+- *Sample Data (grades.csv)*:
+  #+begin_example
+  student_id,name,grade
+  1,Alice,85
+  2,Bob,75
+  3,Charlie,90
+  4,David,65
+  #+end_example
+
+** Task
+Rewrite the Tidyverse code above using only base R functions (no
+external packages). Your solution should:
+- Read the CSV file.
+- Select the ~student_id~ and ~grade~ columns.
+- Filter to keep only rows where ~grade~ is 80 or higher.
+- Return the resulting data frame.
+
+** Base R Solution (For Students to Fill In)
+#+begin_src R :session *R* :results output :exports both
+  process_grades_base <- function(filename) {
+    # Your code here
+  }
+  
+  process_grades_base("../data/grades.csv")
+#+end_src
+
+** Hints
+- Use ~read.csv()~ instead of ~read_csv()~.
+- Use column indexing (e.g., ~data[, c("col1", "col2")]~) instead of ~select()~.
+- Use logical indexing (e.g., ~data[data$col > value, ]~) instead of
+  ~filter()~.
+
+** Expected Output
+#+begin_example
+  student_id grade
+1          1    85
+3          3    90
+#+end_example
+
+** Base R Solution (Reference)
+#+begin_src R :session *R* :results output :exports both
+  process_grades_base <- function(filename) {
+    grades <- read.csv(filename)
+    grades <- grades[, c("student_id", "grade")]
+    grades[grades$grade >= 80, ]
+  }
+  
+  process_grades_base("../data/grades.csv")
+#+end_src
+
+#+RESULTS:
+:   student_id grade
+: 1          1    85
+: 3          3    90
+
