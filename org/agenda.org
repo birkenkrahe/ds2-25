@@ -1881,7 +1881,7 @@ breaking equality. but for standard calls ~rep(x,n)~ vs ~rep(sort(x),n)~
 they're equal post-sorting.
 
 * DONE Week 9: ~break~ ~next~ ~repeat~ and ~function~ deep dive
-#+attr_html: :width 400px :float nil: 
+#+attr_html: :width 400px :float nil:
 #+caption: Monte Carlo Casino
 [[../img/monte-carlo-casino.jpg]]
 
@@ -1900,7 +1900,7 @@ they're equal post-sorting.
   [[https://raw.githubusercontent.com/birkenkrahe/ds2-25/refs/heads/main/org/9_simulation_codealong.org][tinyurl.com/simulation-codealong]] and open it in Emacs as =simul.org=.
 
 ** Checkpoint GAI
-#+attr_html: :width 400px :float nil: 
+#+attr_html: :width 400px :float nil:
 [[../img/debug.png]]
 
 - I'm enjoying re-developing my lectures and exercises with
@@ -1999,7 +1999,7 @@ they're equal post-sorting.
    #+RESULTS:
    : [1] "Streak: 2"
    : [1] "win"  "lose" "win"  "win"  "lose"
-   
+
 5. What if you want to identify the position of the 2nd win (if any)?
 
    #+begin_src R :session *R* :results output :exports both
@@ -2028,8 +2028,8 @@ they're equal post-sorting.
 
 TO FIX: ="win"  "win"  "lose" "lose" "lose"= generates a bug!
 
-* Week 10: Real World Problems
-#+attr_html: :width 400px :float nil: 
+* DONE Week 10: Real World Problems
+#+attr_html: :width 400px :float nil:
 #+caption: The Dukes of Burgundy and their ladies (15th century AD)
 [[../img/tolerant.jpg]]
 
@@ -2039,7 +2039,7 @@ TO FIX: ="win"  "win"  "lose" "lose" "lose"= generates a bug!
 - [X] New home programming assignment (MC simulation)
 - [X] Advisees: I will share degree plans & you upload to GDrive
 
-** DONE Review Questions for Monte Carlo Simulation
+** Review Questions for Monte Carlo Simulation
 
 1. What is the main purpose of using the Monte Carlo method to
    estimate π?
@@ -2125,17 +2125,439 @@ TO FIX: ="win"  "win"  "lose" "lose" "lose"= generates a bug!
     affecting the strategy for predicting victory.
     #+END_QUOTE
 
-
-** TODO More real world problems solved with functions
+** More real world problems solved with functions
 
 Lecture and practice: [[https://tinyurl.com/real-world-practice][tinyurl.com/real-world-practice]]
 
-Topics: 
-- [ ] Lazy evaluation of function arguments
-- [ ] Checking for missing arguments
-- [ ] Using ellipses to customize plots
+Topics:
+- [X] Lazy evaluation of function arguments
+- [X] Checking for missing arguments
+- [X] Using ellipses to customize plots
 - [ ] Bonus: Matrix multiplication in Python vs R
 - [ ] Bonus: Using ~tapply~ to split data into weekly groups
+
+* NEXT Week 11: Writing functions like a pro
+#+attr_html: :width 400px :float nil:
+#+caption: Vincent van Gogh, The Painter on the Road to Tarascon (1888)
+[[../img/1-the-painter-on-his-way-to-work-vincent-van-gogh.jpg]]
+
+- [ ] DataCamp course "Writing functions in R" extended to Friday
+- [ ] 2nd sprint review
+- [ ] DataCamp review: functions (only chapter 1)
+- [ ] "Tidyverse" vs. Base R
+- [ ] No class meeting on Tuesday, April 22 (Honors Convocation)
+
+** TODO 2nd Sprint Review - the key lessons as cartoons
+
+*** Research skills are really important in tech
+#+attr_html: :width 400px :float nil:
+[[../img/skills.png]]
+
+To clarify: "Research" includes all activities to settle questions
+that you cannot answer on your own. "Papers" here only means
+"scientific publications", not essays assigned in other classes.
+
+*** To succeed you need to muster (and show) enthusiasm
+#+attr_html: :width 400px :float nil:
+[[../img/enthusiasm.png]]
+
+*** When you work with clients, make it easy for them
+#+attr_html: :width 400px :float nil:
+[[../img/clients.png]]
+
+*** To work "smart", you first have to work hard
+#+attr_html: :width 400px :float nil:
+[[../img/smart.png]]
+
+*** Competent use of AI for research depends on your input
+#+attr_html: :width 400px :float nil:
+[[../img/ai.png]]
+
+*** You can still change your project if you like
+#+attr_html: :width 400px :float nil:
+[[../img/change.png]]
+
+
+** TODO DataCamp review - How to Write a Function
+
+1) Which ways are there to pass arguments to a function?
+   #+begin_src R :session *R* :results output :exports both
+     mean(1:5) # positional
+     mean(x=1:5) # exact/named
+     mean(c(1:5,NA),na.rm=TRUE) # mixed/hybrid
+
+     ## common arguments: positional
+     ## rare arguments: named
+   #+end_src
+
+2) What does the ~trim~ parameter of the ~mean~ function do?
+   #+begin_quote
+   It says which fraction of observations (0 to 0.5) to be dropped
+   from either end of the *sorted* vector argument before averaging.
+   #+end_quote
+
+3) Demonstrate the ~trim~ parameter of the ~mean~ function with a suitable
+   vector.
+   #+begin_src R :file foo.png :session *R* :results output graphics file :exports both
+     foo <- c(100,-1,0,1,100)
+     hist(foo,breaks=1) # non-symmetric distribution
+   #+end_src
+
+   #+RESULTS:
+   [[file:foo.png]]
+
+   #+begin_src R :session *R* :results output :exports both
+     mean(foo)
+     mean(foo,trim=0.25) # drop 25% or 1 value from either side
+     sort(foo)[c(-1,-5)]
+     mean(sort(foo)[c(-1,-5)])
+     mean(foo,trim=0.5) # drop 50% or int(5/2)=2 values from either side
+     sort(foo)[c(-1,-2,-4,-5)]
+     mean(sort(foo)[c(-1,-2,-4,-5)])
+   #+end_src
+
+4) Does ~median~ behave like ~mean~?
+   #+begin_src R :session *R* :results output :exports both
+     args(median)
+     args(mean)
+   #+end_src
+
+5) Ellipsis arguments for ~mean~ - apart from ~na.rm~ - what're they for?
+   #+begin_quote
+   You can roll your own data structures and define methods for it.
+   #+end_quote
+   #+begin_src R :session *R* :results output :exports both
+     ## create a `verbose`/chatty `mean` function
+     mean.myclass <- function(x, ..., verbose=FALSE) {
+       if (verbose) {
+         cat("Calculating mean for object of class 'myclass'\n")
+       }
+       mean(as.numeric(x)) # default mean computation
+     }
+
+     mean(1:10)  # calls mean.default()
+     mean(1:10,verbose=TRUE)  # calls mean.default()
+
+     x <- structure(1:10,class="myclass")
+     mean(x,verbose=TRUE) # cals mean.myclass()
+   #+end_src
+
+6) Which of the ~methods~ of ~mean~ takes the average of date values?
+   #+begin_src R :session *R* :results output :exports both
+     cat(paste(methods("mean"), collapse="\n"))
+   #+end_src
+
+7) Average a ~seq~ of 5 ~Sys.Date~ values separated by ~"Day"~.
+   #+begin_src R :session *R* :results output :exports both
+     ## Generate a few date values from Sys.Date onwards
+     seq.Date(from=Sys.Date(), by="day", length.out=5) -> dates
+     dates
+     mean(dates)
+   #+end_src
+
+9) Why should you roll your own functions?
+   #+begin_quote
+   - New functionality: Functions should do stuff.
+   - Reuse code: Call function with different arguments.
+   - Ease maintenance: Debug in one place only.
+   #+end_quote
+
+10) What are the steps to convert a script to a function?
+    #+begin_quote
+    1. Make a template
+    2. Paste in the script
+    3. Choose the arguments
+    4. Replace specific values with argument names
+    5. Make specific variable names more general
+    6. Remove a final assignment
+
+    See also: Home programming assignment. Note: The assignment asks
+    for *one code block per step* to force you to go through the sequence
+    at least once consciously.
+    #+end_quote
+
+11) Tidyverse crash course: Can you explain this code?
+    #+begin_src R :session *R* :results output :exports both
+      library(dplyr)
+      library(readr)
+      library(lubridate)
+      import_test_scores <- function(filename) {
+        test_scores_raw <- read_csv(filename)
+        test_scores_raw %>%
+          select(person_id, first_name, last_name, test_date, score) %>%
+          mutate(test_date = mdy(test_date)) %>%
+          filter(!is.na(score))
+      }
+      import_test_scores("../data/test_scores.csv")
+    #+end_src
+
+    With comments:
+    #+begin_src R :session *R* :results output :exports both
+      library(readr)  # load for read_csv
+      library(dplyr)  # load for select, filter, mutate
+      library(lubridate) # load for mdy
+
+      ## function definition
+      import_test_scores <- function(filename) { # accept filename
+        ## read CSV data from `filename`
+        test <- read_csv(filename)
+        ## process raw test scores
+        test %>%
+          ## select columns
+          select(person_id, first_name, last_name, test_date, score) %>%
+          ## transform test date column
+          mutate(test_date = mdy(test_date)) %>%
+          ## remove records with missing test scores
+          filter(!is.na(score))
+      }
+
+      import_test_scores("../data/test_scores.csv")
+    #+end_src
+
+    - Explanation:
+    #+begin_quote
+    - The CSV file is imported as a "tibble" (call ~help~ on
+      that). That's a data structure in the "Tidyverse".
+    - ~select~ picks existing column names.
+    - ~mutate~ transforms =test_date= into ~Date~ type
+    - ~mdy~ transforms a string like =03-15-2024= to ~Date~ format.
+    - Uses ~dplyr~ pipeline (~%>%~).
+    - Requires knowledge of multiple functions across different
+      libraries.
+    #+end_quote
+
+12) Could you turn the Tidyverse code from before into base R code?
+    #+begin_src R :session *R* :results output :exports both
+      import_test_scores2<-function(filename) {
+        test2<-read.csv(filename)
+        test2<-test2[c("person_id","first_name","last_name", "test_date","score")]
+        test2["test_date"]<-as.Date(test2["test_date"][,1], format="%m-%d-%Y")
+        test2[which(!is.na(test2[,"score"])),]
+      }
+      import_test_scores2("../data/test_scores.csv")
+    #+end_src
+
+    #+RESULTS:
+    : person_id first_name last_name  test_date score
+    : 1         1       John     Smith 2024-03-15    88
+    : 2         2      Emily     Jones 2024-04-01    92
+    : 4         4      Sarah    Wilson 2024-03-28    75
+    : 5         5      David   Johnson 2024-03-30    80
+
+    - With comments:
+      #+begin_src R :session *R* :results output :exports both
+        ## function definition
+        import_test_scores2 <- function(filename) { # accept filename
+          ## read CSV data from `filename`
+          test2 <- read.csv(filename)
+          ## process raw test scores
+          ## select columns
+          test2[c("person_id", "first_name", "last_name", "test_date",
+                  "score")] -> test2
+          ## transform test date column
+          test2["test_date"] <- as.Date(test2["test_date"][,1], # extract vector
+                                        format="%m-%d-%Y")     # mm-dd-YYYY
+          ## remove records with missing test scores
+          which(!is.na(test2[,"score"])) -> idx # flag vector (non-NA)
+          test2[idx,]
+        }
+        import_test_scores2("../data/test_scores.csv")
+      #+end_src
+
+      #+RESULTS:
+      : person_id first_name last_name  test_date score
+      : 1         1       John     Smith 2024-03-15    88
+      : 2         2      Emily     Jones 2024-04-01    92
+      : 4         4      Sarah    Wilson 2024-03-28    75
+      : 5         5      David   Johnson 2024-03-30    80
+
+    - Explanation:
+      #+begin_quote
+      - No libraries need to be imported - everything already built-in.
+      - CSV data imported as standard ~data.frame~.
+      - Select columns using column vector names.
+      - Transform =test_date= to ~Date~ type using ~as.Date~ (pick format).
+      - Remove records with missing =score= values using ~which~.
+      - Requires complete control of vector index arithmetic.
+      #+end_quote
+
+
+
+** TODO "Tidyverse" vs Base R Comparison (Grok)
+
+Based on the example of importing and processing test scores from a
+CSV file (to be found in DataCamp and here).
+
+*** Tidyverse
+**** Pros
+- *Readability and Structure*: Uses the pipe operator (~%>%~) to
+  organize operations (read, select, mutate, filter) into a sequential
+  flow, which may clarify intent for some users.
+  - Example:
+    #+begin_src R
+      test_scores_raw %>% select(...) %>% mutate(...) %>% filter(...)
+    #+end_src
+    follows a step-by-step pattern.
+- *Tibble Data Structure*: Employs tibbles (via ~read_csv~), which are
+  data frames with stricter subsetting rules (e.g., no partial column
+  name matching) and detailed output formatting, potentially aiding
+  data inspection.
+- *Specialized Functions*: Includes libraries like ~lubridate~ with
+  functions (e.g., ~mdy()~) that handle date parsing with less manual
+  input than base R’s ~as.Date()~ with format strings.
+- *Consistent Syntax*: Functions share a naming convention (e.g.,
+  ~select~, ~mutate~, ~filter~), which may streamline learning
+  additional tasks within the ecosystem.
+- *Community Support*: Has widespread use, with extensive documentation
+  and integration with tools like ~ggplot2~ for visualization, useful
+  in shared or teaching contexts.
+
+**** Cons
+- *Dependencies Required*: Relies on multiple external packages
+  (~dplyr~, ~readr~, ~lubridate~), increasing setup steps and
+  potential version conflicts.
+  - Example: Requires three ~library()~ calls:
+    #+begin_src R
+      library(dplyr)
+      library(readr)
+      library(lubridate)
+    #+end_src
+- *Learning Requirements*: Assumes knowledge of specific functions and
+  the pipe operator, which may challenge users unfamiliar with its
+  conventions.
+- *Performance Overhead*: For small datasets, differences are minimal,
+  but may run slower than base R for larger datasets due to additional
+  processing (e.g., tibble creation, pipe operations).
+- *Reduced Transparency*: High-level functions (e.g., ~select~,
+  ~mutate~) abstract vector operations, potentially limiting
+  visibility into data manipulation details.
+
+*** Base R
+**** Pros
+- *No External Packages*: Uses only built-in functions (~read.csv~,
+  ~as.Date~, ~which~), requiring no additional installations or
+  loading steps.
+  - Example: No ~library()~ calls needed.
+- *Direct Manipulation*: Allows explicit control over vector and index
+  operations (e.g., ~test2["test_date"][,1]~, ~which()~), precise for
+  tailored data handling.
+- *Performance Potential*: Can execute operations faster, especially on
+  large datasets, by avoiding Tidyverse’s additional features.
+- *Built-In Availability*: As part of R’s core, functions are
+  universally accessible and less prone to breaking due to package
+  updates.
+- *Compact for Basic Tasks*: For straightforward operations like this
+  example, requires fewer lines and no external setup.
+
+**** Cons
+
+- *Less Sequential Flow*: Uses subsetting (~test2[c(...)]~) and indexing
+  (~test2[idx,]~) in a way that may feel less linear, requiring more
+  effort to trace.
+  - Example:
+    #+begin_src R
+      test2[which(!is.na(test2[,"score"])),]
+    #+end_src
+    combines multiple steps in one line.
+
+- *Manual Specification*: Tasks like date conversion require explicit
+  format definitions (e.g., ~as.Date(test2["test_date"][,1],
+  format="%m-%d-%Y")~), adding more detail to specify.
+
+- *Indexing Complexity*: Reliance on manual indexing (e.g., ~[,1]~) and
+  subsetting increases error risk if data structures change or type
+  assumptions fail.
+
+- *Basic Output*: ~data.frame~ lacks formatted printing or strict
+  subsetting, which may complicate interactive data review compared to
+  "tibbles".
+
+*** Summary Based on the Example
+
+- *Tidyverse*: Stands out for its step-by-step structure and simplified
+  date handling via ~lubridate~. Requires external packages and
+  familiarity with its syntax.
+
+- *Base R*: Notable for its lack of dependencies and direct
+  approach. Involves more manual steps and a less flowing syntax.
+
+*** Recommendation
+
+- Use *Tidyverse* if working where additional packages are available,
+  and a pipeline structure or ecosystem tools (e.g., ~ggplot2~) are
+  priorities (not for production code).
+
+- Use *Base R* if avoiding dependencies is key, or if precise control
+  without external tools is preferred (for production code).
+
+Both methods produce the same output in this example, so the decision
+depends on package availability, coding style preferences, and
+performance needs.
+
+*** Improved Base R Code
+
+- More robust against variations in input data (e.g., missing columns,
+  different date formats).
+
+- Clearer structure with consistent data frame access (~$~ over ~[ , ]~
+  where possible).
+
+- Maintains base R’s no-dependency advantage while improving
+  readability and safety.
+
+- Produces identical output to the original for the given example, but
+  scales better to diverse datasets.
+
+#+begin_src R :session *R* :results output :exports both
+  import_test_scores_base <- function(filename) {
+                                          # Read CSV with explicit stringsAsFactors and check.names options
+    test_data <-
+      read.csv(filename, stringsAsFactors = FALSE, check.names = FALSE)
+
+                                          # Define columns to keep
+    cols_to_keep <-
+      c("person_id", "first_name", "last_name", "test_date", "score")
+
+                                          # Subset columns, ensuring they exist in the data
+    test_data <- test_data[, intersect(cols_to_keep, names(test_data))]
+
+                                          # Convert test_date to Date, handling potential errors
+    test_data$test_date <-
+      as.Date(test_data$test_date, format = "%m-%d-%Y",
+              tryFormats = c("%m-%d-%Y", "%Y-%m-%d"))
+
+                                          # Filter non-NA scores, preserving data frame structure
+    test_data[!is.na(test_data$score), , drop = FALSE]
+  }
+
+                                          # Example call
+  import_test_scores_base("../data/test_scores.csv")
+#+end_src
+
+#+RESULTS:
+:   person_id first_name last_name  test_date score
+: 1         1       John     Smith 2024-03-15    88
+: 2         2      Emily     Jones 2024-04-01    92
+: 4         4      Sarah    Wilson 2024-03-28    75
+: 5         5      David   Johnson 2024-03-30    80
+
+
+** TODO Writing your own functions
+
+- [ ] Writing functions for new functionality
+- [ ] Long and short version of functions
+- [ ] Global and local environment
+- [ ] Comparing function performance
+- [ ] Converting "Tidyverse" function to base R function
+
+I have to check the remainder of the DataCamp lesson for more
+extensions (returning multiple values/case study).
+
+* Week 12: Data science on the command-line
+* Week 13: Improving performance and debugging
+* Week 14: Optimizing R Code with Rcpp
+* Week 15: Interfacing R with SQL Databases
+* Week 16: Interfacing R with Python
 
 * Footnotes
 
@@ -2144,4 +2566,3 @@ been that if I force you to type everythng in while I do it, it will
 somehow rub off on you, and motivate you to continue on your own
 later. But now I am not so sure anymore. *Care to let me know what it
 would take for you to get better at coding?* More graded exercises?
-
