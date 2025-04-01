@@ -2149,6 +2149,22 @@ Topics:
 
 ** TODO 2nd Sprint Review - the key lessons as cartoons
 
+*** Issues
+
+1. Uploaded the litmap but not any of the sources: the AI cannot
+   guess your content. You have to upload the source itself (10%).
+2. No signs of having worked with the source material, for example
+   by asking questions suggested by the AI (10%).
+3. No signs of having worked with the podcast.
+4. Late submission (50%)
+
+*** Highlights
+
+- Kelli's proposal (and podcast): very focused, well-sourced.
+- Donna's proposal (and podcast): very focused, well-sourced.
+- Both podcasts were interesting to listen to. AI had no problem
+  identifying the research question (good test).
+
 *** Research skills are really important in tech
 #+attr_html: :width 400px :float nil:
 [[../img/skills.png]]
