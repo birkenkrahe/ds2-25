@@ -1,10 +1,12 @@
 #+TITLE: Writing your own functions
-#+AUTHOR: Marcus Birkenkrahe (pledged)
+#+AUTHOR: [your name] (pledged)
 #+SUBTITLE: DSC 205 - Advanced introduction to data science
 #+STARTUP: overview hideblocks indent inlineimages entitiespretty
 #+OPTIONS: toc:nil num:nil ^:nil
 #+PROPERTY: header-args:R :session *R* :results output :exports both :noweb yes
 * README
+
+- *Replace =[yourname]= at the top with your name.*
 
 - In this review, we'll explore why to write your own functions in R
   with examples.
@@ -16,7 +18,7 @@
 
 - Written and tested with support of generative AI (Grok 3 beta).
 
-* New Functionality: Calculate Midrange
+* TODO New Functionality: Calculate Midrange
 
 Sometimes R lacks a specific tool you need. The midrange—average of
 the maximum and minimum values—is a simple measure of central tendency
@@ -42,17 +44,13 @@ FUNCTION calc_midrange takes a numeric vector x
 END FUNCTION
 #+END_EXAMPLE
 
-*Notes*:
-- This adds a new statistic R doesn’t provide directly.
-- Focus: It’s about creating something new, not reuse or maintenance.
-
 *Challenge:*
 - Turn the function into a one-liner =calc_midrange2=.
 - Which function is faster?
 
-** Sample solutions
+** Solutions
 
-- Long solution:
+- *Long solution:*
   #+begin_src R :session *R* :results none :exports both
     ## FUNCTION calc_midrange takes a numeric vector x
 
@@ -67,19 +65,19 @@ END FUNCTION
     ## END FUNCTION
   #+end_src
 
-- Test:
+- *Test:*
   #+begin_src R :session *R* :results output :exports both
     foo <- c(5, 8, 3, 10, 6)
     calc_midrange(foo)
   #+end_src
 
-- Short solution (no intermediate objects):
+- *Challenge:* Short solution (no intermediate objects):
   #+begin_src R :session *R* :results output :exports both
     ## FUNCTION calc_midrange takes a numeric vector x
     
   #+end_src
 
-- Are there arguments against the short solution?
+- Are there arguments for or against the short solution?
   #+begin_quote
 
   #+end_quote
@@ -90,7 +88,7 @@ END FUNCTION
 
   #+end_quote
 
-- Demonstration of ~<<-~
+- Demonstration of the ~<<-~ operator:
   #+begin_src R :session *R* :results output :exports both
     ## clean environment from user-defined stuff
 
@@ -103,27 +101,30 @@ END FUNCTION
     ## list global environment
 
     ## print non-global variable
+
   #+end_src
 
-* Comparing Function Performance
+* TODO Comparing Function Performance
 
-You’ve written functions like ~calc_midrange~ for new
-functionality. Now, let’s explore how design affects speed. Below are
-two versions of the midrange function—your task is to measure which is
+Let’s explore how function design affects speed. Below are two
+versions of the midrange function—your task is to measure which is
 faster and explain why.
 
-- Task: Benchmark Two Midrange Functions. Here are two functions that
+- *Task:* Benchmark Two Midrange Functions. Here are two functions that
   calculate the midrange (average of max and min):
   #+name: f1
   #+BEGIN_SRC R
     calc_midrange <- function(x) {
-     
+      max_val <- max(x, na.rm=TRUE)
+      min_val <- min(x, na.rm=TRUE)
+      midrange <- (max_val + min_val)/2
+      return(midrange)
     }
   #+END_SRC
   #+name: f2
   #+BEGIN_SRC R
     calc_midrange2 <- function(x) {
-     
+      (max(x, na.rm=TRUE) + min(x, na.rm=TRUE)) / 2
     }
   #+END_SRC
 
@@ -131,26 +132,23 @@ faster and explain why.
   large dataset.
 
 - *Steps*:
-  1. Load the ~microbenchmark~ package (install if needed:
-     ~install.packages("microbenchmark")~).
-  2. Create a small vector (e.g., 5 numbers) and a large vector (e.g.,
-     10,000 numbers with ~rnorm()~).
+  1. Install and Load the ~microbenchmark~ package.
+  2. Create a small vector and a large vector.
   3. Use ~microbenchmark()~ to compare the functions, running each at
      least 100 times.
-  4. Report the median times for both functions on both datasets.
+  4. Report the ~median~ times for both functions on both datasets.
 
 - *Test Cases*:
-  - Small: ~[5, 8, 3, 10, 6]~
-  - Large: ~rnorm(10000)~ (random normal data)
+  - Small: =[5, 8, 3, 10, 6]= 
+  - Large: =rnorm(10000)= (random normal data)
 
 - *Where It’s Used*: In data science, performance matters when
   processing big datasets (e.g., millions of sensor readings). Small
   efficiency gains in functions can add up.
 
-** Sample Solution (with extension)
+** Solution (with extension)
 
-1. Load the ~microbenchmark~ package (install if needed:
-   ~install.packages("microbenchmark")~).
+1. Install and load the ~microbenchmark~ package:
    #+begin_src R :session *R* :results output :exports both
 
    #+end_src
@@ -160,21 +158,39 @@ faster and explain why.
 
    #+end_src
 
-   We need this more often, so let's turn the last command into a
-   function:
+   We need this search more often, so let's turn the last command into
+   a function using ~grep~, which returns an index:
+   #+begin_src R :session *R* :results output :exports both
+     
+   #+end_src
+
+   Now the function:
    #+begin_src R :session *R* :results output :exports both
 
    #+end_src
 
    To not have to recreate and/or reload this useful function, you
-   need to save it and have it be loaded automatically by R:
+   need to save it and have it be loaded automatically by R, using
+   ~dump~. You can check the result with ~system~ (or ~shell~ on Windows):
    #+begin_src R :session *R* :results output :exports both
 
    #+end_src
 
    To load when R starts up, add =source(~/my_functions.R)= to your
    =~/.Rprofile= file. You can test that by opening a new R console, and
-   checking with =ls()=, then with =loaded("base")= to see if it works.
+   checking with =ls()=, then with =loaded("base")= to see if it worked.
+
+   My =~/.Rprofile= file:
+   #+begin_example R
+   options(repos=c("https://mirrors.nics.utk.edu/cran/"))
+   options(crayon.enabled = FALSE)
+   options(prompt="> ")
+   source("~/my_functions.R")
+   message("*** Loaded .Rprofile ***")
+   #+end_example
+
+   To test this, open a terminal and start R. you should see the
+   ~message~.
 
 2. Create a small vector (e.g., 5 numbers) and a large vector (e.g.,
    10,000 numbers with ~rnorm()~).

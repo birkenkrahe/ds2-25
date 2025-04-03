@@ -24,15 +24,15 @@ the maximum and minimum values—is a simple measure of central tendency
 not built into base R.
 
 - *Task*: Write a function ~calc_midrange~ that takes a numeric vector and
-  returns its midrange (max + min) / 2.
+  returns its midrange =(max + min) / 2=.
 
-- *Test Case*: Use ~[5, 8, 3, 10, 6]~ (should output 6.5).
+- *Test Case*: Use =[5, 8, 3, 10, 6]= (should output =6.5=).
 
 *Where It’s Used*: In statistics, midrange is a quick estimate of a
-dataset’s center, like ~[20, 25, 30]~ for temperatures. It’s niche but
-useful in exploratory analysis when median or mean isn’t ideal.
+dataset’s center, like =[20, 25, 30]= for temperatures. It’s niche but
+useful in exploratory analysis when ~median~ or ~mean~ isn’t ideal.
 
-Pseudocode:
+*Pseudocode:*
 
 #+BEGIN_EXAMPLE
 FUNCTION calc_midrange takes a numeric vector x
@@ -43,13 +43,9 @@ FUNCTION calc_midrange takes a numeric vector x
 END FUNCTION
 #+END_EXAMPLE
 
-*Notes*:
-- This adds a new statistic R doesn’t provide directly.
-- Focus: It’s about creating something new, not reuse or maintenance.
-
 *Challenge:*
 - Turn the function into a one-liner =calc_midrange2=.
-- Which function is faster?
+- Which function is faster? (We'll compute that next.)
 
 ** Sample solutions
 
@@ -77,7 +73,7 @@ END FUNCTION
   #+RESULTS:
   : [1] 6.5
 
-- Short solution (no intermediate objects):
+- *Challenge*: Short solution (no intermediate objects)
   #+begin_src R :session *R* :results output :exports both
     ## FUNCTION calc_midrange takes a numeric vector x
     calc_midrange2 <- function(x) {
@@ -90,10 +86,10 @@ END FUNCTION
   #+RESULTS:
   : [1] 6.5
 
-- Are there arguments against the short solution?
+- Are there arguments for or against the short solution?
   #+begin_quote
-  None other than that it is less readable and hence less
-  debuggable.
+  + *Con:* It is less readable and hence less debuggable.
+  + *Pro:* It has a slightly smaller computational overhead.
   #+end_quote
 
 - What if one wanted to re-use =max_val= and =min_val= from the long
@@ -126,12 +122,11 @@ END FUNCTION
 
 * Comparing Function Performance
 
-You’ve written functions like ~calc_midrange~ for new
-functionality. Now, let’s explore how design affects speed. Below are
-two versions of the midrange function—your task is to measure which is
+Let’s explore how function design affects speed. Below are two
+versions of the midrange function—your task is to measure which is
 faster and explain why.
 
-- Task: Benchmark Two Midrange Functions. Here are two functions that
+- *Task:* Benchmark Two Midrange Functions. Here are two functions that
   calculate the midrange (average of max and min):
   #+name: f1
   #+BEGIN_SRC R
@@ -142,6 +137,9 @@ faster and explain why.
       return(midrange)
     }
   #+END_SRC
+
+  #+RESULTS: f1
+
   #+name: f2
   #+BEGIN_SRC R
     calc_midrange2 <- function(x) {
@@ -149,21 +147,21 @@ faster and explain why.
     }
   #+END_SRC
 
+  #+RESULTS: f2
+
 - *Goal*: Use R to measure which function runs faster on a small and
   large dataset.
 
 - *Steps*:
-  1. Load the ~microbenchmark~ package (install if needed:
-     ~install.packages("microbenchmark")~).
-  2. Create a small vector (e.g., 5 numbers) and a large vector (e.g.,
-     10,000 numbers with ~rnorm()~).
+  1. Install and Load the ~microbenchmark~ package.
+  2. Create a small vector and a large vector.
   3. Use ~microbenchmark()~ to compare the functions, running each at
      least 100 times.
-  4. Report the median times for both functions on both datasets.
+  4. Report the ~median~ times for both functions on both datasets.
 
 - *Test Cases*:
-  - Small: ~[5, 8, 3, 10, 6]~
-  - Large: ~rnorm(10000)~ (random normal data)
+  - Small: =[5, 8, 3, 10, 6]= 
+  - Large: =rnorm(10000)= (random normal data)
 
 - *Where It’s Used*: In data science, performance matters when
   processing big datasets (e.g., millions of sensor readings). Small
@@ -178,6 +176,8 @@ faster and explain why.
      library(microbenchmark)
    #+end_src
 
+   #+RESULTS:
+
    Check that it's been loaded.
    #+begin_src R :session *R* :results output :exports both
      search()[grep("microbenchmark",search())]
@@ -186,11 +186,19 @@ faster and explain why.
    #+RESULTS:
    : [1] "package:microbenchmark"
 
-   We need this more often, so let's turn the last command into a
-   function:
+   We need this search more often, so let's turn the last command into
+   a function using ~grep~, which returns an index:
+   #+begin_src R :session *R* :results output :exports both
+     grep("micro",search())
+   #+end_src
+
+   #+RESULTS:
+   : [1] 2
+
+   Now the function:   
    #+begin_src R :session *R* :results output :exports both
      loaded <- function(str) {
-       search()[grep(str,search())]
+       search()[grep(str,search())] # grep returns an index
      }
      loaded("microbenchmark")
    #+end_src
@@ -199,21 +207,31 @@ faster and explain why.
    : [1] "package:microbenchmark"
 
    To not have to recreate and/or reload this useful function, you
-   need to save it and have it be loaded automatically by R:
+   need to save it and have it be loaded automatically by R, using
+   ~dump~. You can check the result with ~system~ (or ~shell~ on Windows):
    #+begin_src R :session *R* :results output :exports both
-     dump("loaded",file="~/my_functions.R")
-     system("cat ~/my_functions.R")
+     dump("loaded",file="~/my_functions.R") # dump code to file
+     system("cat ~/my_functions.R") # view dumped file
    #+end_src
 
    #+RESULTS:
    : loaded <-
    : function(str) {
-   :   search()[grep(str,search())]
+   :   search()[grep(str,search())] # grep returns an index
    : }
 
    To load when R starts up, add =source(~/my_functions.R)= to your
    =~/.Rprofile= file. You can test that by opening a new R console, and
-   checking with =ls()=, then with =loaded("base")= to see if it works.
+   checking with =ls()=, then with =loaded("base")= to see if it worked.
+
+   My =~/.Rprofile= file:
+   #+begin_example R
+   options(repos=c("https://mirrors.nics.utk.edu/cran/"))
+   options(crayon.enabled = FALSE)
+   options(prompt="> ")
+   source("~/my_functions.R")
+   message("*** Loaded .Rprofile ***")
+   #+end_example
 
 2. Create a small vector (e.g., 5 numbers) and a large vector (e.g.,
    10,000 numbers with ~rnorm()~).
@@ -225,7 +243,7 @@ faster and explain why.
    #+end_src
 
    #+RESULTS:
-   : [1] -0.4282709  0.3839430 -1.2921647  0.6433541 -2.8037460 -0.3804803
+   : [1]  0.27222347  0.59617239 -1.65685604  1.52222266 -0.01147845 -0.02731232
 
 3. Use ~microbenchmark()~ to compare the functions, running each at
    least 100 times.
@@ -235,8 +253,8 @@ faster and explain why.
    #+end_src
 
    #+RESULTS:
-   : function (..., list = NULL, times = 100L, unit = NULL, check = NULL,
-   :     control = list(), setup = NULL)
+   : function (..., list = NULL, times = 100L, unit = NULL, check = NULL, 
+   :     control = list(), setup = NULL) 
    : NULL
 
    #+begin_src R :session *R* :results output :exports both
@@ -246,13 +264,13 @@ faster and explain why.
 
    #+RESULTS:
    : Unit: nanoseconds
-   :                        expr min    lq   mean median    uq  max neval
-   :   calc_midrange(small_data) 458 483.0 554.18  498.0 524.0 4685   100
-   :  calc_midrange2(small_data) 375 396.5 445.84  409.5 428.5 2240   100
+   :                        expr min    lq     mean median    uq     max neval
+   :   calc_midrange(small_data) 375 393.0 69679.44  407.0 462.0 6919235   100
+   :  calc_midrange2(small_data) 301 314.5  8209.79  334.5 386.5  785019   100
    : Unit: microseconds
-   :                        expr   min      lq     mean median     uq    max neval
-   :   calc_midrange(large_data) 14.87 14.9065 15.24509 14.930 14.984 22.078   100
-   :  calc_midrange2(large_data) 14.81 14.8395 15.12707 14.864 14.897 18.830   100
+   :                        expr   min     lq     mean  median      uq    max neval
+   :   calc_midrange(large_data) 14.88 14.912 15.08845 14.9285 14.9730 27.747   100
+   :  calc_midrange2(large_data) 14.81 14.842 14.89869 14.8555 14.8715 16.947   100
 
 4. Report the median times for both functions on both datasets.
 

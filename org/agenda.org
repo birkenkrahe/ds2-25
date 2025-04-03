@@ -2136,18 +2136,18 @@ Topics:
 - [ ] Bonus: Matrix multiplication in Python vs R
 - [ ] Bonus: Using ~tapply~ to split data into weekly groups
 
-* NEXT Week 11: Writing functions like a pro
+* IN_PROGRESS Week 11: Writing functions like a pro
 #+attr_html: :width 400px :float nil:
 #+caption: Vincent van Gogh, The Painter on the Road to Tarascon (1888)
 [[../img/1-the-painter-on-his-way-to-work-vincent-van-gogh.jpg]]
 
-- [ ] DataCamp course "Writing functions in R" extended to Friday
+- [X] DataCamp course "Writing functions in R" extended to Friday
+- [X] No class meeting on Tuesday, April 22 (Honors Convocation)
 - [ ] 2nd sprint review
 - [ ] DataCamp review: functions (only chapter 1)
 - [ ] "Tidyverse" vs. Base R
-- [ ] No class meeting on Tuesday, April 22 (Honors Convocation)
 
-** TODO 2nd Sprint Review - the key lessons as cartoons
+** DONE 2nd Sprint Review - the key lessons as cartoons
 
 *** Issues
 
@@ -2155,8 +2155,8 @@ Topics:
    guess your content. You have to upload the source itself (10%).
 2. No signs of having worked with the source material, for example
    by asking questions suggested by the AI (10%).
-3. No signs of having worked with the podcast.
-4. Late submission (50%)
+3. No signs of having worked with the podcast (10%).
+4. Late submission (50%).
 
 *** Highlights
 
@@ -2181,6 +2181,8 @@ that you cannot answer on your own. "Papers" here only means
 #+attr_html: :width 400px :float nil:
 [[../img/clients.png]]
 
+Always communicate a little more than you think you should!
+
 *** To work "smart", you first have to work hard
 #+attr_html: :width 400px :float nil:
 [[../img/smart.png]]
@@ -2193,8 +2195,11 @@ that you cannot answer on your own. "Papers" here only means
 #+attr_html: :width 400px :float nil:
 [[../img/change.png]]
 
+Be mindful that if you know only little (or nothing), your time
+estimate is off by a factor 2 (or 3).
 
-** TODO DataCamp review - How to Write a Function
+
+** DONE DataCamp review - How to Write a Function
 
 1) Which ways are there to pass arguments to a function?
    #+begin_src R :session *R* :results output :exports both
@@ -2218,19 +2223,25 @@ that you cannot answer on your own. "Papers" here only means
      foo <- c(100,-1,0,1,100)
      hist(foo,breaks=1) # non-symmetric distribution
    #+end_src
-
-   #+RESULTS:
-   [[file:foo.png]]
-
+   
    #+begin_src R :session *R* :results output :exports both
      mean(foo)
-     mean(foo,trim=0.25) # drop 25% or 1 value from either side
-     sort(foo)[c(-1,-5)]
+
+     mean(foo,trim=0.25)  # drop 1 value on either side AFTER SORTING
      mean(sort(foo)[c(-1,-5)])
-     mean(foo,trim=0.5) # drop 50% or int(5/2)=2 values from either side
+
+     mean(foo,trim=0.5)  # drop 1 value on either side AFTER SORTING
      sort(foo)[c(-1,-2,-4,-5)]
      mean(sort(foo)[c(-1,-2,-4,-5)])
    #+end_src
+
+   #+RESULTS:
+   : [1] 40
+   : [1] 33.66667
+   : [1] 33.66667
+   : [1] 1
+   : [1] 1
+   : [1] 1
 
 4) Does ~median~ behave like ~mean~?
    #+begin_src R :session *R* :results output :exports both
@@ -2238,38 +2249,70 @@ that you cannot answer on your own. "Papers" here only means
      args(mean)
    #+end_src
 
+   #+RESULTS:
+   : function (x, na.rm = FALSE, ...) 
+   : NULL
+   : function (x, ...) 
+   : NULL
+
 5) Ellipsis arguments for ~mean~ - apart from ~na.rm~ - what're they for?
    #+begin_quote
    You can roll your own data structures and define methods for it.
    #+end_quote
+
    #+begin_src R :session *R* :results output :exports both
-     ## create a `verbose`/chatty `mean` function
-     mean.myclass <- function(x, ..., verbose=FALSE) {
-       if (verbose) {
+     mean.myclass <- function(x,...,verbose=FALSE) { # default: NOT verbose
+       if(verbose) {
          cat("Calculating mean for object of class 'myclass'\n")
        }
-       mean(as.numeric(x)) # default mean computation
+       mean(as.numeric(x)) # default: arithmetic numeric mean
      }
 
-     mean(1:10)  # calls mean.default()
-     mean(1:10,verbose=TRUE)  # calls mean.default()
+     mean(1:10)
+     mean(1:10,verbose=TRUE) # defaults to mean.default()
 
-     x <- structure(1:10,class="myclass")
-     mean(x,verbose=TRUE) # cals mean.myclass()
+     x <- structure(1:10, class="myclass")
+     mean(x,verbose=TRUE) # calls mean.myclass
+     class(mean)
+     class(x)
    #+end_src
 
+   #+RESULTS:
+   : [1] 5.5
+   : [1] 5.5
+   : Calculating mean for object of class 'myclass'
+   : [1] 5.5
+   : [1] "function"
+   : [1] "myclass"
+   
 6) Which of the ~methods~ of ~mean~ takes the average of date values?
    #+begin_src R :session *R* :results output :exports both
-     cat(paste(methods("mean"), collapse="\n"))
+     cat(paste(methods("mean"), collapse="\n")) # show content on lines
+     methods(mean) # show content as vector with junk
    #+end_src
 
-7) Average a ~seq~ of 5 ~Sys.Date~ values separated by ~"Day"~.
+   #+RESULTS:
+   : mean.Date
+   : mean.default
+   : mean.difftime
+   : mean.myclass
+   : mean.POSIXct
+   : [1] mean.Date     mean.default  mean.difftime mean.myclass  mean.POSIXct  mean.POSIXlt 
+   : see '?methods' for accessing help and source code
+
+7) Average a ~seq~ of 5 ~Sys.Date~ values separated by ~"day"~.
    #+begin_src R :session *R* :results output :exports both
      ## Generate a few date values from Sys.Date onwards
      seq.Date(from=Sys.Date(), by="day", length.out=5) -> dates
      dates
+     class(dates) # this is "Date" class because we used seq.Date
      mean(dates)
    #+end_src
+
+   #+RESULTS:
+   : [1] "2025-04-01" "2025-04-02" "2025-04-03" "2025-04-04" "2025-04-05"
+   : [1] "Date"
+   : [1] "2025-04-03"
 
 9) Why should you roll your own functions?
    #+begin_quote
@@ -2331,7 +2374,7 @@ that you cannot answer on your own. "Papers" here only means
     #+end_src
 
     - Explanation:
-    #+begin_quote
+      #+begin_quote
     - The CSV file is imported as a "tibble" (call ~help~ on
       that). That's a data structure in the "Tidyverse".
     - ~select~ picks existing column names.
@@ -2353,13 +2396,6 @@ that you cannot answer on your own. "Papers" here only means
       import_test_scores2("../data/test_scores.csv")
     #+end_src
 
-    #+RESULTS:
-    : person_id first_name last_name  test_date score
-    : 1         1       John     Smith 2024-03-15    88
-    : 2         2      Emily     Jones 2024-04-01    92
-    : 4         4      Sarah    Wilson 2024-03-28    75
-    : 5         5      David   Johnson 2024-03-30    80
-
     - With comments:
       #+begin_src R :session *R* :results output :exports both
         ## function definition
@@ -2380,13 +2416,6 @@ that you cannot answer on your own. "Papers" here only means
         import_test_scores2("../data/test_scores.csv")
       #+end_src
 
-      #+RESULTS:
-      : person_id first_name last_name  test_date score
-      : 1         1       John     Smith 2024-03-15    88
-      : 2         2      Emily     Jones 2024-04-01    92
-      : 4         4      Sarah    Wilson 2024-03-28    75
-      : 5         5      David   Johnson 2024-03-30    80
-
     - Explanation:
       #+begin_quote
       - No libraries need to be imported - everything already built-in.
@@ -2399,10 +2428,23 @@ that you cannot answer on your own. "Papers" here only means
 
 
 
-** TODO "Tidyverse" vs Base R Comparison (Grok)
+** TODO Writing your own functions
+
+- [ ] Writing functions for new functionality
+- [ ] Long and short version of functions
+- [ ] Global and local environment
+- [ ] Comparing function performance
+- [ ] Converting "Tidyverse" function to base R function
+
+I have to check the remainder of the DataCamp lesson for more
+extensions (returning multiple values/case study).
+
+Download the codealong file: [[https://tinyurl.com/functions-codealong][tinyurl.com/functions-codealong]]
+
+** TODO "Tidyverse" vs Base R Comparison (by Grok)
 
 Based on the example of importing and processing test scores from a
-CSV file (to be found in DataCamp and here).
+CSV file (to be found in DataCamp and in my lecture).
 
 *** Tidyverse
 **** Pros
@@ -2556,18 +2598,6 @@ performance needs.
 : 2         2      Emily     Jones 2024-04-01    92
 : 4         4      Sarah    Wilson 2024-03-28    75
 : 5         5      David   Johnson 2024-03-30    80
-
-
-** TODO Writing your own functions
-
-- [ ] Writing functions for new functionality
-- [ ] Long and short version of functions
-- [ ] Global and local environment
-- [ ] Comparing function performance
-- [ ] Converting "Tidyverse" function to base R function
-
-I have to check the remainder of the DataCamp lesson for more
-extensions (returning multiple values/case study).
 
 * Week 12: Data science on the command-line
 * Week 13: Improving performance and debugging
