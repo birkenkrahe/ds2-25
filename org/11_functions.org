@@ -431,6 +431,23 @@ condition.
   process_grades("../data/grades.csv")
 #+end_src
 
+#+RESULTS:
+#+begin_example
+indexed 0B in  0s, 0B/sindexed 1.00TB in  0s, 2.10PB/s                                                                                        Rows: 4 Columns: 3
+── Column specification ──────────────────────────────────────────────────────────────────
+Delimiter: ","
+chr (1): name
+dbl (2): student_id, grade
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+# A tibble: 2 × 2
+  student_id grade
+       <dbl> <dbl>
+1          1    85
+2          3    90
+#+end_example
+
 - *Sample Data (grades.csv)*:
   #+begin_example
   student_id,name,grade
@@ -470,7 +487,8 @@ external packages). Your solution should:
 3          3    90
 #+end_example
 
-** Base R Solution (Reference)
+** Sample solution
+
 #+begin_src R :session *R* :results output :exports both
   process_grades_base <- function(filename) {
     grades <- read.csv(filename)
@@ -482,7 +500,14 @@ external packages). Your solution should:
 #+end_src
 
 #+RESULTS:
-:   student_id grade
+: student_id grade
 : 1          1    85
 : 3          3    90
 
+Note: You might get this warning if your CSV file does not end with a
+new line.
+#+begin_example
+Warning message:
+In read.table(file = file, header = header, sep = sep, quote = quote,  :
+  incomplete final line found by readTableHeader on '../data/grades.csv'
+#+end_example

@@ -2136,18 +2136,19 @@ Topics:
 - [ ] Bonus: Matrix multiplication in Python vs R
 - [ ] Bonus: Using ~tapply~ to split data into weekly groups
 
-* IN_PROGRESS Week 11: Writing functions like a pro
+* DONE Week 11: Writing functions like a pro / "Tidyverse" rant
 #+attr_html: :width 400px :float nil:
 #+caption: Vincent van Gogh, The Painter on the Road to Tarascon (1888)
 [[../img/1-the-painter-on-his-way-to-work-vincent-van-gogh.jpg]]
 
 - [X] DataCamp course "Writing functions in R" extended to Friday
 - [X] No class meeting on Tuesday, April 22 (Honors Convocation)
-- [ ] 2nd sprint review
-- [ ] DataCamp review: functions (only chapter 1)
+- [X] 2nd sprint review
+- [X] DataCamp review: functions (only chapter 1)
+- [ ] Code along: Writing functions like a Pro 
 - [ ] "Tidyverse" vs. Base R
 
-** DONE 2nd Sprint Review - the key lessons as cartoons
+** 2nd Sprint Review - the key lessons as cartoons
 
 *** Issues
 
@@ -2199,7 +2200,7 @@ Be mindful that if you know only little (or nothing), your time
 estimate is off by a factor 2 (or 3).
 
 
-** DONE DataCamp review - How to Write a Function
+** DataCamp review - How to Write a Function
 
 1) Which ways are there to pass arguments to a function?
    #+begin_src R :session *R* :results output :exports both
@@ -2360,7 +2361,7 @@ estimate is off by a factor 2 (or 3).
       import_test_scores <- function(filename) { # accept filename
         ## read CSV data from `filename`
         test <- read_csv(filename)
-        ## process raw test scores
+        ## process raw test scores from a 'tibble'
         test %>%
           ## select columns
           select(person_id, first_name, last_name, test_date, score) %>%
@@ -2427,21 +2428,7 @@ estimate is off by a factor 2 (or 3).
       #+end_quote
 
 
-
-** TODO Writing your own functions
-
-- [ ] Writing functions for new functionality
-- [ ] Long and short version of functions
-- [ ] Global and local environment
-- [ ] Comparing function performance
-- [ ] Converting "Tidyverse" function to base R function
-
-I have to check the remainder of the DataCamp lesson for more
-extensions (returning multiple values/case study).
-
-Download the codealong file: [[https://tinyurl.com/functions-codealong][tinyurl.com/functions-codealong]]
-
-** TODO "Tidyverse" vs Base R Comparison (by Grok)
+** "Tidyverse" vs Base R Comparison (by Grok)
 
 Based on the example of importing and processing test scores from a
 CSV file (to be found in DataCamp and in my lecture).
@@ -2599,7 +2586,153 @@ performance needs.
 : 4         4      Sarah    Wilson 2024-03-28    75
 : 5         5      David   Johnson 2024-03-30    80
 
+
+** TODO Writing your own functions
+
+- [X] Writing functions for new functionality
+- [X] Long and short version of functions
+- [X] Global and local environment
+- [X] Comparing function performance
+- [ ] Converting a script to a function
+- [ ] Converting "Tidyverse" function to base R function
+
+I have to check the remainder of the DataCamp lesson for more
+extensions (returning multiple values/case study).
+
+Download the codealong file: [[https://tinyurl.com/functions-codealong][tinyurl.com/functions-codealong]]
+
+#+begin_example
+  wget -O functions.org tinyurl.com/functions-codealong
+#+end_example
+
 * Week 12: Data science on the command-line
+#+attr_html: :width 400px :float nil:
+#+caption: Leonardo Da Vinci doing data science on the command-line
+[[../img/commandline.png]]
+
+- [ ] New DataCamp lesson (Downloading data on the command-line)
+- [ ] Review of last week (Writing functions) & continue lesson
+- [ ] New test on functions (deadline this Friday)
+- [ ] New home assignment (deadline this Friday)
+
+** TODO DataCamp lesson: Data Processing in Shell
+
+*Note: The first lesson (30 min) is due on Friday of this week!*
+
+- Downloading data on the command-line (~wget~, ~curl~ - Unix).
+- Data cleaning and munging (~csvkit~ - Python).
+- Database Operations on the Command Line (~sql2csv~, ~RSQLite~).
+- Data Pipeline on the Command Line (~Python~ / Unix).
+
+** TODO Review: Writing functions like a pro / "Tidyverse"
+
+Popquiz! Time = 20 minutes - then 10 min review of the answers.
+
+1. Why would you create a function like ~calc_midrange~?
+   #+begin_quote
+   To extend functionality: The midrange (the average of the maximum
+   and minimum values of a numeric vector) is not a built-in function.
+   #+end_quote
+
+2. Which argument must be included in built-in functions ~max()~ and
+   ~min()~ to correctly handle missing values?
+   #+begin_quote
+   The argument ~na.rm=TRUE~ must be included to ignore ~NA~ values.
+   #+end_quote
+
+3. What is a key advantage of the one-liner version of ~calc_midrange~
+   over the longer version, and can you write the function down now?
+   #+begin_src R :session *R* :results output :exports both
+     calc_midrange2 <- function(x){(min(x,na.rm=T)+max(x,na.rm=T))/2}
+     calc_midrange2(c(1:10,NA))
+   #+end_src
+
+   #+begin_quote
+   It is shorter and potentially faster due to reduced object creation
+   and simpler execution.
+   #+end_quote
+
+4. Why can't you access the variables ~max_val~ or ~min_val~ outside of
+   the ~calc_midrange~ function?
+   #+begin_quote
+   Because they are local variables defined inside the function's
+   scope.
+   #+end_quote
+
+5. What package is used to benchmark R functions, and what function
+   from that package is used to run the benchmark?
+   #+begin_quote
+   The ~microbenchmark~ package is used, and the function is
+   ~microbenchmark()~.
+   #+end_quote
+
+6. What is one key benefit of using the Tidyverse pipe operator ~%>%~ in
+   data workflows? What is one disadvantage of a pipe?
+   #+begin_quote
+   It organizes operations into a sequential, readable flow (e.g.,
+   ~select %>% mutate %>% filter~) that clarifies intent.
+
+   A disadvantage is that it makes debugging more difficult because no
+   objects are saved intermittently.
+   #+end_quote
+
+7. What function was created to check whether a package like
+   ~microbenchmark~ is loaded in the current R session? Can you write
+   the function down?
+   #+begin_src R :session *R* :results output :exports both
+     loaded <- function(x){search()[grep(x,search())]}
+     library(microbenchmark)
+     loaded("microbenchmark")
+   #+end_src
+
+   #+begin_quote
+   A user-defined function named ~loaded~ that uses ~grep()~ on the
+   output of ~search()~.
+   #+end_quote
+
+8. Why might someone prefer Base R over Tidyverse for importing and
+   cleaning a CSV file in a production environment?
+   #+begin_quote
+   Base R avoids external dependencies, offers direct control, is less
+   likely to break due to package updates, and is less function-heavy.
+   #+end_quote
+
+9. What R function can save another function to a file for later
+   reuse? Can you write down an example using the function =loaded=, and
+   then check from within R if the file was created?
+   #+begin_src R :session *R* :results output :exports both
+     dump("loaded",file="loaded.R")
+     system("ls -l loaded.R")
+   #+end_src
+10. What is a common disadvantage of using Tidyverse functions like
+    ~select~ and ~mutate~ compared to Base R?
+    #+begin_quote
+    They abstract away vector operations like ~$~ and ~[]~, which can
+    reduce transparency and limit understanding of underlying
+    processes.
+    #+end_quote
+
+
+
+** IN_PROGRESS Writing your own functions
+
+- [X] Writing functions for new functionality
+- [X] Long and short version of functions
+- [X] Global and local environment
+- [X] Comparing function performance
+- [ ] Converting a script to a function
+- [ ] Converting "Tidyverse" function to base R function
+
+I have to check the remainder of the DataCamp lesson for more
+extensions (returning multiple values/case study).
+
+Download the codealong file: [[https://tinyurl.com/functions-codealong][tinyurl.com/functions-codealong]]
+
+#+begin_example
+  wget -O functions.org tinyurl.com/functions-codealong
+#+end_example
+
+
 * Week 13: Improving performance and debugging
 * Week 14: Optimizing R Code with Rcpp
 * Week 15: Interfacing R with SQL Databases
