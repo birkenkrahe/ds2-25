@@ -2608,14 +2608,14 @@ Download the codealong file: [[https://tinyurl.com/functions-codealong][tinyurl.
 * Week 12: Data science on the command-line
 #+attr_html: :width 400px :float nil:
 #+caption: Leonardo Da Vinci doing data science on the command-line
-[[../img/commandline.png]]
+[[../img/leonardo.png]]
 
-- [ ] New DataCamp lesson (Downloading data on the command-line)
-- [ ] Review of last week (Writing functions) & continue lesson
-- [ ] New test on functions (deadline this Friday)
-- [ ] New home assignment (deadline this Friday)
+- [X] *New DataCamp lesson*: Downloading data on the command-line
+- [X] *New test on functions* (deadline this Friday)
+- [X] *New home assignment:* Script to function (deadline this Friday)
+- [X] Review of last week (Writing functions) & continue lesson
 
-** TODO DataCamp lesson: Data Processing in Shell
+** DONE DataCamp lesson: Data Processing in Shell
 
 *Note: The first lesson (30 min) is due on Friday of this week!*
 
@@ -2624,9 +2624,9 @@ Download the codealong file: [[https://tinyurl.com/functions-codealong][tinyurl.
 - Database Operations on the Command Line (~sql2csv~, ~RSQLite~).
 - Data Pipeline on the Command Line (~Python~ / Unix).
 
-** TODO Review: Writing functions like a pro / "Tidyverse"
+** DONE Review: Writing functions like a pro / "Tidyverse"
 
-Popquiz! Time = 20 minutes - then 10 min review of the answers.
+*Popquiz! Time = 20 minutes - then 10 min review of the answers.*
 
 1. Why would you create a function like ~calc_midrange~?
    #+begin_quote
@@ -2647,6 +2647,9 @@ Popquiz! Time = 20 minutes - then 10 min review of the answers.
      calc_midrange2(c(1:10,NA))
    #+end_src
 
+   #+RESULTS:
+   : [1] 5.5
+
    #+begin_quote
    It is shorter and potentially faster due to reduced object creation
    and simpler execution.
@@ -2656,7 +2659,7 @@ Popquiz! Time = 20 minutes - then 10 min review of the answers.
    the ~calc_midrange~ function?
    #+begin_quote
    Because they are local variables defined inside the function's
-   scope.
+   scope. You can make them global with the ~<<-~ operator.
    #+end_quote
 
 5. What package is used to benchmark R functions, and what function
@@ -2685,12 +2688,15 @@ Popquiz! Time = 20 minutes - then 10 min review of the answers.
      loaded("microbenchmark")
    #+end_src
 
+   #+RESULTS:
+   : [1] "package:microbenchmark"
+
    #+begin_quote
    A user-defined function named ~loaded~ that uses ~grep()~ on the
    output of ~search()~.
    #+end_quote
 
-8. Why might someone prefer Base R over Tidyverse for importing and
+8. Why might someone prefer Base R over "Tidyverse" for importing and
    cleaning a CSV file in a production environment?
    #+begin_quote
    Base R avoids external dependencies, offers direct control, is less
@@ -2704,6 +2710,10 @@ Popquiz! Time = 20 minutes - then 10 min review of the answers.
      dump("loaded",file="loaded.R")
      system("ls -l loaded.R")
    #+end_src
+
+   #+RESULTS:
+   : -rw-rw-r-- 1 marcus marcus 50 Apr  8 11:28 loaded.R
+
 10. What is a common disadvantage of using Tidyverse functions like
     ~select~ and ~mutate~ compared to Base R?
     #+begin_quote
@@ -2712,16 +2722,14 @@ Popquiz! Time = 20 minutes - then 10 min review of the answers.
     processes.
     #+end_quote
 
-
-
-** IN_PROGRESS Writing your own functions
+** DONE Writing your own functions
 
 - [X] Writing functions for new functionality
 - [X] Long and short version of functions
 - [X] Global and local environment
 - [X] Comparing function performance
-- [ ] Converting a script to a function
-- [ ] Converting "Tidyverse" function to base R function
+- [X] Converting a script to a function
+- [X] Converting "Tidyverse" function to base R function
 
 I have to check the remainder of the DataCamp lesson for more
 extensions (returning multiple values/case study).
@@ -2733,10 +2741,47 @@ Download the codealong file: [[https://tinyurl.com/functions-codealong][tinyurl.
 #+end_example
 
 
-* Week 13: Improving performance and debugging
-* Week 14: Optimizing R Code with Rcpp
-* Week 15: Interfacing R with SQL Databases
-* Week 16: Interfacing R with Python
+** TODO My apologies - the price of research
+#+attr_html: :width 400px :float nil:
+[[../img/colloq.png]]
+
+Every 2 years or so I give a faculty colloquium that absorbs
+approx. 50% of my energy in the 2 weeks before the event.
+
+You can help me by sending me (written) accounts of how you are using
+AI for research purposes (to any extent: search, structure, writing).
+
+You'll pay a price because I'll be uncharacteristically scattered,
+and/or less prepared (all of the following lectures are brand-new).
+
+** TODO Installing and testing ~csvkit~
+
+~csvkit~ is a Python library of command-line data science functions.
+
+- Can you install ~csvkit~ locally? Try:
+  #+begin_example
+  pip install --user csvkit &
+  #+end_example
+
+- This will take quite a while
+
+- An alternative: Open Google colab (~colab.research.google.com~), run:
+  #+begin_example
+  !pip install --quiet csvkit
+  #+end_example
+
+- Check with
+  #+begin_src bash :results output :exports both
+    csvcut --help
+  #+end_src  
+
+** TODO Lecture/Practice: Data Science on the Command Line
+
+
+* Week 13: Data cleaning and munging with ~xsv~ and ~csvkit~
+* Week 14: =SQL= Database operations on the command line with ~sql2csv~
+* Week 15: Optimizing code with =C++= and ~RCpp~
+* Week 16: Project presentations
 
 * Footnotes
 

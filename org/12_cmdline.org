@@ -1,0 +1,428 @@
+#+TITLE: Introduction to the command line
+#+AUTHOR: Marcus Birkenkrahe (pledged)
+#+SUBTITLE: DSC 205 - Advanced introduction to data science - Spring 2025
+#+STARTUP: overview hideblocks indent inlineimages entitiespretty
+#+OPTIONS: toc:nil num:nil ^:nil
+#+PROPERTY: header-args:R :session *R* :results output :exports both :noweb yes
+* README
+
+- Exploration of the command line using the Linux shell
+
+- I will probably re-use a subset of this new lecture (April 25) in my
+  spring 26 Linux Operating Systems class (CSC 420).
+
+- Source: Data Science at the Command Line (2e), Janssens (O'Reilly,
+  2021), pp. 1-35 - [[https://github.com/jeroenjanssens/data-science-at-the-command-line/tree/master][see GitHub]], with full text and codebase.
+
+* Objectives
+
+- [ ] Data science pipeline (OSEMN)
+- [ ] What is the command line?
+- [ ] Why is the command line awesome for data science?
+- [ ] Essential Unix concepts
+- Types of command-line tools
+- Combining command-line tools
+- Redirecting command-line tools
+- Working with files and directories
+- Managing output
+
+* Data science pipeline
+
+The OSEMN ("awesome") Framework:
+#+BEGIN_example
++--------+   +--------+   +---------+   +--------+   +-----------+
+| Obtain |-->| Scrub  |-->| Explore |-->| Model  |-->| Interpret |
++--------+   +--------+   +---------+   +--------+   +-----------+
+#+END_example
+
+1) *Obtain data:* 10% of the work
+   - Download data over the network (e.g. HTTPS)
+   - Query data form a database API (e.g. MySQL)
+   - Extract data from another file (e.g. CSV)
+   - Generate data yourself (e.g. measure or synthesize)
+
+2) *Scrub data*: 80% of the work
+   - Filtering lines (e.g. by label "spam" or "ham")
+   - Extracting columns (e.g. "name", "sales")
+   - Replacing values (e.g. ~chr~ to ~factor~)
+   - Extracting words (e.g. removing stopwords)
+   - Handling missing values and duplicates (e.g. ~na.rm~, imputation)
+   - Converting data to another format (e.g. CSV to TSV).
+
+3) *Explore data*:
+   - Look at your data (e.g. ~str~)
+   - Derive statistics from your data (e.g. ~summary~)
+   - Create visualizations (e.g. ~plot~, ~barplot~, ~boxplot~)
+   - Transform data (e.g. ~log10~, ~data.frame~)
+
+4) *Modeling data:*
+   - Clustering (e.g. ~kmeans~)
+   - Classification (e.g. ~class::knn~)
+   - Regression (e.g. ~lm~)
+   - Neural nets (e.g. ~nnet~)
+   - Principal Components Analysis (e.g. ~prcomp~)
+
+5) *Interpret data:*
+   - Causal inference (did one thing really cause another?)
+   - Machine learning (can you predict future patterns?)
+   - Communication (what does this mean to you?)
+
+* What is the command line?
+
+- Answers:
+  #+begin_quote
+  1. A text-based interface to interact with your computer (CLI).
+  2. A tool where you type commands instead of clicking (GUI).
+  3. A window to control your operating system using text.
+  4. The original OS interface for systems like Unix.
+  5. A developer's power tool for automation and system tasks.
+  6. A fast, precise way to manage files and run programs.
+  7. An interface to a shell program like ~bash~.
+  8. A programming environment that is always available everywhere.
+  9. Thousands of super-fast tiny tools (~compgen -c | sort -u | wc -l~)
+  10. Pure nerd fun. Examples: ~yes~, ~sl~, ~cowsay~
+  #+end_quote
+
+- Examples (only on a fully functioning shell: ~M-x term bash~)
+  #+attr_html: :width 00px :float nil:
+  [[../img/train.png]]
+
+  1. ~fortune~ [luck that never runs out]
+
+  2. ~yes "I am learning linux"~ [yes, you can]
+
+  3. ~echo "The commandline is OSEMN!" | cowsay -f tux"~ [
+
+  4. ~sl~ [if you mistype 'ls']
+
+  5. ~whoami~ [find out who you really are]
+
+* Why is the command-line awesome for data science?
+
+The command-line is *agile*, *augmenting*, *scalable*, *extensible*, and
+*ubiquitous*.
+
+** The command line is agile
+
+- It provides a Read-Eval-Print-Loop (REPL) -> play
+
+- It is very close to the filesystem -> fast
+
+** The command line is augmenting
+
+- Integrates well with other technologies -> interoperable
+
+- You can glue tools to other tools -> pipelining
+
+- You can run commands from the session -> link to ~system~
+
+- You can convert code into a reusable script -> portable
+
+** The command line is scalable
+
+- CLI scripts can be automated and debugged easily -> re-run
+
+- Platform independence -> repeatable
+
+- Scripts can be timed with ~cron~ -> batch mode
+
+- Scripts can be run remotely -> networked
+
+- Scripts can be run in parallel on data chunks -> parallelized
+
+** The command line is extensible
+
+- Though > 50 years old, the CLI actively being developed -> fresh
+
+- The CLI is language agnostic (though inclined towards C) -> open
+
+- The CLI is a FOSS product developed by volunteers -> free
+
+- You can easily create your own new tools -> extensible
+
+** The command line is ubiquitous
+
+- It comes with every Unix-like operating system -> everywhere
+
+- It runs on 100% of the world's supercomputers -> HPC
+
+- It runs on servers, laptops, embedded systems -> embedded
+
+* Essential Unix concepts
+
+- If you don't have Linux/Unix (macOS) but admin rights, you can get a
+  *docker* container image (after downloading and installing
+  ~docker~). [[https://github.com/jeroenjanssens/data-science-at-the-command-line/tree/master][Details in the textbook]].
+
+- An alternative on Windoze is the ~Cygwin~ toolbox: [[https://cygwin.com/][cygwin.com/]] - a
+  large collection of CLI tools (the next best thing to native Linux).
+
+- The environment is defined by four layers:
+  #+BEGIN_example
+  +----------------------+
+  |  Command-line tools  |  <-- e.g., ls, grep, curl, wget
+  +----------------------+
+            ↑
+  +----------------------+
+  |      Terminal        |  <-- e.g., GNOME Terminal, xterm, eshell
+  +----------------------+
+            ↑
+  +----------------------+
+  |        Shell         |  <-- e.g., bash, zsh, fish
+  +----------------------+
+            ↑
+  +----------------------+
+  |   Operating System   |  <-- e.g., Linux, macOS
+  +----------------------+
+  #+END_example
+
+* Layer 4 (application): Command-line tools
+
+- Code along:
+  #+begin_quote
+  Open a full terminal in Emacs now (=M-x term bash=) to code
+  along. This terminal can only be accessed with your mouse.
+
+  1. ~*terminal*~ runs an actual shell *inside* Emacs.
+  2. ~char mode~ is activated with ~C-c C-k~ (raw terminal)
+  3. ~line mode~ is activated with ~C-c C-j~ (Emacs-like editing)
+
+  Try it now. You can always ~C-x o~ into ~*terminal*~ but you can only
+  jump out of it with ~C-x o~ when you're in ~line mode~ (~C-c C-j~).
+
+  In ~char mode~ you can also not use the minibuffer.
+  #+end_quote
+
+- Examples of command-line tools: ~ls~, ~cat~, ~cd~, ~jq~
+  
+  1. ~ls~ for listing files (user-defined)
+
+  2. ~cat~ for viewing content (user-defined)
+
+  3. ~cd~ for changing directory (built-in)
+
+  4. ~type~ to find out the kind of tool this is
+
+  5. ~which~ to find out what tool you're using
+
+  6. ~echo~ to direct output straight to ~stdout~
+
+  7. ~jq~ to process JSON (JavaScript Object Notation) content
+
+     #+begin_src bash :results output :exports both
+       echo '{
+         "name": "Leonardo",
+         "role": "Inventor",
+         "age": 67
+             }'       > data.json
+       cat data.json
+       jq '.name' data.json
+     #+end_src
+
+     #+RESULTS:
+     : {
+     :   "name": "Leonardo",
+     :   "role": "Inventor",
+     :   "age": 67
+     :       }
+     : "Leonardo"
+
+* Layer 3 (presentation): Terminal
+
+- Terminal: An application that runs on top of the shell. It can be
+  emulated in different ways (the GUI does that, too). In Emacs
+  e.g. as a ~bash~ code block:
+
+  #+begin_src bash :results output
+    seq 3
+  #+end_src
+
+- Just like in R: When encountering a new function, check the ~man~
+  page. Directly in Emacs: ~M-x man seq~.
+
+- Use ~seq~ to create the sequence [0...1] in steps of 0.1. In R:
+  #+begin_src R :session *R* :results output :exports both
+    seq(from=0,to=1,by=0.1)
+  #+end_src
+
+  #+RESULTS:
+  :  [1] 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0
+
+- Solution in the terminal:
+  #+begin_src bash :results output :exports both
+    seq 0 0.1 1
+  #+end_src
+
+* Layer 2 (session): Shell
+
+- The shell is an interpreter for command-line commands.
+
+- There are many shells starting with ~sh~, then ~bash~ (Bourne-Again
+  SHell), ~csh~ (C-language feel), ~zsh~ (now on MacOS see [[https://ohmyz.sh/][ohmyz.sh]]), etc.
+
+- An overview:
+     
+  | Shell | Base   | Scripting | Interactive Features | Customizability |
+  |-------+--------+-----------+----------------------+-----------------|
+  | ~sh~    | Oldest | Minimal   | Minimal              | Low             |
+  | ~bash~  | Common | Excellent | Good                 | Good            |
+  | ~csh~   | Old    | Fragile   | Decent               | Medium          |
+  | ~zsh~   | Modern | Excellent | Excellent            | Very High       |
+
+* Layer 1 (process): Operating System (OS)
+
+- For GNU/Linux, "Linux" is the name of the kernel or heart of the OS.
+
+- OS operate in two modes, "user" (or application) mode, and "kernel"
+  (or system) mode. Whenever it gets serious (and fast), kernel mode
+  is triggered by an interrupt signal. When things get slow and human
+  again, control is given back to the user.
+
+  #+BEGIN_SRC text
+  +------------------+
+  |   User Mode      |  <-- Applications (e.g., bash, Firefox, gcc)
+  +------------------+
+            |
+            | System calls (e.g., read, write, fork)
+            v
+  +------------------+
+  |  Kernel Mode     |  <-- OS core functions (memory mgmt, I/O,
+  +------------------+                         process scheduling)
+  #+END_SRC
+
+- GNU stands for "GNU's not UNIX".  
+
+* Using command-line tools / file system
+
+- Using these tools competently relies on your understanding of the
+  file system, especially the file *path*, and tool *options*.
+
+- Absolute paths:
+  #+begin_quote
+  A full path that starts from the root ~/~ directory, and that always
+  points to the same location no matter where you are.
+  #+end_quote
+  #+begin_src bash :results output :exports both
+    pwd
+  #+end_src
+  
+- Relative paths:
+  #+begin_quote
+  A path relative to your current working directory (~pwd~), and that
+  depends on where you are in the file system.
+  #+end_quote
+  #+begin_src bash :results output :exports both
+    echo $(pwd)
+    ls ../data/*.csv
+  #+end_src
+
+- For the next example, put text a file ~movies.txt~, and then view the
+  file with ~cat~:
+  #+begin_src bash :results output :exports both
+    echo Matrix > movies.txt
+    echo Star Wars >> movies.txt
+    echo Home Alone >> movies.txt
+    echo Indiana Jones >> movies.txt
+    echo Back to the Future >> movies.txt            
+    cat movies.txt
+  #+end_src
+
+  #+RESULTS:
+  : Matrix
+  : Star Wars
+  : Home Alone
+  : Indiana Jones
+  : Back to the Future
+
+- Options or command-line arguments:
+  #+begin_quote
+  The CLI tools are functions, and options are their
+  arguments. E.g. ~head~ (open the ~man~ page):
+
+      head [OPTION] ... [FILE] ...
+
+  The ellipses mean that you can provide multiple arguments.        
+  #+end_quote
+
+  #+begin_src bash :results output :exports both
+    head -n 3 movies.txt
+  #+end_src
+
+  #+RESULTS:
+  : Matrix
+  : Star Wars
+  : Home Alone
+
+* Types of command-line tools
+#+attr_html: :width 400px :float nil:
+[[../img/11_cmdline.png]]
+
+- A command-line tool is any program that can be run on the CLI.
+
+- There are five types of tools: Binary executables, shell built-ins,
+  interpreted scripts, shell functions, and aliases.
+
+- *Binary executables:*
+  #+begin_quote
+  Machine code. Example: ~make~ a hello world C program. The binary
+  executable is the ~make~ target ~./hello~ at the very end.
+  #+end_quote
+
+  #+begin_src bash :results output :exports both
+    echo '#include <stdio.h>
+    int main()
+    {
+       printf("\nHello,world!");
+       return 0;
+    }' > hello.c # create it
+
+    cat hello.c # view it
+
+    make hello # build it
+
+    ./hello # run it
+  #+end_src
+
+- *Shell built-in functions*:
+  #+begin_quote
+  Command-line tools provided by the shell, like ~cd~ or ~pwd~. You can
+  check with ~type~.
+  #+end_quote
+
+  #+begin_src bash :results output :exports both
+    type cd
+    type pwd
+    type ls
+  #+end_src
+
+  #+RESULTS:
+  : cd is a shell builtin
+  : pwd is a shell builtin
+  : ls is /usr/bin/ls
+
+- *Interpreted scripts*:
+  #+begin_quote
+  A text file that is executed by a binary executable - e.g. R, Python
+  and ~bash~ scripts. Example: ~bash~ script.
+  #+end_quote
+
+  #+begin_src bash :results output :exports both
+    if [ -f "movies.txt" ]; then
+        echo '"movies.txt" file exists!'
+    else
+        echo 'No "movies.txt" file exists.'
+    fi
+    mv -v movies.txt Movies.txt
+  #+end_src
+
+- *Shell functions*:
+  #+begin_quote
+  
+  #+end_quote
+
+- *Aliases:*
+  #+begin_quote
+
+  #+end_quote
+
+
