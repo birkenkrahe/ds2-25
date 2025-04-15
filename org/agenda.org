@@ -2613,7 +2613,8 @@ Download the codealong file: [[https://tinyurl.com/functions-codealong][tinyurl.
 - [X] *New DataCamp lesson*: Downloading data on the command-line
 - [X] *New test on functions* (deadline this Friday)
 - [X] *New home assignment:* Script to function (deadline this Friday)
-- [X] Review of last week (Writing functions) & continue lesson
+- [X] *Review* of last week (Writing functions) & continue lesson
+- [ ] *DataCamp lessons*: Complete "Data Processing in Shell" by May 9th.
 
 ** DONE DataCamp lesson: Data Processing in Shell
 
@@ -2740,8 +2741,7 @@ Download the codealong file: [[https://tinyurl.com/functions-codealong][tinyurl.
   wget -O functions.org tinyurl.com/functions-codealong
 #+end_example
 
-
-** TODO My apologies - the price of research
+** DONE My apologies - the price of research
 #+attr_html: :width 400px :float nil:
 [[../img/colloq.png]]
 
@@ -2754,13 +2754,15 @@ AI for research purposes (to any extent: search, structure, writing).
 You'll pay a price because I'll be uncharacteristically scattered,
 and/or less prepared (all of the following lectures are brand-new).
 
-** TODO Installing and testing ~csvkit~
+** DONE Installing and testing ~csvkit~
 
 ~csvkit~ is a Python library of command-line data science functions.
 
 - Can you install ~csvkit~ locally? Try:
   #+begin_example
-  pip install --user csvkit &
+  which pip # if this works then try:
+  pip install --user csvkit &  # prefix with `sudo` if its your machine
+  ps 
   #+end_example
 
 - This will take quite a while
@@ -2775,13 +2777,100 @@ and/or less prepared (all of the following lectures are brand-new).
     csvcut --help
   #+end_src  
 
-** TODO Lecture/Practice: Data Science on the Command Line
+- To do: add ~~/.local/bin~ to the ~PATH~ of your computer
 
 
-* Week 13: Data cleaning and munging with ~xsv~ and ~csvkit~
-* Week 14: =SQL= Database operations on the command line with ~sql2csv~
-* Week 15: Optimizing code with =C++= and ~RCpp~
-* Week 16: Project presentations
+** NEXT Lecture/Practice: Data Science on the Command Line
+
+See also: DataCamp course "Introduction to Shell" (no prerequisites).
+
+- [X] Data science "pipe-mess" (OSEMN)
+- [X] What is the command line?
+- [X] Why is the command line awesome for data science?
+- [ ] Essential Unix concepts
+- [ ] Types of command-line tools
+- [ ] Combining command-line tools
+- [ ] Redirecting command-line tools
+- [ ] Working with files and directories
+- [ ] Managing output
+
+** TODO Review: OSEMN
+
+1. What does the acronym OSEMN stand for in the data science pipeline?
+   #+begin_quote
+   Obtain, Scrub, Explore, Model, Interpret
+   #+end_quote
+
+2. Which stage of the OSEMN framework typically takes up 80% of the
+   work in data science?
+   #+begin_quote
+   Scrub
+   #+end_quote
+
+3. What is one reason the data science pipeline is described as a
+   "pipe-mess"?
+   #+begin_quote
+   Because the steps aren't neatly separated in practice—they happen
+   all at once and repeatedly.
+   #+end_quote
+
+4. What are some common tasks in the “Scrub” step of the data science
+   pipeline?
+   #+begin_quote
+   Filtering lines, selecting columns, replacing values, removing
+   stopwords, handling missing data, converting formats
+   #+end_quote
+
+5. What are some common activities in the “Explore” stage of the OSEMN pipeline?
+   #+begin_quote
+   Viewing data structure, summarizing statistics, creating
+   visualizations, transforming data
+   #+end_quote
+
+6. Give an example of a modeling technique from the OSEMN pipeline.
+   #+begin_quote
+   k-means clustering, k-nearest neighbors, linear regression, neural
+   networks, principal components analysis
+   #+end_quote
+
+7. Why is the command-line considered “agile” for data science?
+   #+begin_quote
+   It provides a REPL (Read-Eval-Print-Loop) for quick interaction and
+   is close to the filesystem for fast access
+   #+end_quote
+
+8. How does the command-line support scalability in data science
+   workflows?
+   #+begin_quote
+   Through scripting, platform independence, automation (cron), remote
+   execution, and parallel processing
+   #+end_quote
+
+9. What makes the command-line “extensible”?
+   #+begin_quote
+   It's under active development, language-agnostic, open source, and
+   allows custom tool creation
+   #+end_quote
+
+10. List three reasons why the command-line is considered ubiquitous
+    in data science.
+    #+begin_quote
+    It comes with every Unix-like OS, runs on all supercomputers, and
+    is used on servers and embedded systems
+    #+end_quote
+
+11. Bonus question: which fun Unix programs were introduced? Name at
+    least one!
+    #+begin_example
+    fortune
+    yes
+    cowsay
+    sl
+    #+end_example    
+
+* Week 13: =SQL= Database operations on the command line with ~sql2csv~
+* Week 14: Optimizing code with =C++= and ~RCpp~
+* Week 15: Project presentations
 
 * Footnotes
 

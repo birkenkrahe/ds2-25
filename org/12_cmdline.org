@@ -152,7 +152,8 @@ The command-line is *agile*, *augmenting*, *scalable*, *extensible*, and
 
 - If you don't have Linux/Unix (macOS) but admin rights, you can get a
   *docker* container image (after downloading and installing
-  ~docker~). [[https://github.com/jeroenjanssens/data-science-at-the-command-line/tree/master][Details in the textbook]].
+  ~docker~). Details in the free textbook:
+  [[https://datascienceatthecommandline.com/][datascienceatthecommandline.com/]]
 
 - An alternative on Windoze is the ~Cygwin~ toolbox: [[https://cygwin.com/][cygwin.com/]] - a
   large collection of CLI tools (the next best thing to native Linux).
@@ -164,7 +165,7 @@ The command-line is *agile*, *augmenting*, *scalable*, *extensible*, and
   +----------------------+
             ↑
   +----------------------+
-  |      Terminal        |  <-- e.g., GNOME Terminal, xterm, eshell
+  |      Terminal        |  <-- e.g., terminal, xterm, eshell
   +----------------------+
             ↑
   +----------------------+
@@ -172,7 +173,7 @@ The command-line is *agile*, *augmenting*, *scalable*, *extensible*, and
   +----------------------+
             ↑
   +----------------------+
-  |   Operating System   |  <-- e.g., Linux, macOS
+  |   Operating System   |  <-- e.g., Linux, macOS, Windoze
   +----------------------+
   #+END_example
 
@@ -258,7 +259,8 @@ The command-line is *agile*, *augmenting*, *scalable*, *extensible*, and
 - The shell is an interpreter for command-line commands.
 
 - There are many shells starting with ~sh~, then ~bash~ (Bourne-Again
-  SHell), ~csh~ (C-language feel), ~zsh~ (now on MacOS see [[https://ohmyz.sh/][ohmyz.sh]]), etc.
+  SHell), ~csh~ (C-language feel), ~zsh~ (now on MacOS see [[https://ohmyz.sh/][ohmyz.sh]]), ~fish~
+  (friendly interactive shell), etc.
 
 - An overview:
      
@@ -268,6 +270,12 @@ The command-line is *agile*, *augmenting*, *scalable*, *extensible*, and
   | ~bash~  | Common | Excellent | Good                 | Good            |
   | ~csh~   | Old    | Fragile   | Decent               | Medium          |
   | ~zsh~   | Modern | Excellent | Excellent            | Very High       |
+
+- You can write a shell yourself in C (it's a common project at MIT,
+  UC Berkeley, Stanford U), check out e.g. the tutorial @ [[https://brennan.io][brennan.io]],
+  or [[https://craftinginterpreters.com][craftinginterpreters.com]] by Nystrom.
+
+  [[../img/craftinginterpreters.png]]
 
 * Layer 1 (process): Operating System (OS)
 
@@ -292,6 +300,28 @@ The command-line is *agile*, *augmenting*, *scalable*, *extensible*, and
 
 - GNU stands for "GNU's not UNIX".  
 
+- Example: Whenever you open a web page, the kernel builds a ~socket~ so
+  that your PC can send and receive data over the network.
+
+- Example: ~stdout~ (e.g. displaying this on the screen) is an
+  abstraction (a ~FILE~ with descriptor 1) managed by the kernel.
+
+  Writing a string to ~stdout~ (C program):
+  #+begin_src C :tangle fputs_example.c :main yes :includes <stdio.h>
+    fputs("Hello from fputs on the command-line!\n", stdout);
+  #+end_src
+
+  Building the program:
+  #+begin_src bash :results output :exports both
+    touch fputs_example.c
+    make fputs_example
+  #+end_src
+
+  Running the program on the shell
+  #+begin_src bash :results output :exports both
+    ./fputs_example
+  #+end_src
+
 * Using command-line tools / file system
 
 - Using these tools competently relies on your understanding of the
@@ -302,15 +332,22 @@ The command-line is *agile*, *augmenting*, *scalable*, *extensible*, and
   A full path that starts from the root ~/~ directory, and that always
   points to the same location no matter where you are.
   #+end_quote
+
+- Example: Your present working directory
   #+begin_src bash :results output :exports both
     pwd
   #+end_src
+
+  #+RESULTS:
+  : /home/aletheia/GitHub/admin/spring25/dsc205/org
   
 - Relative paths:
   #+begin_quote
   A path relative to your current working directory (~pwd~), and that
   depends on where you are in the file system.
   #+end_quote
+
+- Example: List all CSV files in ~../data/~
   #+begin_src bash :results output :exports both
     echo $(pwd)
     ls ../data/*.csv
@@ -319,12 +356,12 @@ The command-line is *agile*, *augmenting*, *scalable*, *extensible*, and
 - For the next example, put text a file ~movies.txt~, and then view the
   file with ~cat~:
   #+begin_src bash :results output :exports both
-    echo Matrix > movies.txt
-    echo Star Wars >> movies.txt
+    echo Matrix > movies.txt # redirect text to file (creating it)
+    echo Star Wars >> movies.txt  # append text to end of file
     echo Home Alone >> movies.txt
     echo Indiana Jones >> movies.txt
     echo Back to the Future >> movies.txt            
-    cat movies.txt
+    cat movies.txt # view file
   #+end_src
 
   #+RESULTS:
@@ -344,6 +381,7 @@ The command-line is *agile*, *augmenting*, *scalable*, *extensible*, and
   The ellipses mean that you can provide multiple arguments.        
   #+end_quote
 
+- Use ~head~ on =movies.txt=, printing the first three lines only:
   #+begin_src bash :results output :exports both
     head -n 3 movies.txt
   #+end_src
@@ -406,23 +444,171 @@ The command-line is *agile*, *augmenting*, *scalable*, *extensible*, and
   and ~bash~ scripts. Example: ~bash~ script.
   #+end_quote
 
-  #+begin_src bash :results output :exports both
+- *Example 1:* A script that checks if a file exists and copies it.
+  #+begin_src bash :results output :exports both :tangle movies.sh
+    #!/usr/bin/bash
     if [ -f "movies.txt" ]; then
-        echo '"movies.txt" file exists!'
+        cp -v movies.txt Movies.txt
     else
-        echo 'No "movies.txt" file exists.'
+        echo 'No "movies.txt" file to be found!'
     fi
-    mv -v movies.txt Movies.txt
   #+end_src
+
+  #+RESULTS:
+  : 'movies.txt' -> 'Movies.txt'
+
+- Could also have been a ~.sh~ program: tangle it, then run the
+  following commands to
+  1) view the file
+  2) check file permissions
+  3) change file permissions
+  4) run the file.
+  #+begin_src bash :results output :exports both
+    cat movies.sh # view file
+    ls -l movies.sh # long file listing
+    chmod +x movies.sh # change file permissions
+    ls -l movies.sh
+    ./movies.sh 2>&1 # redirect stderr to stdout
+  #+end_src
+
+  #+RESULTS:
+  : #!/usr/bin/bash
+  : if [ -f "movies.txt" ]; then
+  :     cp -v movies.txt Movies.txt
+  : else
+  :     echo 'No "movies.txt" file to be found!'
+  : fi
+  : -rwxrwxr-x 1 aletheia aletheia 130 Apr 15 09:27 movies.sh
+  : -rwxrwxr-x 1 aletheia aletheia 130 Apr 15 09:27 movies.sh
+  : 'movies.txt' -> 'Movies.txt'
+
+- The `shebang` =#!/usr/bin/bash= tells the kernel which program should
+  execute the script.
+
+- *Example 2:* A Python script that computes a factorial (n!)
+  #+begin_src python :tangle fac.py :results none :exports both :session *Python* :python python3 
+    #!/usr/bin/env python
+    def factorial(x):
+        result = 1
+        for i in range(2,x+1):
+            result *= i
+        return result
+
+    if __name__ == "__main__":
+        import sys
+        x = int(sys.argv[1])
+        sys.stdout.write(f"{factorial(x)}\n")
+  #+end_src
+
+- Tangle it, and then run it on the command-line:
+  #+begin_src bash :results output :exports both
+    ls -l fac.py
+    python3 fac.py 5
+  #+end_src
+
+  #+RESULTS:
+  : -rw-rw-r-- 1 aletheia aletheia 230 Apr 15 09:37 fac.py
+  : 120
+
+- Here, the shebang =#!/usr/bin/env python= runs the ~python~ program in a
+  modified environment. This is preferred to =#!/usr/bin/python= because
+  the location of the ~python~ program changes. ~env~ is more portable:
+  #+begin_src bash :results output :exports both
+    which python
+    which python3
+  #+end_src
+
+  #+RESULTS:
+  : /usr/bin/python3
 
 - *Shell functions*:
   #+begin_quote
-  
+  A function that is executed by the shell itself,
+  e.g. ~bash(1)~. Usually small, more personal.
   #+end_quote
+
+- Example 1: Shell function that does the same as =fac.py=
+  #+begin_src bash :results output :exports both
+    fac() { seq $1 | paste -s -d\* - | bc;}
+    fac 5
+  #+end_src
+
+  #+RESULTS:
+  : 120
+
+- Let's take it apart:
+  #+begin_src bash :results output :exports both
+    seq 5
+    seq 5 | paste -s -d\* -
+    seq 5 | paste -s -d\* - | bc    
+  #+end_src
+
+  #+RESULTS:
+  : 1
+  : 2
+  : 3
+  : 4
+  : 5
+  : 1*2*3*4*5
+  : 120
+  
+- Example 2: Converting a binary or a hexadecimal to a decimal.
+  #+begin_src bash :results output :exports both
+    echo "ibase=2; 10001110011" | bc
+    echo "ibase=16; 40DF" | bc   # 15*16^0+13*16^1+4*16^3
+  #+end_src
+
+  #+RESULTS:
+  : 1139
+  : 16607
+
+- As a shell function:
+  #+begin_src bash :results output :exports both
+    bin2dec() { echo "ibase=2; $1" | bc; }
+    bin2dec 10001110011
+    hex2dec() { echo "ibase=16; $1" | bc; }
+    hex2dec 40DF
+  #+end_src
+
+  #+RESULTS:
+  : 1139
+  : 16607
 
 - *Aliases:*
   #+begin_quote
-
+  Aliases are like macros - commands that you find yourself executing
+  all the time, or when you keep misspelling a certain command. They
+  don't allow parameters unlike shell functions.
   #+end_quote
+
+- Examples: Run these in a terminal
+  #+begin_example sh
+    alias lt='ls -lt'
+    lt mov*
+    alias l='ls --color -lhF --group-directories-first'
+  #+end_example
+
+- To see all existing aliases defined in ~~/.bashrc~, enter ~alias~.
+
+- Establish the ~type~ of the different functions and aliases created by
+  you: =fac=, =bin2dec=, =lt=, as well as ~pwd~, ~cd~.
+  #+begin_example
+  $ type -a fac bin2dec lt pwd cd
+  fac is a function
+  fac () 
+  { 
+      seq $1 | paste -s -d\* - | bc
+  }
+  bin2dec is a function
+  bin2dec () 
+  { 
+      echo "ibase=2; $1" | bc
+  }
+  lt is aliased to `ls -lt'
+  pwd is a shell builtin
+  pwd is /usr/bin/pwd
+  pwd is /bin/pwd
+  cd is a shell builtin
+  #+end_example
 
 
