@@ -16,15 +16,15 @@
 
 * Objectives
 
-- [ ] Data science pipeline (OSEMN)
-- [ ] What is the command line?
-- [ ] Why is the command line awesome for data science?
-- [ ] Essential Unix concepts
-- Types of command-line tools
-- Combining command-line tools
-- Redirecting command-line tools
-- Working with files and directories
-- Managing output
+- [X] Data science pipeline (OSEMN)
+- [X] What is the command line?
+- [X] Why is the command line awesome for data science?
+- [X] Essential Unix concepts
+- [X] Types of command-line tools
+- [ ] Combining command-line tools
+- [ ] Redirecting command-line tools
+- [ ] Working with files and directories
+- [ ] Managing output
 
 * Data science pipeline
 
@@ -610,5 +610,247 @@ The command-line is *agile*, *augmenting*, *scalable*, *extensible*, and
   pwd is /bin/pwd
   cd is a shell builtin
   #+end_example
+
+<<<<<<< HEAD
+* Combining command-line tools
+
+- Command-line tools are Unix tools: Designed to do one thing only and
+  do it well, i.e. fast and securely.
+
+- Combining these simple tools turns them into a powerful toolchain:
+  This is possible by managing the data streams (file descriptors).
+
+- File descriptors is how Unix manages processes. The data streams for
+  communication are:
+  1. *standard output* (~stdout~) - file descriptor 0
+
+  2. *standard input* (~stdin~) - file descriptor 1
+
+  3. *standard error* (~sterr~) - file descriptor 2
+
+- Both ~stdout~ and ~stderr~ are by default redirected to the terminal so
+  that normal output and error messages are printed on the screen:
+  #+attr_html: :width 600px :float nil:
+  #+caption: Source: Janssens, 2021 (p. 52)
+  [[../img/stream.png]]
+
+- If you run ~rev~, nothing happens because ~rev~ expects input from the
+  keyboard. To stop sending input, press CTRL-D.
+  #+begin_example
+   $ rev
+   Birkenkrahe
+   eharknekriB
+   Madam
+   madaM
+   Noon
+   nooN
+  #+end_example
+
+- With ~curl~, you can download a file and pipe it to ~grep~:
+  #+attr_html: :width 600px :float nil:
+  #+caption: Source: Janssens, 2021 (p. 52)
+  [[../img/stream2.png]]
+
+- Let's look at ~curl~ as an example for a program that scrapes data of
+  the web using URLs (Uniform Resource Locators = web IP addresses).
+
+* If you don't have ~curl~ - local install (or use Google Cloud Shell)
+
+1. Download the source
+   #+begin_src bash :results output :exports both
+     cd ~/Downloads
+     wget https://curl.se/download/curl-8.7.1.tar.gz
+   #+end_src
+
+2. Extract the archive
+   #+begin_src bash :results output :exports both
+     cd ~/Downloads
+     tar -xzf curl-8.7.1.tar.gz
+     cd curl-8.7.1
+     pwd
+   #+end_src
+
+   #+RESULTS:
+   : /home/aletheia/Downloads/curl-8.7.1
+
+3. Configure the build with a local prefix
+   #+begin_example bash
+     cd ~/Downloads/curl-8.7.1
+     ./configure --prefix=$HOME/.local --without-ssl
+     make -j4
+     make install
+   #+end_example
+
+4. Check that your =$PATH= contains ~~/.local/bin~ (otherwise add
+   =$HOME/.local/bin= to the =PATH= and =source ~/.bashrc=)
+   #+begin_src bash :results output :exports both
+     echo $PATH
+   #+end_src
+
+   #+RESULTS:
+   : /home/aletheia/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+
+5. Verify the local ~curl~
+   #+begin_src bash :results output :exports both
+     which -a curl
+     curl --version  # brand new local version - built here
+     /usr/bin/curl --version # older binary version - pre-installed
+   #+end_src
+
+   #+RESULTS:
+   #+begin_example
+   /home/aletheia/.local/bin/curl
+   /usr/bin/curl
+   /bin/curl
+   curl 8.7.1 (x86_64-pc-linux-gnu) libcurl/8.7.1 zlib/1.2.11 brotli/1.0.9 zstd/1.4.8 libidn2/2.3.2
+   Release-Date: 2024-03-27
+   Protocols: dict file ftp gopher http imap ipfs ipns mqtt pop3 rtsp smtp telnet tftp
+   Features: alt-svc AsynchDNS brotli IDN IPv6 Largefile libz threadsafe UnixSockets zstd
+   curl 7.81.0 (x86_64-pc-linux-gnu) libcurl/7.81.0 OpenSSL/3.0.2 zlib/1.2.11 brotli/1.0.9 zstd/1.4.8 libidn2/2.3.2 libpsl/0.21.0 (+libidn2/2.3.2) libssh/0.9.6/openssl/zlib nghttp2/1.43.0 librtmp/2.3 OpenLDAP/2.5.18
+   Release-Date: 2022-01-05
+   Protocols: dict file ftp ftps gopher gophers http https imap imaps ldap ldaps mqtt pop3 pop3s rtmp rtsp scp sftp smb smbs smtp smtps telnet tftp 
+   Features: alt-svc AsynchDNS brotli GSS-API HSTS HTTP2 HTTPS-proxy IDN IPv6 Kerberos Largefile libz NTLM NTLM_WB PSL SPNEGO SSL TLS-SRP UnixSockets zstd
+   #+end_example
+
+* Pipelining with ~curl~, ~grep~, ~tee~, and ~wc~
+
+- Example: Getting Alice in Wonderland from Project Gutenberg:
+  #+begin_src bash :results output :exports both
+    curl -s "https://gutenberg.org/files/11/11-0.txt"|grep "CHAPTER"
+  #+end_src
+
+  #+RESULTS:
+  #+begin_example
+   CHAPTER I.     Down the Rabbit-Hole
+   CHAPTER II.    The Pool of Tears
+   CHAPTER III.   A Caucus-Race and a Long Tale
+   CHAPTER IV.    The Rabbit Sends in a Little Bill
+   CHAPTER V.     Advice from a Caterpillar
+   CHAPTER VI.    Pig and Pepper
+   CHAPTER VII.   A Mad Tea-Party
+   CHAPTER VIII.  The Queen’s Croquet-Ground
+   CHAPTER IX.    The Mock Turtle’s Story
+   CHAPTER X.     The Lobster Quadrille
+   CHAPTER XI.    Who Stole the Tarts?
+   CHAPTER XII.   Alice’s Evidence
+  CHAPTER I.
+  CHAPTER II.
+  CHAPTER III.
+  CHAPTER IV.
+  CHAPTER V.
+  CHAPTER VI.
+  CHAPTER VII.
+  CHAPTER VIII.
+  CHAPTER IX.
+  CHAPTER X.
+  CHAPTER XI.
+  CHAPTER XII.
+  #+end_example
+
+- If you did not succeed in getting ~curl~ installed, you can also use ~wget~:
+  #+begin_src bash :results output :exports both
+    wget -O alice.txt https://gutenberg.org/files/11/11-0.txt
+    cat alice.txt | grep CHAPTER
+  #+end_src
+
+- To avoid the duplicate output, you've got to work a lot harder and
+  use so-called *regular expressions*.
+  #+begin_src bash :results output :exports both
+    curl -s "https://gutenberg.org/files/11/11-0.txt" | grep "CHAPTER" |
+    grep -vE '^CHAPTER [IVXLC]+\.?\s*$' | tee ch.txt
+  #+end_src
+
+  #+RESULTS:
+  #+begin_example
+   CHAPTER I.     Down the Rabbit-Hole
+   CHAPTER II.    The Pool of Tears
+   CHAPTER III.   A Caucus-Race and a Long Tale
+   CHAPTER IV.    The Rabbit Sends in a Little Bill
+   CHAPTER V.     Advice from a Caterpillar
+   CHAPTER VI.    Pig and Pepper
+   CHAPTER VII.   A Mad Tea-Party
+   CHAPTER VIII.  The Queen’s Croquet-Ground
+   CHAPTER IX.    The Mock Turtle’s Story
+   CHAPTER X.     The Lobster Quadrille
+   CHAPTER XI.    Who Stole the Tarts?
+   CHAPTER XII.   Alice’s Evidence
+  #+end_example
+
+- Do yourself a favor and learn to use regular expressions this
+  summer! The best way to do this is by picking up ~perl~ (see ~man~), an
+  ancient, very powerful text manipulation language, or ~sed~, the data
+  stream editor. More at: [[https://learn.perl.org/][learn.perl.org/]] and
+  [[https://linuxhandbook.com/sed-command-basics/][linuxhandbook.com/sed-command-basics/]]
+
+- You can extend the pipe to find out how many chapters there are:
+  #+begin_src bash :results output :exports both
+    cat ch.txt | wc -l
+  #+end_src
+
+  #+RESULTS:
+  : 12
+
+- Here, I used first ~tee~ in the previous statement to "tee off" the
+  output of ~grep~ to a file =ch.txt=, and then ran ~wc~ (word count) on the
+  file, counting the number of lines with the ~-l~ flag.
+
+- If you don't specify a flag, ~wc~ will return lines, then words, and
+  characters:
+  #+begin_src bash :results output :exports both
+    echo '  lines   words   chars' &&  # header
+        cat ch.txt | wc                # word count
+  #+end_src
+
+  #+RESULTS:
+  :   lines   words   chars
+  :      12      70     481
+
+* Redirecting Input and Output
+
+- Besides piping output from one tool to another tool, you can save it
+  to a file by redirecting the output.
+  #+attr_html: :width 600px :float nil:
+  [[../img/stream3.png]]
+
+  #+begin_src bash :results output :exports both
+    /usr/bin/curl "https://gutenberg.org/files/11/11-0.txt" | grep "CHAPTER" > chapter
+    head -n 3 chapter
+  #+end_src
+
+  #+RESULTS:
+  :  CHAPTER I.     Down the Rabbit-Hole
+  :  CHAPTER II.    The Pool of Tears
+  :  CHAPTER III.   A Caucus-Race and a Long Tale
+
+- Here, you will get the error message "=curl: (1) Protocol "https" not
+  supported=", if you used the =--without-ssl= option when building
+  it. Change to =http= instead.
+
+- To append the output to a file (after the original contents if any),
+  use =>>=
+  #+begin_src bash :results silent :exports both
+    echo -n "Hello," > greeting.txt # -n: do not output trailing newline
+    echo  " World!" >> greeting.txt
+  #+end_src
+
+- Can you view the file and count the number of words in two lines of
+  code?
+  #+begin_src bash :results output :exports both
+    cat greeting.txt
+    cat greeting.txt | wc -w
+  #+end_src
+
+  #+RESULTS:
+  : Hello, World!
+  : 2
+
+- The same result can be achieved by passing the file to ~stdout~ without
+  #+begin_src bash :results output :exports both
+    < greeting.txt wc -w
+  #+end_src  
+
+  #+RESULTS:
+  : 2
+
 
 

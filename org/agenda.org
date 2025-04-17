@@ -2606,7 +2606,7 @@ Download the codealong file: [[https://tinyurl.com/functions-codealong][tinyurl.
 #+end_example
 
 * Week 12: Data science on the command-line
-#+attr_html: :width 400px :float nil:
+#+attr_html: :width 200px :float nil:
 #+caption: Leonardo Da Vinci doing data science on the command-line
 [[../img/leonardo.png]]
 
@@ -2614,7 +2614,9 @@ Download the codealong file: [[https://tinyurl.com/functions-codealong][tinyurl.
 - [X] *New test on functions* (deadline this Friday)
 - [X] *New home assignment:* Script to function (deadline this Friday)
 - [X] *Review* of last week (Writing functions) & continue lesson
-- [ ] *DataCamp lessons*: Complete "Data Processing in Shell" by May 9th.
+- [X] *DataCamp lessons*: Complete "Data Processing in Shell" by May 9th.
+
+- [ ] *NO CLASS NEXT TUESDAY 22 APRIL*: Go to *11 AM* Honors Convocation.
 
 ** DONE DataCamp lesson: Data Processing in Shell
 
@@ -2627,7 +2629,9 @@ Download the codealong file: [[https://tinyurl.com/functions-codealong][tinyurl.
 
 ** DONE Review: Writing functions like a pro / "Tidyverse"
 
-*Popquiz! Time = 20 minutes - then 10 min review of the answers.*
+[[https://github.com/birkenkrahe/ds2-25/blob/main/pdf/popquiz_functions.pdf][Popquiz! (PDF)]]
+
+Time = 20 minutes - then 10 min review of the answers.
 
 1. Why would you create a function like ~calc_midrange~?
    #+begin_quote
@@ -2742,7 +2746,7 @@ Download the codealong file: [[https://tinyurl.com/functions-codealong][tinyurl.
 #+end_example
 
 ** DONE My apologies - the price of research
-#+attr_html: :width 400px :float nil:
+#+attr_html: :width 200px :float nil:
 [[../img/colloq.png]]
 
 Every 2 years or so I give a faculty colloquium that absorbs
@@ -2779,22 +2783,9 @@ and/or less prepared (all of the following lectures are brand-new).
 
 - To do: add ~~/.local/bin~ to the ~PATH~ of your computer
 
+** DONE Review: OSEMN
 
-** NEXT Lecture/Practice: Data Science on the Command Line
-
-See also: DataCamp course "Introduction to Shell" (no prerequisites).
-
-- [X] Data science "pipe-mess" (OSEMN)
-- [X] What is the command line?
-- [X] Why is the command line awesome for data science?
-- [ ] Essential Unix concepts
-- [ ] Types of command-line tools
-- [ ] Combining command-line tools
-- [ ] Redirecting command-line tools
-- [ ] Working with files and directories
-- [ ] Managing output
-
-** TODO Review: OSEMN
+[[https://github.com/birkenkrahe/ds2-25/blob/main/pdf/popquiz_OSEMN.pdf][Popquiz! (PDF)]]
 
 1. What does the acronym OSEMN stand for in the data science pipeline?
    #+begin_quote
@@ -2818,45 +2809,46 @@ See also: DataCamp course "Introduction to Shell" (no prerequisites).
    pipeline?
    #+begin_quote
    Filtering lines, selecting columns, replacing values, removing
-   stopwords, handling missing data, converting formats
+   stopwords, *handling missing data*, converting formats
    #+end_quote
 
 5. What are some common activities in the “Explore” stage of the OSEMN pipeline?
    #+begin_quote
-   Viewing data structure, summarizing statistics, creating
+   Viewing data structure, *summarizing statistics*, creating
    visualizations, transforming data
    #+end_quote
 
 6. Give an example of a modeling technique from the OSEMN pipeline.
    #+begin_quote
-   k-means clustering, k-nearest neighbors, linear regression, neural
+   k-means clustering, k-nearest neighbors, *linear regression*, neural
    networks, principal components analysis
    #+end_quote
 
 7. Why is the command-line considered “agile” for data science?
    #+begin_quote
-   It provides a REPL (Read-Eval-Print-Loop) for quick interaction and
-   is close to the filesystem for fast access
+   It provides a *REPL* (Read-Eval-Print-Loop) for quick interaction and
+   is close to the filesystem (to the OS/kernel) for fast access
    #+end_quote
 
-8. How does the command-line support scalability in data science
+8. How does the command-line support *scalability* in data science
    workflows?
    #+begin_quote
-   Through scripting, platform independence, automation (cron), remote
-   execution, and parallel processing
+   Through scripting, *platform independence*, automation (cron), *remote
+   execution*, and parallel processing
    #+end_quote
 
 9. What makes the command-line “extensible”?
    #+begin_quote
-   It's under active development, language-agnostic, open source, and
+   It's under active development, *language-agnostic*, *open source*, and
    allows custom tool creation
    #+end_quote
 
 10. List three reasons why the command-line is considered ubiquitous
     in data science.
     #+begin_quote
-    It comes with every Unix-like OS, runs on all supercomputers, and
-    is used on servers and embedded systems
+    It comes with every Unix-like OS, runs on all supercomputers and
+    grid computing networks, and is used on servers and embedded
+    systems
     #+end_quote
 
 11. Bonus question: which fun Unix programs were introduced? Name at
@@ -2867,6 +2859,108 @@ See also: DataCamp course "Introduction to Shell" (no prerequisites).
     cowsay
     sl
     #+end_example    
+
+
+** TODO Using GAI when doing research (help me help you)
+#+attr_html: :width 600px :float nil:
+[[../img/muse_or_tool.png]]
+
+- Please take 30 minutes to fill in my short *anonymous* survey:
+  [[https://tinyurl.com/ai-muse-or-tool-students][tinyurl.com/ai-muse-or-tool-students]]
+
+  1. *How are you using AI in your coursework?*
+
+  2. *Do you consider AI more of a muse or more of a tool?*
+
+  3. *What would you like to hear in my presentation?*
+
+- Please write as much as you can. We'll look at the results later.
+
+** TODO Project review
+
+- Write your abstract now without using any sources other that what's
+  in your head right now:
+
+  1. Current title of your project
+
+  2. A description of results you did obtain so far
+
+  3. A description of the results you did not obtain yet
+
+  4. A list of references that you remember by heart
+
+  5. Your greatest (non-trivial, i.e. not “time”) issue right now when
+     you think about the presentation.
+
+- Put your answer in this Google Docs file (find your project name):
+  [[https://tinyurl.com/dsc205-project-abstract][tinyurl.com/dsc205-project-abstract]]
+
+** For my own project (Faculty Colloquium presentation/paper/research)
+
+1. Title: "Artificial Intelligence - Muse or Tool"
+
+2. Results I obtained so far:
+
+   - Multiple conversations with two different GAI models on this and
+     other topics, which gave me the idea for the current topic.
+
+   - Multiple conversations with humans on aspects of the talk,
+     including: What exactly is research (then and today)? What is the
+     role of a muse in research, what is the role of digital tools, and
+     of non-digital tools?
+
+   - Many, many questions, few answers.
+
+   - A LaTeX slide deck that I'm not going to use.
+
+   - Many posters two of whom I'm going to use to market the talk.
+
+   - Abstract (250 words), several almost completely different
+     summaries.
+
+   - A list of lame AI jokes to open and close the talk with.
+
+   - A very long list of sources (papers, blogs, videos, etc.), probably
+     100-200 in total (I haven't listed them yet - should have!).
+
+   - A framework on working on a difficult research project with AI.
+
+3. Results I haven't got yet (but need):
+
+   - Slide deck.
+
+   - Entry and exit survey questions.
+
+   - Joke at the beginning and at the end.
+
+4. References
+
+   - Terence Tao video on using AI for math research.
+
+   - Video from Oxford Mathematics on math as a muse for philosophy.
+
+   - Stephen Wolfram's little book on ChatGPT (2023).
+
+5. Greatest issue for the upcoming presentation:
+
+   - Will I be able to do last-minute academic research?
+
+   - Which examples am I going to use?
+
+** IN_PROGRESS Lecture/Practice: Data Science on the Command Line
+
+See also: DataCamp course "Introduction to Shell" (no prerequisites).
+
+- [X] Data science "pipe-mess" (OSEMN)
+- [X] What is the command line?
+- [X] Why is the command line awesome for data science?
+- [ ] Essential Unix concepts
+- [ ] Types of command-line tools
+- [ ] Combining command-line tools
+- [ ] Redirecting command-line tools
+- [ ] Working with files and directories
+- [ ] Managing output
+
 
 * Week 13: =SQL= Database operations on the command line with ~sql2csv~
 * Week 14: Optimizing code with =C++= and ~RCpp~
