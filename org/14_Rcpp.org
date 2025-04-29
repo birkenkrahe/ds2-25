@@ -1,0 +1,536 @@
+#+TITLE: Introduction to Rcpp
+#+AUTHOR: Marcus Birkenkrahe
+#+SUBTITLE: Introduction to Advanced Data Science DSC 205 - Spring 2025
+#+OPTIONS: toc:nil
+#+STARTUP: overview hideblocks indent
+
+* What is Rcpp?
+
+- Rcpp is an R package that enables seamless integration of C++ code
+  into R.
+
+- It provides an easy API to expose C++ classes, functions, and data
+  structures to R.
+
+- Rcpp abstracts away the complexities of working directly with R's
+  SEXP types.
+
+* What are R's SEXP types?
+
+- SEXP stands for Symbolic EXPression: It's the C data type that the R
+  interpreter uses to represnt all R objects.
+
+- SEXP is defined as a pointer to a structure that describes what kind
+  of R object it is and holds its data:
+  #+begin_src C
+    typedef struct SEXPREC *SEXP;
+  #+end_src
+
+- This ~struct~ contains:
+  + The type (e.g. integer vector, function, environment...)
+  + The attributes (like ~class~ or ~dim~)
+  + The actual data.
+
+- A basic C function (multiplication by two) in R would look like
+  this:
+  #+begin_src C
+    SEXP timesTwo(SEXP x) {
+      SEXP out;
+      int n = LENGTH(x);
+      PROTECT(out = allocVector(REALSXP, n));
+      for (int i = 0; i < n; i++) {
+        REAL(out)[i] = 2 * REAL(x)[i];
+      }
+      UNPROTECT(1);
+      return out;
+    }
+  #+end_src
+
+- Rcpp wraps all this manual work behind C++ classes:
+  #+begin_src C++ :main yes :includes <iostream.h> <cstdlib.h> :results output :exports both
+    // [[Rcpp::export]]
+    NumericVector timesTwo(NumericVector x) {
+      return x * 2;
+    }
+  #+end_src
+
+* Why would I want to use C/C++ functions with R?
+
+- Even simple operations in R can be slow when very large vectors are
+  processed, custom functions are needed and memory overhead is high.
+
+- Example: A pure R loop over 10 million elements would be much slower
+  than a compiled C++ loop.
+
+* Evaluating Simple C++ with =evalCpp=
+
+- =evalCpp= evaluates one-line C++ expressions inside R.
+- Useful for quick experiments.
+
+#+begin_src R :session *R* :results output :exports both
+  library(Rcpp)
+
+  evalCpp("40 + 2")
+  evalCpp("exp(1.0)")
+  evalCpp("sqrt(4.0)")
+  evalCpp("std::numeric_limits<int>::max()")
+#+end_src
+
+#+RESULTS:
+: [1] 42
+: [1] 2.718282
+: [1] 2
+: [1] 2147483647
+
+- *Important*: C++ distinguishes integers and doubles carefully.
+- Integer division:
+  #+begin_src R :session *R* :results output :exports both
+  evalCpp("13 / 4")            # 3 (integer division)
+  evalCpp("(double)13 / 4")    # 3.25 (floating point division)
+#+end_src
+
+#+RESULTS:
+: [1] 3
+: [1] 3.25
+
+* Quick Example
+
+- Multiply a vector by two.
+
+- Write it as an R script:
+  #+begin_src R :session *R* :results output :exports both
+                                            # Load Rcpp
+    library(Rcpp)
+
+    ## Define C++ function `timesTwo`
+    Rcpp::cppFunction('
+    NumericVector timesTwo(NumericVector x) {
+          return x * 2;
+        }')
+
+    ## Function call
+    timesTwo(c(1,2,3))
+  #+end_src
+
+  #+RESULTS:
+  : [1] 2 4 6
+
+- Check out the function code:
+  #+begin_src R :session *R* :results output :exports both
+    timesTwo
+  #+end_src
+
+  #+RESULTS:
+  : function (x)
+  : .Call(<pointer: 0x715ecd743520>, x)
+
+- Compare the R standard with the compiled function for a very large
+  vector:
+  #+begin_src R :session *R* :results output :exports both
+    x <- runif(1e9)
+    system.time(x * 2)
+    system.time(timesTwo(x))
+  #+end_src
+
+  #+RESULTS:
+  : user  system elapsed
+  :   0.535   1.200   1.735
+  : user  system elapsed
+  :   0.748   1.195   1.943
+
+- Alternatively, you can also write a C++ file, compile and load it
+  with ~sourceCpp~ in an R script.
+
+  1) Tangle C++ program
+     #+begin_src C++ :tangle two.cpp :main no :includes
+       #include <Rcpp.h>
+       using namespace Rcpp;
+
+       // [[Rcpp::export]]
+       NumericVector timesTwo2(NumericVector x) {
+         return x * 2;
+       }
+     #+end_src
+
+  2) Compile, load and run function in R:
+     #+begin_src R :session *R* :results output :exports both
+       library(Rcpp)
+
+       ## Compile and load
+       sourceCpp(file="two.cpp")
+
+       ## Now call the function
+       timesTwo2(c(1,2,3,4))
+     #+end_src
+
+     #+RESULTS:
+     : [1] 2 4 6 8
+
+* Extended example
+
+- Double each element of a million-row matrix, element-wise: Tangle
+  the R script and send it off as a batch job.
+  #+begin_src R :tangle M.R :session *R* :results none
+    M <- matrix(runif(1e9),ncol=1000)
+    system.time(M2 <- M * 2)
+  #+end_src
+
+- Run it:
+  #+begin_example bash
+  R CMD BATCH M.R &
+  ps
+  #+end_example
+
+- Check the result with =cat M.Rout= once the batch job is done.
+
+- That's fine. Now suppose:
+  1) Only double even rows
+  2) Apply custom rounding
+  3) Handle missing values specifically
+
+- In R and C++, a double (~numeric~) takes 8 bytes, that means 8GB. With
+  temporary copies, overhead, garbage collection, OS memory etc. this
+  is closer to 16GB. If you don't have that RAM available, you burn.
+
+- A full script for a batch job (=M2.R=):
+  #+begin_src R :session *R* :results none :exports both :tangle M2.R
+    #!/usr/bin/env Rscript
+
+    ## Load necessary libraries
+    library(Rcpp)
+
+    ## Compile the Rcpp function
+    Rcpp::cppFunction('
+    NumericMatrix customTimes(NumericMatrix M) {
+      int nrow = M.nrow(), ncol = M.ncol();
+      for (int i = 0; i < nrow; ++i) {
+        for (int j = 0; j < ncol; ++j) {
+          if (i % 2 == 0)
+            M(i, j) *= 2;
+          else
+            M(i, j) *= 3;
+        }
+      }
+      return M;
+    }
+    ')
+
+    ## Start timing
+    start_time <- Sys.time()
+
+    ## Configure matrix size
+    n_elements <- 1e9          ## Total number of elements
+    n_cols <- 1000             ## Number of columns
+    n_rows <- n_elements / n_cols
+
+    ## Generate large random matrix
+    cat("Generating matrix...\n")
+    M <- matrix(runif(n_elements), nrow = n_rows, ncol = n_cols)
+
+    ## Garbage collect before heavy operation
+    gc()
+
+    ## Apply the C++ function
+    cat("Processing matrix with C++ function...\n")
+    M_processed <- customTimes(M)
+
+    ## Optional: Save output to file (e.g., RDS format for efficiency)
+    cat("Saving processed matrix...\n")
+    saveRDS(M_processed, file = "processed_matrix.rds")
+
+    ## Clean up
+    rm(M)
+    rm(M_processed)
+    gc()
+
+    ## End timing
+    end_time <- Sys.time()
+    elapsed <- end_time - start_time
+
+    ## Report
+    cat("Batch job completed successfully.\n")
+    cat(sprintf("Elapsed time: %.2f minutes\n", as.numeric(elapsed, units="mins")))
+  #+end_src
+
+- Batch job result (=M2.Rout=):
+  #+begin_example
+
+  R version 4.1.2 (2021-11-01) -- "Bird Hippie"
+  Copyright (C) 2021 The R Foundation for Statistical Computing
+  Platform: x86_64-pc-linux-gnu (64-bit)
+
+  R is free software and comes with ABSOLUTELY NO WARRANTY.
+  You are welcome to redistribute it under certain conditions.
+  Type 'license()' or 'licence()' for distribution details.
+
+    Natural language support but running in an English locale
+
+  R is a collaborative project with many contributors.
+  Type 'contributors()' for more information and
+  'citation()' on how to cite R or R packages in publications.
+
+  Type 'demo()' for some demos, 'help()' for on-line help, or
+  'help.start()' for an HTML browser interface to help.
+  Type 'q()' to quit R.
+
+  ,*** Loaded .Rprofile ***
+  > #!/usr/bin/env Rscript
+  > 
+  > ## Load necessary libraries
+  > library(Rcpp)
+  > 
+  > ## Compile the Rcpp function
+  > Rcpp::cppFunction('
+  + NumericMatrix customTimes(NumericMatrix M) {
+  +   int nrow = M.nrow(), ncol = M.ncol();
+  +   for (int i = 0; i < nrow; ++i) {
+  +     for (int j = 0; j < ncol; ++j) {
+  +       if (i % 2 == 0)
+  +         M(i, j) *= 2;
+  +       else
+  +         M(i, j) *= 3;
+  +     }
+  +   }
+  +   return M;
+  + }
+  + ')
+  > 
+  > ## Start timing
+  > start_time <- Sys.time()
+  > 
+  > ## Configure matrix size
+  > n_elements <- 1e9          ## Total number of elements
+  > n_cols <- 1000             ## Number of columns
+  > n_rows <- n_elements / n_cols
+  > 
+  > ## Generate large random matrix
+  > cat("Generating matrix...\n")
+  Generating matrix...
+  > M <- matrix(runif(n_elements), nrow = n_rows, ncol = n_cols)
+  > 
+  > ## Garbage collect before heavy operation
+  > gc()
+               used   (Mb) gc trigger    (Mb)   max used    (Mb)
+  Ncells     378711   20.3     679020    36.3     679020    36.3
+  Vcells 1000634700 7634.3 2402854623 18332.4 2000635685 15263.7
+  > 
+  > ## Apply the C++ function
+  > cat("Processing matrix with C++ function...\n")
+  Processing matrix with C++ function...
+  > M_processed <- customTimes(M)
+  > 
+  > ## Optional: Save output to file (e.g., RDS format for efficiency)
+  > cat("Saving processed matrix...\n")
+  Saving processed matrix...
+  > saveRDS(M_processed, file = "processed_matrix.rds")
+  #+end_example
+  
+- Explanation: ~gc()~ prints memory management stats:
+
+  1) Ncells are (internal) R cells - uses 20-36 MByte - no problem.
+
+  2) Vcells are vector cells (numeric arrays):
+     + =used=: Currently allocated (~ 1e9 elements)
+     + =(Mb)=: Memory size used (~ 7.6 GB)
+     + =gc trigger=: Threshold where garbage collection will trigger(~
+       18 GB)
+     + =max used=: Maximum vector cells used at any point (~ 15 GB).
+
+- What does this tell us?
+  1) The 1e9 (1 bn) element matrix is successfully allocated (7.6 GB).
+  2) R's garbage collector is not panicked yet (otherwise abort).
+  3) Peak memory much higher (temporary copies?).
+
+- You need to consider
+  1) Optimize by processing operation in chunks or use external memory.
+  2) Free up memory manually by using ~rm~ and ~gc~.
+  3) Redesign your algorithm to avoid temporary object storage.
+
+* Rcpp magic vs. R vs. Python
+
+- But why does ~Rcpp~ not magically speed up the program?
+  #+begin_quote
+  Rcpp speeds up computation but does not bypass R's memory model. To
+  get manual memory control, use Rcpp pointer / memory functions.
+
+  | Feature             | Rcpp                   | R memory manager           |
+  |---------------------+------------------------+----------------------------|
+  | What it controls    | How fast C++ computes  | How objects are allocated  |
+  | Who owns the memory | Still R (can override) | R's garbage collector (GC) |
+  | Who triggers GC     | Still R                | R                          |
+  | Where objects live  | In R’s memory heap     | In R’s memory heap         |
+
+  Rcpp makes things faster, but to make things bigger without GC
+  problems, you need external memory or hardware with more RAM.
+  #+end_quote
+
+- Is the situation any better with Python (regarding memory control)?
+  #+begin_quote
+  Only slightly: Python is still garbage-collected, multithreading
+  (C++ true strength) is limited by Python's Global Interpreter Lock
+  (only one thread of Python bytecode can run at a time even on
+  multi-core systems), and there is wrapping/unwrapping overhead.
+  #+end_quote
+
+* Debugging: Print and Error Handling
+
+- Use =Rprintf()= to print from inside C++ functions:
+#+begin_src R
+  cppFunction('
+  int fun() {
+    int x = 42;
+    Rprintf("Hello from C++, x=%d\\n", x);
+    return x;
+  }
+  ')
+
+  fun()
+#+end_src
+
+- Throw errors using =stop()=:
+#+begin_src R
+  cppFunction('
+  int checkPositive(int x) {
+    if (x < 0) stop("x must be positive");
+    return x;
+  }
+  ')
+
+  checkPositive(-1)
+#+end_src
+
+** Practice: Debugging
+
+- Write a C++ function that:
+  - Takes an integer.
+  - If negative, throws an error.
+  - Otherwise, returns the square of the number.
+
+* Homework / Extended Practice (Optional)
+
+1. Write a C++ function that:
+   - Takes a numeric vector (use =NumericVector=).
+   - Returns the maximum element.
+   - (Hint: use a for-loop inside C++.)
+
+2. Compare timing:
+   - =max(x)= in R
+   - Your C++ function on the same data.
+
+#+begin_src R
+  cppFunction('
+  double myMax(NumericVector x) {
+    int n = x.size();
+    double res = x[0];
+    for (int i = 1; i < n; ++i) {
+      if (x[i] > res) res = x[i];
+    }
+    return res;
+  }
+  ')
+
+  x <- rnorm(1e6)
+  microbenchmark(myMax(x), max(x))
+#+end_src
+
+* Solutions to Quick Practice Exercises
+
+** Quick Practice 1 Solution
+
+- Benchmark a custom sum function:
+
+#+begin_src R
+mysum <- function(x) {
+  res <- 0
+  for (i in seq_along(x)) {
+    res <- res + x[i]
+  }
+  res
+}
+
+library(microbenchmark)
+x <- rnorm(1e6)
+microbenchmark(mysum(x), sum(x))
+#+end_src
+
+Expected: =mysum()= will be much slower than =sum()=.
+
+** Quick Practice 2 Solution
+
+- Integer division:
+#+begin_src R
+evalCpp("15 / 6")          # => 2 (integer division)
+evalCpp("(double)15 / 6")  # => 2.5 (floating point division)
+#+end_src
+
+- Maximum value for a double:
+#+begin_src R
+evalCpp("std::numeric_limits<double>::max()")
+#+end_src
+
+Expected result: around 1.797693e+308.
+
+** Quick Practice 3 Solution
+
+- C++ function to multiply two numbers:
+#+begin_src R
+cppFunction('
+double multiply(double x, double y) {
+  return x * y;
+}
+')
+
+multiply(6, 7)
+#+end_src
+
+- C++ function to square a number:
+#+begin_src R
+cppFunction('
+double square(double x) {
+  return x * x;
+}
+')
+
+square(5)
+#+end_src
+
+** Quick Practice 4 Solution
+
+- Function that checks positivity and returns the square:
+
+#+begin_src R
+cppFunction('
+int check_and_square(int x) {
+  if (x < 0) stop("x must be non-negative");
+  return x * x;
+}
+')
+
+check_and_square(5)   # returns 25
+check_and_square(-2)  # throws error
+#+end_src
+
+** Homework / Extended Practice Solution
+
+- Function to find maximum element in a =NumericVector=:
+
+#+begin_src R
+cppFunction('
+double myMax(NumericVector x) {
+  int n = x.size();
+  double res = x[0];
+  for (int i = 1; i < n; ++i) {
+    if (x[i] > res) res = x[i];
+  }
+  return res;
+}
+')
+
+x <- rnorm(1e6)
+library(microbenchmark)
+microbenchmark(myMax(x), max(x))
+#+end_src
+
+Expected: =myMax(x)= will be very fast, close to =max(x)= speed.
+
+
