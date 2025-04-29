@@ -3010,7 +3010,7 @@ See also: DataCamp course "Introduction to Shell" (no prerequisites).
     grid(col="gray")
   #+end_src
 
-** TODO Popquiz - Review "Data science on the command-line"
+** TODO Review (ungraded popquiz) "DS @ CLI"
 
 1. Where does the *absolute path*, where does the *relative path* begin?
    #+begin_quote
@@ -3083,7 +3083,6 @@ See also: DataCamp course "Introduction to Shell" (no prerequisites).
     #+begin_quote
     ~tr -d '\r'~
     #+end_quote
-
 
 ** TODO Finish "Data science on the command-line"
 
