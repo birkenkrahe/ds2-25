@@ -3102,7 +3102,6 @@ See also: DataCamp course "Introduction to Shell" (no prerequisites).
   #+RESULTS:
   [[file:plot.png]]
 
-
 ** DONE Finish "Data science on the command-line"
 
 - Go to Google Cloud Shell: =ide.cloud.google.com=.
@@ -3184,8 +3183,6 @@ See also: DataCamp course "Introduction to Shell" (no prerequisites).
     #+end_quote
 
 
-** DONE Finish "Data science on the command-line"
-
 ** TODO First presentation!
 #+attr_html: :width 400px :float nil:
 #+caption: C Del Gobbo (SCARF, 2025)
@@ -3197,6 +3194,9 @@ See also: DataCamp course "Introduction to Shell" (no prerequisites).
 - At the end, I'll invite comments for improvement.
 
 ** TODO Optimizing code with C++ and Rcpp (quick demo)
+#+attr_html: :width 400px :float nil:
+#+Caption: R Logo - Rcpp is a true R extension package
+[[../img/rcpp_logo.png]]
 
 - Rcpp is an R wrapper package for C++.
 - It makes R much faster re: computations.
@@ -3204,3 +3204,34 @@ See also: DataCamp course "Introduction to Shell" (no prerequisites).
 - We compare R, C++, and Python.
 
 Download [[https://tinyurl.com/rcpp-codealong][tinyurl.com/rcpp-codealong]]
+
+** TODO What you should look into
+#+attr_html: :width 400px :float nil:
+#+caption: Things to look into - the excitement is palpable!
+[[../img/reading.png]]
+
+- Mastering Git with an origin/remote setup (multiple clients).
+- Data Science from scratch (Joel Grus, O'Reilly 2019).
+- [Math] Foundations of Data Science (Blum/Hopcroft/Kannan, CUP 2020).
+- Infrastructure: Docker & Kubernetes application containers.
+- Read papers (preprints mostly) & blogs on topics that interest you.
+
+*Lyon College Courses*:
+| CSC 240 | Data structures (with C++)       | FA25 | Birkenkrahe |
+| DSC 271 | Introduction to generative AI    | FA25 | Rize        |
+| CSC 482 | Mathematics for Deep learning    | FA25 | Dall'Olio   |
+| DSC 482 | Intro to Reinforcement learning  | FA25 | Dall'Olio   |
+|---------+----------------------------------+------+-------------|
+| DSC 272 | Careers in AI                    | SP26 | Rize        |
+| CSC 330 | Database Theory and Applications | SP26 | Dall'Olio   |
+| DSC 373 | Predictive Modeling in AI        | SP26 | Rize        |
+| DSC 482 | Coding with AI                   | SP26 | Birkenkrahe |
+| CSC 265 | Algorithms                       | SP26 | Dall'Olio   |
+|---------+----------------------------------+------+-------------|
+| DSC 302 | Data Visualization               | FA26 | Birkenkrahe |
+| DSC 474 | Prescriptive AI                  | FA26 | Rize        |
+|---------+----------------------------------+------+-------------|
+| DSC 305 | Machine Learning                 | SP27 | Birkenkrahe |
+| DSC 450 | Data Science independent study   | SP27 | Staff       |
+
+
