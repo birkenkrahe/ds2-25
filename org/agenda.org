@@ -2982,40 +2982,27 @@ See also: DataCamp course "Introduction to Shell" (no prerequisites).
 [[../img/wrap.png]]
 
 *Decision time*:
-- [ ] We need 2 presentations on Thursday, May 1.
-- [ ] The rest of you will present next week.
+- [X] We need 2 presentations on Thursday, May 1.
+- [X] You'll be trailblazing for others! Bonus mind!
+- [X] The rest of you will present next week.
 
 *Topics*:
-- [ ] *Course Evaluations*: Take 10 minutes to evaluate this course!
-- [ ] *Popquiz!* Pre-view for test 7 (due Tue May 6th).
-- [ ] *Finish:* We'll finish command line data science!
-- [ ] *Optimize:* We'll take a peek at the Rcpp package.
+- [X] *Course Evaluations*: Take 10 minutes to evaluate this course!
+- [X] *Popquiz!* Pre-view for test 7 (due Tue May 6th).
+- [X] *Finish:* We'll finish command line data science!
+- [X] *Optimize:* We'll take a peek at the Rcpp package.
 
-** TODO Final presentations May 1, 6, 8
-#+attr_html: :width 400px :float nil:
-[[../img/sacrifice.png]]
+*Grading:*
+- [X] Test 7 (command-line, May 6th) & test 8 (csvkit, May 9th)
+- [X] Remember the DataCamp course deadline (May 9th)
+- [X] Submit missed assignments (DataCamp or homework) for 50%
 
-- Go through the checklist in Canvas/GitHub!
-- Rehearse with an audience!
-- Test the technology before the presentation!
-- Contact me if you have any questions!
-- Don't forget to build your GitHub portfolio!
-  #+begin_src R :file plot.png :session *R* :results graphics output file :exports both
-    contrib <- ts(data=c(76,2141,3704,2454,2998,1075),
-                  start=2020)
-    plot(contrib,
-         main=paste("GitHub contributions 2020-2025 = ", sum(contrib)),
-         xlab="year",ylab="Number of contributions",
-         type="b")
-    grid(col="gray")
-  #+end_src
-
-** TODO Review (ungraded popquiz) "DS @ CLI"
+** DONE Review (ungraded popquiz) "DS @ CLI"
 
 1. Where does the *absolute path*, where does the *relative path* begin?
    #+begin_quote
    - An absolute path starts from the root (~/~), independent of the
-     current working directory.
+     current working directory (or =C:= on Windows).
    - A relative path starts from whereever you are right now.
    #+end_quote
 
@@ -3029,7 +3016,10 @@ See also: DataCamp course "Introduction to Shell" (no prerequisites).
    Options (or 'flags') are arguments that modify the behavior of a
    command-line tool. For ~ls~, examples are ~-lt~ (long, time-ordered).
    #+end_quote
-
+   #+begin_src bash :results output
+     ls -lt ..
+   #+end_src
+   
 4. What are the five types of command-line tools?
    #+begin_quote
    Binary executables, shell built-ins, interpreted scripts, shell
@@ -3042,7 +3032,13 @@ See also: DataCamp course "Introduction to Shell" (no prerequisites).
    #+end_quote
    #+begin_src bash :results output :exports both
      type cd
+     type -a curl
    #+end_src
+
+   #+RESULTS:
+   : cd is a shell builtin
+   : curl is /usr/bin/curl
+   : curl is /bin/curl
 
 6. What does the *shebang* line (e.g., ~#!/usr/bin/bash~) specify?
    #+begin_quote
@@ -3052,7 +3048,7 @@ See also: DataCamp course "Introduction to Shell" (no prerequisites).
 7. What does ~curl~ do in the context of command-line tools?
    #+begin_quote
    It retrieves data from URLs over supported protocols (like HTTP,
-   FTP) but it does not store it in a file unless redirected to do so.
+   FTP) but it does not store it in a file unless *redirected* to do so.
    #+end_quote
 
 8. Why is ~>~ called the data "re-direction" symbol? Why not just
@@ -3084,7 +3080,29 @@ See also: DataCamp course "Introduction to Shell" (no prerequisites).
     ~tr -d '\r'~
     #+end_quote
 
-** TODO Finish "Data science on the command-line"
+** DONE Final presentations May 1, 6, 8
+#+attr_html: :width 400px :float nil:
+[[../img/sacrifice.png]]
+
+- Go through the checklist in Canvas/GitHub!
+- Rehearse with an audience!
+- Test the technology before the presentation!
+- Contact me if you have any questions!
+- Don't forget to build your GitHub portfolio!
+  #+begin_src R :file plot.png :session *R* :results graphics output file :exports both
+    contrib <- ts(data=c(76,2141,3704,2454,2998,1075),
+                  start=2020)
+    plot(contrib,
+         main=paste("GitHub contributions 2020-2025 = ", sum(contrib)),
+         xlab="year",ylab="Number of contributions",
+         type="b")
+    grid(col="gray")
+  #+end_src
+
+  #+RESULTS:
+  [[file:plot.png]]
+
+** DONE Finish "Data science on the command-line"
 
 - Go to Google Cloud Shell: =ide.cloud.google.com=.
 
@@ -3096,3 +3114,5 @@ See also: DataCamp course "Introduction to Shell" (no prerequisites).
 - It makes R much faster re: computations.
 - It doesn't help much with regard to memory.
 - We compare R, C++, and Python.
+
+Download [[https://tinyurl.com/rcpp-codealong][tinyurl.com/rcpp-codealong]]
