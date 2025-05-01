@@ -92,17 +92,6 @@
     ls("package:Rcpp")
   #+end_src
 
-  #+RESULTS:
-  : [1] "compileAttributes"      "cpp_object_dummy"       "cpp_object_initializer"
-  :  [4] "cppFunction"            "demangle"               "evalCpp"
-  :  [7] "exposeClass"            "formals<-"              "getRcppVersion"
-  : [10] "initialize"             "LdFlags"                "loadModule"
-  : [13] "loadRcppClass"          "loadRcppModules"        "Module"
-  : [16] "populate"               "prompt"                 "Rcpp.package.skeleton"
-  : [19] "Rcpp.plugin.maker"      "RcppLdFlags"            "registerPlugin"
-  : [22] "setRcppClass"           "show"                   "sizeof"
-  : [25] "sourceCpp"
-
 - =evalCpp= evaluates one-line C++ expressions inside R.
 
 - Useful for quick experiments:
@@ -114,12 +103,6 @@
     evalCpp("sqrt(4.0)")
     evalCpp("std::numeric_limits<int>::max()")
   #+end_src
-
-  #+RESULTS:
-  : [1] 42
-  : [1] 2.718282
-  : [1] 2
-  : [1] 2147483647
 
 - Here ~std::numeric_limits<T>~ is a template class in the ~<limits>~
   header file with information about the properties of arithmetic
@@ -135,13 +118,6 @@
     13/4 # numeric treated as double in R by default
     as.double(13)/as.double(4)
   #+end_src
-
-  #+RESULTS:
-  : [1] 3
-  : [1] 3.25
-  : [1] "double"
-  : [1] 3.25
-  : [1] 3.25
 
 * Quick Example
 
@@ -162,19 +138,12 @@
     timesTwo(c(1,2,3))
   #+end_src
 
-  #+RESULTS:
-  : [1] 2 4 6
-
 - Check out the function code:
   #+begin_src R :session *R* :results output :exports both
     timesTwo
   #+end_src
 
-  #+RESULTS:
-  : function (x)
-  : .Call(<pointer: 0x752946a85520>, x)
-
-- Compare the R standard with the compiled function for a very large
+- Compare the R standard with the compiled function for a large
   vector (10^7 elements):
   #+begin_src R :session *R* :results output :exports both
     x <- runif(1e7)
@@ -182,15 +151,8 @@
     system.time(timesTwo(x))
   #+end_src
 
-  #+RESULTS:
-  : user  system elapsed
-  :   0.019   0.011   0.031
-  : user  system elapsed
-  :   0.008   0.013   0.021
-
 - Alternatively, you can also write a C++ file, compile and load it
   with ~sourceCpp~ in an R script.
-
   1) Tangle C++ program
      #+begin_src C++ :tangle two.cpp :main no :includes
        #include <Rcpp.h>
@@ -212,9 +174,6 @@
        timesTwo2(c(1,2,3,4))
      #+end_src
 
-     #+RESULTS:
-     : [1] 2 4 6 8
-
 * Extended example
 
 - Double each element of a million-row matrix, element-wise: Tangle
@@ -234,16 +193,6 @@
   #+begin_src bash :results output :exports both
     tail -n 8 M.Rout
   #+end_src
-
-  #+RESULTS:
-  : > M <- matrix(runif(1e7),ncol=1000)
-  : > system.time(M2 <- M * 2)
-  :    user  system elapsed
-  :   0.004   0.012   0.017
-  : >
-  : > proc.time()
-  :    user  system elapsed
-  :   0.716   0.094   0.785
 
 - Explanation:
   1) ~user~: Time spent in R code (CPU time)
@@ -320,7 +269,7 @@
     cat(sprintf("Elapsed time: %.2f minutes\n", as.numeric(elapsed, units="mins")))
   #+end_src
 
-- Batch job result (=M2.Rout=):
+- Batch job result: look at =M2.Rout=
   #+begin_example
 
   R version 4.1.2 (2021-11-01) -- "Bird Hippie"
@@ -457,10 +406,6 @@
     fun()
   #+end_src
 
-#+RESULTS:
-: Hello from C++, x=42
-: [1] 42
-
 - Throw errors using =stop()=:
   #+begin_src R :session *R* :results output :exports both
     cppFunction('
@@ -473,8 +418,6 @@
     checkPositive(-1)
   #+end_src
 
-#+RESULTS:
-: Error: x must be positive
 * Exercise: Safe Square Root with Rcpp
 
 - Write an Rcpp function that safely computes the square root of a
@@ -532,57 +475,6 @@
 
     ## Try it out
   #+end_src
-
-* Solution
-
-#+begin_src R :session *R* :results output :exports both
-  ## Load Rcpp
-  library(Rcpp)
-  ## Rcpp function
-  ## BEGIN API
-  cppFunction('
-    // Define a function that takes a numeric vector x
-    // Return type: numeric vector
-    NumericVector safeSqrt(NumericVector x)
-    { // BEGIN
-      int n = x.size(); // SET n TO size of x
-      double sum = 0; // SET sum TO 0
-
-      // FOR i FROM 0 TO n-1; DO
-      for (int i = 0; i < n; i++) {
-        // IF x[i] < 0; THEN
-        if (x[i] < 0) {
-          // THROW error "Negative values not allowed!"
-          stop("Negative values not allowed!");
-        } // ENDIF
-        sum += x[i]; // SET sum TO sum + x[i]
-      } // END FOR
-
-      // PRINT "Mean input value: ", sum / n
-      Rprintf("Mean input value: %.2f\\n", sum / n);
-
-      // CREATE output vector of size n
-      NumericVector out(n);
-      // FOR i FROM 0 TO n-1; DO
-      for (int i = 0; i < n; i++) {
-        // SET out[i] TO sqrt(x[i])
-        out[i] = sqrt(x[i]);
-      } // END FOR
-
-      // RETURN out
-      return out;
-    } // END
-    ') ## END API
-
-  ## Try it out
-  safeSqrt(c(1, 4, 9))
-  safeSqrt(c(1, -2, 4))  # should trigger error
-#+end_src
-
-#+RESULTS:
-: Mean input value: 4.67
-: [1] 1 2 3
-: Error: Negative values not allowed!
 
 * More information
 
