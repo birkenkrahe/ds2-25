@@ -3205,7 +3205,7 @@ See also: DataCamp course "Introduction to Shell" (no prerequisites).
 
 Download [[https://tinyurl.com/rcpp-codealong][tinyurl.com/rcpp-codealong]]
 
-** TODO What you should look into
+** TODO What you should look into next
 #+attr_html: :width 400px :float nil:
 #+caption: Things to look into - the excitement is palpable!
 [[../img/reading.png]]
@@ -3217,21 +3217,21 @@ Download [[https://tinyurl.com/rcpp-codealong][tinyurl.com/rcpp-codealong]]
 - Read papers (preprints mostly) & blogs on topics that interest you.
 
 *Lyon College Courses*:
-| CSC 240 | Data structures (with C++)       | FA25 | Birkenkrahe |
-| DSC 271 | Introduction to generative AI    | FA25 | Rize        |
-| CSC 482 | Mathematics for Deep learning    | FA25 | Dall'Olio   |
-| DSC 482 | Intro to Reinforcement learning  | FA25 | Dall'Olio   |
-|---------+----------------------------------+------+-------------|
-| DSC 272 | Careers in AI                    | SP26 | Rize        |
-| CSC 330 | Database Theory and Applications | SP26 | Dall'Olio   |
-| DSC 373 | Predictive Modeling in AI        | SP26 | Rize        |
-| DSC 482 | Coding with AI                   | SP26 | Birkenkrahe |
-| CSC 265 | Algorithms                       | SP26 | Dall'Olio   |
-|---------+----------------------------------+------+-------------|
-| DSC 302 | Data Visualization               | FA26 | Birkenkrahe |
-| DSC 474 | Prescriptive AI                  | FA26 | Rize        |
-|---------+----------------------------------+------+-------------|
-| DSC 305 | Machine Learning                 | SP27 | Birkenkrahe |
-| DSC 450 | Data Science independent study   | SP27 | Staff       |
+| CSC 240 | Data structures (with C++)        | FA25 | Birkenkrahe |
+| DSC 271 | Introduction to generative AI     | FA25 | Rize        |
+| CSC 482 | Mathematics for Deep learning     | FA25 | Dall'Olio   |
+| DSC 482 | Intro to Reinforcement learning   | FA25 | Dall'Olio   |
+|---------+-----------------------------------+------+-------------|
+| DSC 272 | Careers in AI                     | SP26 | Rize        |
+| CSC 330 | Database Theory and Applications  | SP26 | Dall'Olio   |
+| DSC 373 | Predictive Modeling in AI         | SP26 | Rize        |
+| DSC 482 | Coding with AI for developers     | SP26 | Birkenkrahe |
+| CSC 265 | Algorithms                        | SP26 | Dall'Olio   |
+|---------+-----------------------------------+------+-------------|
+| DSC 302 | Data Visualization                | FA26 | Birkenkrahe |
+| DSC 474 | Prescriptive AI                   | FA26 | Rize        |
+|---------+-----------------------------------+------+-------------|
+| DSC 305 | Machine Learning                  | SP27 | Birkenkrahe |
+| DSC 450 | Data Science independent study    | SP27 | Staff       |
 
 
