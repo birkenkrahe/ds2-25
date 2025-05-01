@@ -3102,13 +3102,101 @@ See also: DataCamp course "Introduction to Shell" (no prerequisites).
   #+RESULTS:
   [[file:plot.png]]
 
+
 ** DONE Finish "Data science on the command-line"
 
 - Go to Google Cloud Shell: =ide.cloud.google.com=.
 
 - Open the terminal and code along with me.
 
-** TODO Optimizing code with C++ and Rcpp
+** DONE Review "Data science on the command-line"
+
+1. Where does the *absolute path*, where does the *relative path* begin?
+   #+begin_quote
+   - An absolute path starts from the root (~/~), independent of the
+     current working directory.
+   - A relative path starts from whereever you are right now.
+   #+end_quote
+
+2. What command shows your *current working directory*? (Where you are.)
+   #+begin_quote
+   ~pwd~
+   #+end_quote
+
+3. In command-line tools, what are *options*? Example for ~ls~?
+   #+begin_quote
+   Options (or 'flags') are arguments that modify the behavior of a
+   command-line tool. For ~ls~, examples are ~-lt~ (long, time-ordered).
+   #+end_quote
+
+4. What are the five types of command-line tools?
+   #+begin_quote
+   Binary executables, shell built-ins, interpreted scripts, shell
+   functions, and aliases.
+   #+end_quote
+
+5. How can you check whether a command like ~cd~ or ~pwd~ is a shell built-in?
+   #+begin_quote
+   Use ~type commandname~
+   #+end_quote
+   #+begin_src bash :results output :exports both
+     type cd
+   #+end_src
+
+6. What does the *shebang* line (e.g., ~#!/usr/bin/bash~) specify?
+   #+begin_quote
+   It tells the system which interpreter to use to execute the script.
+   #+end_quote
+
+7. What does ~curl~ do in the context of command-line tools?
+   #+begin_quote
+   It retrieves data from URLs over supported protocols (like HTTP,
+   FTP) but it does not store it in a file unless redirected to do so.
+   #+end_quote
+
+8. Why is ~>~ called the data "re-direction" symbol? Why not just
+   data "direction"?
+   #+begin_quote
+   Because data by default are directed to ~stdout~ (file descriptor 1),
+   and ~>~ re-directs the data to a file.
+   #+end_quote
+
+9. What is the purpose of the ~tee~ command in a pipeline?
+   #+begin_quote
+   It writes output to both standard output and a file simultaneously.
+   #+end_quote
+
+10. What is the difference between using ~>~ and ~>>~ when redirecting output?
+    #+begin_quote
+    ~>~ overwrites a file; ~>>~ appends to a file.
+    #+end_quote
+
+11. What command would you use to *list all CSV files* in a relative
+    path like ~../data/~?
+    #+begin_quote
+    ~ls ../data/*.csv~
+    #+end_quote
+
+12. What Unix command can you use to *remove carriage return characters*
+    (~\r~) from output?
+    #+begin_quote
+    ~tr -d '\r'~
+    #+end_quote
+
+
+** DONE Finish "Data science on the command-line"
+
+** TODO First presentation!
+#+attr_html: :width 400px :float nil:
+#+caption: C Del Gobbo (SCARF, 2025)
+[[../img/delgobbo2.png]]
+
+- Everyone has 10 minutes speaking time + 5 minutes discussion.
+- That's not very much & you need to rehearse well to make it.
+- Please prepare a question or comment for the discussion.
+- At the end, I'll invite comments for improvement.
+
+** TODO Optimizing code with C++ and Rcpp (quick demo)
 
 - Rcpp is an R wrapper package for C++.
 - It makes R much faster re: computations.
