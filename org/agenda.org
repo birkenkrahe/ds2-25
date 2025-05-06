@@ -2977,7 +2977,7 @@ See also: DataCamp course "Introduction to Shell" (no prerequisites).
 - [ ] Redirecting command-line tools
 - [ ] Working with files and directories
 
-* Week 14: It's a wrap! Optimizing code with =C++= and ~RCpp~
+* DONE Week 14: It's a wrap! Optimizing code with =C++= and ~RCpp~
 #+attr_html: :width 200px :float nil:
 [[../img/wrap.png]]
 
@@ -3183,7 +3183,7 @@ See also: DataCamp course "Introduction to Shell" (no prerequisites).
     #+end_quote
 
 
-** TODO First presentation!
+** First presentation!
 #+attr_html: :width 400px :float nil:
 #+caption: C Del Gobbo (SCARF, 2025)
 [[../img/delgobbo2.png]]
@@ -3193,7 +3193,7 @@ See also: DataCamp course "Introduction to Shell" (no prerequisites).
 - Please prepare a question or comment for the discussion.
 - At the end, I'll invite comments for improvement.
 
-** TODO Optimizing code with C++ and Rcpp (quick demo)
+** Optimizing code with C++ and Rcpp (quick demo)
 #+attr_html: :width 400px :float nil:
 #+Caption: R Logo - Rcpp is a true R extension package
 [[../img/rcpp_logo.png]]
@@ -3205,7 +3205,8 @@ See also: DataCamp course "Introduction to Shell" (no prerequisites).
 
 Download [[https://tinyurl.com/rcpp-codealong][tinyurl.com/rcpp-codealong]]
 
-** TODO What you should look into next
+
+** What you should look into next
 #+attr_html: :width 400px :float nil:
 #+caption: Things to look into - the excitement is palpable!
 [[../img/reading.png]]
