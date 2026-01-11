@@ -37,17 +37,17 @@ The journey to mastering Data Science can be seen as climbing a
 mountain, with different stages of learning represented by
 different levels on the mountain.
 
-1) Basecamp: Foundational Skills
+1) *Basecamp:* Foundational Skills
 - Mathematics (Probability, Statistics, Linear Algebra)
 - Programming (Python, R)
 - Data Management (SQL)
 
-2) Mid-Level Trails: Data Wrangling and EDA
+2) *Mid-Level Trails:* Data Wrangling and EDA
 - Data Cleaning and Preparation
 - Exploratory Data Analysis (EDA)
 - Data Visualization (ggplot2, Matplotlib, Seaborn)
 
-3) Summit: Real-World Applications
+3) *Summit:* Real-World Applications
 - Machine Learning (Supervised, Unsupervised Learning)
 - Deep Learning and Natural Language Processing
 - Ethical AI and Decision Science
